@@ -6,6 +6,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="app.js"></script>
+    <script src="services/DataService.js"></script>
+    <script src="services/PlayerService.js"></script>
+    <script src="services/ShipService.js"></script>
+    <script src="services/UniverseService.js"></script>
+    <script src="services/UtilService.js"></script>
+    <script src="filters/filters.js"></script>
     <link rel="stylesheet" href="assets/main.css">
 </head>
 
@@ -31,6 +37,7 @@
 
         <button class="btn" ng-click="travel()">Travel</button>
         <button class="btn" ng-click="merchant()" ng-if="state==='merchant'">Merchant</button>
+        <button class="btn" ng-click="investigate()" ng-if="state==='opportunity'">Investigate</button>
 
     </div>
 
