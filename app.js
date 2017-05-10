@@ -42,7 +42,11 @@ app.controller('ActionsController', function(
     $scope.travel = PlayerService.travel;
 
     $scope.merchant = function () {
-        console.log('merchant clicked');
+        alert('merchant clicked');
+    };
+
+    $scope.investigate = function () {
+        alert('investigating');
     };
 
 });
@@ -58,16 +62,8 @@ app.controller('ConsoleController', function(
         $rootScope.state = args.state;
     });
 
-    $scope.$on('getDistance', function (event, args) {
-        $scope.journal.unshift(args.message);
-    });
-
     $scope.$on('getLog', function (event, args) {
-        $scope.journal.unshift(args.message);
-    });
-
-    $scope.$on('getMerchant', function (event, args) {
-        $scope.journal.unshift(args.message);
+        $scope.journal.unshift(args.log);
     });
 
 
@@ -92,8 +88,8 @@ app.service('PlayerService', function($rootScope, ShipService, UniverseService){
         var distance = ShipService.getDistance();
         self.stats.distanceLeft -= distance;
         self.stats.distanceTraveled += distance;
+        $rootScope.$broadcast('getLog', { log: "You have traveled " + distance + " light years." });
         event = UniverseService.event();
-        $rootScope.$broadcast('getDistance', { message: "You have traveled " + distance + " light years." });
 
     };
 
@@ -140,13 +136,15 @@ app.service('UniverseService', function($rootScope, UtilService, DataService){
             self.currentState = "weird";
             self.weird();
         } else if (roll <= 6) {
+            self.currentState = "opportunity";
+            self.opportunity();
+        } else if (roll <= 9) {
             self.currentState = "merchant";
             self.merchant();
-        } else if (roll <= 9) {
-            self.currentState = "ship issue";
         } else if (roll <= 12) {
+            self.currentState = "ship issue";
+        } else if (roll <= 15) {
             self.currentState = "combat";
-
         } else {
             self.currentState = "nothing";
         }
@@ -158,14 +156,19 @@ app.service('UniverseService', function($rootScope, UtilService, DataService){
 
     this.weird = function() {
 
-        $rootScope.$broadcast('getLog', { message: UtilService.randomFromArray(DataService.weird) });
+        $rootScope.$broadcast('getLog', { log: UtilService.randomFromArray(DataService.text.weird) });
         $rootScope.$broadcast('getView', { image: UtilService.getImage('space') });
 
     };
 
     this.merchant = function() {
-        $rootScope.$broadcast('getMerchant', { message: "You come across a merchant named Bill" });
 
+        $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + UtilService.fullName() + "." });
+
+    };
+
+    this.opportunity = function() {
+        $rootScope.$broadcast('getLog', { log: "You come across a wrecked ship floating in space." });
     };
 
     this.shipIssue = function() {
@@ -202,15 +205,15 @@ app.service('UtilService', function (DataService){
 
     };
 
-    this.writeToConsole = function () {
-
-
-
-    };
-
     this.getImage = function (arrayWithinImages) {
 
         return self.randomFromArray(DataService.images[arrayWithinImages]);
+
+    };
+
+    this.fullName = function() {
+
+        return self.randomFromArray(DataService.text.names.first) + " " + self.randomFromArray(DataService.text.names.last);
 
     }
 
@@ -218,12 +221,20 @@ app.service('UtilService', function (DataService){
 
 app.service('DataService', function($http) {
 
-    this.weird = [
+    var self = this;
 
-        'A nearby supernova causes the instruments to go haywire for an hour.',
-        'A crew member has smuggled an unknown life-form on the ship. You jettison it out the airlock.'
+    this.text = {
 
-    ];
+        weird: [
+            'A nearby supernova causes the instruments to go haywire for an hour.',
+            'A crew member has smuggled an unknown life-form on the ship. You jettison it out the airlock.'
+        ],
+        names: {
+            first: ['Lou', 'James', 'Meeson'],
+            last: ['Reed', 'Smith', 'Toogao']
+        }
+
+    };
 
     this.images = {
 
@@ -262,7 +273,8 @@ app.service('DataService', function($http) {
        return $http.get("data/ships.json").then(function(res) {
            return res.data;
        });
-   }
+   };
+
 });
 
 app.filter('title', function()
