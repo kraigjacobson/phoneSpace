@@ -41,25 +41,35 @@ app.controller('ActionsController', function(
 
     $scope.travel = PlayerService.travel;
 
+    $scope.merchant = function () {
+        console.log('merchant clicked');
+    };
+
 });
 
 app.controller('ConsoleController', function(
     $scope,
-    $rootScope,
-    PlayerService,
-    UtilService,
-    UniverseService
+    $rootScope
 ){
 
     $scope.journal = [];
 
     $scope.$on('getState', function (event, args) {
-        // $scope.journal.unshift(args.state);
+        $rootScope.state = args.state;
+    });
+
+    $scope.$on('getDistance', function (event, args) {
+        $scope.journal.unshift(args.message);
     });
 
     $scope.$on('getLog', function (event, args) {
-        $scope.journal.unshift(args.log);
+        $scope.journal.unshift(args.message);
     });
+
+    $scope.$on('getMerchant', function (event, args) {
+        $scope.journal.unshift(args.message);
+    });
+
 
 });
 
@@ -71,15 +81,19 @@ app.service('PlayerService', function($rootScope, ShipService, UniverseService){
         name: "Guy",
         level: 1,
         credits: 100,
-        distanceLeft: 5000
+        totalDistance: 5000,
+        distanceLeft: 5000,
+        distanceTraveled: 0
     };
+
 
     this.travel = function () {
 
-        distance = ShipService.getDistance();
+        var distance = ShipService.getDistance();
         self.stats.distanceLeft -= distance;
+        self.stats.distanceTraveled += distance;
         event = UniverseService.event();
-        console.log("You have traveled " + distance + " light years.");
+        $rootScope.$broadcast('getDistance', { message: "You have traveled " + distance + " light years." });
 
     };
 
@@ -124,8 +138,10 @@ app.service('UniverseService', function($rootScope, UtilService, DataService){
 
         if (roll <= 3) {
             self.currentState = "weird";
+            self.weird();
         } else if (roll <= 6) {
             self.currentState = "merchant";
+            self.merchant();
         } else if (roll <= 9) {
             self.currentState = "ship issue";
         } else if (roll <= 12) {
@@ -134,7 +150,6 @@ app.service('UniverseService', function($rootScope, UtilService, DataService){
         } else {
             self.currentState = "nothing";
         }
-        self.weird();
 
         self.updateState();
         return self.currentState;
@@ -143,13 +158,13 @@ app.service('UniverseService', function($rootScope, UtilService, DataService){
 
     this.weird = function() {
 
-        console.log();
-        $rootScope.$broadcast('getLog', { log: UtilService.randomFromArray(DataService.weird) });
+        $rootScope.$broadcast('getLog', { message: UtilService.randomFromArray(DataService.weird) });
         $rootScope.$broadcast('getView', { image: UtilService.getImage('space') });
 
     };
 
     this.merchant = function() {
+        $rootScope.$broadcast('getMerchant', { message: "You come across a merchant named Bill" });
 
     };
 
