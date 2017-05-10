@@ -1,0 +1,16 @@
+{
+  "frigates": {
+    "scamp": {
+      "name": "Scamp",
+      "bSpeed": 1,
+      "bShield": 2,
+      "bAttack": 2
+    },
+    "scout": {
+      "name": "Scamp",
+      "bSpeed": 3,
+      "bShield": 1,
+      "bAttack": 1
+    }
+  }
+}
