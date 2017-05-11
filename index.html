@@ -14,18 +14,19 @@
     <script src="services/UtilService.js"></script>
     <script src="filters/filters.js"></script>
     <link rel="stylesheet" href="assets/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 
 <body ng-controller="MainController">
 
-    <div id="view" class="col-sm-12 partial" ng-controller="ViewscreenController">
+    <div id="view" class="col-sm-6 partial" ng-controller="ViewscreenController">
 
         <img class="img-responsive img-rounded" ng-src="{{ image }}" alt="">
 
     </div>
 
-    <div class="col-sm-12 partial" ng-controller="ActionsController">
+    <div class="col-sm-6 partial" ng-controller="ActionsController">
 
         <button class="btn" ng-click="travel()">Travel</button>
         <button class="btn" ng-click="merchant()" ng-if="state==='merchant'">Merchant</button>
@@ -33,15 +34,15 @@
 
     </div>
 
-    <div class="col-sm-12 partial">
+    <div class="col-sm-6 partial">
 
-        <button class="btn" ui-sref="log" ui-sref-active="active">Log</button>
+        <button class="btn" ui-sref="log" ui-sref-active="active" ng-click="">Log</button>
         <button class="btn" ui-sref="stats" ui-sref-active="active">Stats</button>
         <button class="btn" ui-sref="inventory" ui-sref-active="active">Inventory</button>
 
     </div>
 
-    <div class="col-sm-12 partial">
+    <div class="col-sm-6 partial">
 
         <ui-view></ui-view>
 
