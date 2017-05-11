@@ -2,7 +2,7 @@ app.service('DataService', function($http) {
 
     var self = this;
 
-    this.log = [];
+    this.log = ['Your journey begins!'];
 
     this.inventory = [];
 

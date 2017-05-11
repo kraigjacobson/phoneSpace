@@ -21,15 +21,24 @@ body {
     color: darkblue;
 }
 #console-buttons ul{
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 #console-buttons ul li{
+    -moz-box-flex: 1;
+    -webkit-box-flex: 1;
+    box-flex: 1;
     border-right:1px solid darkblue;
-    display: inline-block;
     padding:15px;
     cursor: pointer;
+    text-align:center;
+}
+#console-buttons ul li:last-child{
+    border:none;
 }
 #console-buttons ul li:hover{
     /*color: deepskyblue;*/
