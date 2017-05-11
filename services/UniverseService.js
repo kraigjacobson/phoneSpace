@@ -55,6 +55,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
         });
 
+        $rootScope.investigated = 1;
+
     };
 
     this.gainCredits = function (minBase, maxBase) {
@@ -82,6 +84,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.opportunity = function() {
+        $rootScope.investigated = 0;
         $rootScope.$broadcast('getLog', { log: "You come across a wrecked ship floating in space." });
     };
 

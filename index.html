@@ -27,10 +27,11 @@
     </div>
 
     <div class="col-sm-6 partial" ng-controller="ActionsController">
+        {{investigated}}
 
         <button class="btn" ng-click="travel()">Travel</button>
         <button class="btn" ng-click="merchant()" ng-if="state==='merchant'">Merchant</button>
-        <button class="btn" ng-click="investigate()" ng-if="state==='opportunity'">Investigate</button>
+        <button id="invBtn" class="btn" ng-click="investigate()" ng-if="investigated === 0">Investigate</button>
 
     </div>
 

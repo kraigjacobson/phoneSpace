@@ -6,6 +6,7 @@ app.service('PlayerService', function($rootScope, $state, ShipService, UniverseS
 
         $state.go('log').then(function () {
 
+            $rootScope.investigated = 1;
             var distance = ShipService.getDistance();
             DataService.stats.distanceLeft -= distance;
             DataService.stats.distanceTraveled += distance;
