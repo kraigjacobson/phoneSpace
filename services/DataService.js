@@ -4,6 +4,8 @@ app.service('DataService', function($http) {
 
     this.log = [];
 
+    this.inventory = [];
+
     this.stats = {
         name: "Guy",
         level: 1,

@@ -72,7 +72,7 @@ app.controller('ActionsController', function(
     $scope.travel = PlayerService.travel;
 
     $scope.merchant = function () {
-        alert('merchant clicked');
+
     };
 
     $scope.investigate = function () {
@@ -88,6 +88,7 @@ app.controller('ConsoleController', function(
 ){
 
     $scope.log = DataService.log;
+    $scope.inventory = DataService.inventory;
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;

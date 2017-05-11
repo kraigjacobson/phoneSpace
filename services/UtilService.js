@@ -53,6 +53,4 @@ app.service('UtilService', function (DataService){
 
     };
 
-    this.generateItem();
-
 });
