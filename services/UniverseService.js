@@ -1,4 +1,4 @@
-app.service('UniverseService', function($rootScope, UtilService, DataService){
+app.service('UniverseService', function($rootScope, $state, UtilService, DataService){
 
     var self = this;
 
@@ -32,23 +32,28 @@ app.service('UniverseService', function($rootScope, UtilService, DataService){
 
     this.investigation = function () {
 
-        var roll = UtilService.random(1,20);
 
-        if (roll <= 3) {
-            $rootScope.$broadcast('getLog', { log: "It's a trap! You are ambushed by ." + "addBadGuysHere" });
-        } else if (roll <= 6) {
-            var credits = self.gainCredits(1,5);
-            var item = UtilService.generateItem();
-            $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.slug + " ." });
-        } else if (roll <= 9) {
-            var credits = self.gainCredits(1,5);
-            $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
-        } else if (roll <= 12) {
-            var item = UtilService.generateItem();
-            $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.slug + "." });
-        } else {
-            $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
-        }
+        $state.go('log').then(function () {
+
+            var roll = UtilService.random(1,20);
+
+            if (roll <= 3) {
+                $rootScope.$broadcast('getLog', { log: "It's a trap! You are ambushed by ." + "addBadGuysHere" });
+            } else if (roll <= 6) {
+                var credits = self.gainCredits(1,5);
+                var item = UtilService.generateItem();
+                $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.slug + " ." });
+            } else if (roll <= 9) {
+                var credits = self.gainCredits(1,5);
+                $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
+            } else if (roll <= 12) {
+                var item = UtilService.generateItem();
+                $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.slug + "." });
+            } else {
+                $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
+            }
+
+        });
 
     };
 

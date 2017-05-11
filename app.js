@@ -1,5 +1,29 @@
 var app = angular.module('spaceApp', [
+    'ui.router'
 ]);
+
+app.config(function($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/log');
+
+    $stateProvider
+
+        .state('log', {
+            url: '/log',
+            templateUrl: 'partials/log.html'
+        })
+
+        .state('stats', {
+            url: '/stats',
+            templateUrl: 'partials/stats.html'
+        })
+
+        .state('inventory', {
+            url: '/inventory',
+            templateUrl: 'partials/inventory.html'
+        });
+
+});
 
 app.controller('MainController', function(
     $scope,
@@ -58,17 +82,18 @@ app.controller('ActionsController', function(
 
 app.controller('ConsoleController', function(
     $scope,
-    $rootScope
+    $rootScope,
+    DataService
 ){
 
-    $scope.journal = [];
+    $scope.log = DataService.log;
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
     });
 
     $scope.$on('getLog', function (event, args) {
-        $scope.journal.unshift(args.log);
+        DataService.log.unshift(args.log);
     });
 
 

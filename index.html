@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Space</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="app.js"></script>
     <script src="services/DataService.js"></script>
@@ -13,27 +14,19 @@
     <script src="services/UtilService.js"></script>
     <script src="filters/filters.js"></script>
     <link rel="stylesheet" href="assets/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 
 <body ng-controller="MainController">
 
-    <div class="col-sm-5 partial" ng-controller="ViewscreenController">
+    <div id="view" class="col-sm-6 partial" ng-controller="ViewscreenController">
 
         <img class="img-responsive img-rounded" ng-src="{{ image }}" alt="">
 
     </div>
 
-    <div class="col-sm-7 partial" ng-controller="StatsController">
-
-        <h4>Stats</h4>
-        <p ng-repeat="(key, value) in stats">
-            {{ key | camelCaseToHuman }}: {{ value }}
-        </p>
-
-    </div>
-
-    <div class="col-sm-12 partial" ng-controller="ActionsController">
+    <div class="col-sm-6 partial" ng-controller="ActionsController">
 
         <button class="btn" ng-click="travel()">Travel</button>
         <button class="btn" ng-click="merchant()" ng-if="state==='merchant'">Merchant</button>
@@ -41,15 +34,26 @@
 
     </div>
 
-    <div id="console" class="col-sm-12 partial" ng-controller="ConsoleController">
+    <div id="console" class="col-sm-6">
 
-        <p ng-repeat="item in journal track by $index">
 
-            {{ item }}
+        <div id="console-buttons" class="partial console">
 
-        </p>
+            <ul>
+                <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
+                <li ui-sref="stats" ui-sref-active="active">Stats</li>
+                <li ui-sref="inventory" ui-sref-active="active">Inventory</li>
+            </ul>
 
+
+        </div>
+        <div id="console-inner" class="console">
+
+            <ui-view></ui-view>
+
+        </div>
     </div>
+
 
 </body>
 
