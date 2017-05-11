@@ -82,17 +82,18 @@ app.controller('ActionsController', function(
 
 app.controller('ConsoleController', function(
     $scope,
-    $rootScope
+    $rootScope,
+    DataService
 ){
 
-    $scope.journal = [];
+    $scope.log = DataService.log;
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
     });
 
     $scope.$on('getLog', function (event, args) {
-        $scope.journal.unshift(args.log);
+        DataService.log.unshift(args.log);
     });
 
 

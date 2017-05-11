@@ -49,7 +49,6 @@ app.service('UtilService', function (DataService){
         var item = self.randomFromArray(DataService.items[o.type]);
         o.value = item.value*condObject.valueModifier;
         o.slug = condition + ' ' + item.name;
-        console.log(o);
         return o;
 
     };

@@ -2,6 +2,8 @@ app.service('DataService', function($http) {
 
     var self = this;
 
+    this.log = [];
+
     this.stats = {
         name: "Guy",
         level: 1,
