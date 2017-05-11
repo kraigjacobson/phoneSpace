@@ -1,0 +1,8 @@
+<div class="col-sm-4 partial" ng-controller="StatsController">
+
+    <h4>Stats</h4>
+    <p ng-repeat="(key, value) in stats">
+        {{ key | camelCaseToHuman }}: {{ value }}
+    </p>
+
+</div>

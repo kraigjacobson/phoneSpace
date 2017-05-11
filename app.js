@@ -1,5 +1,29 @@
 var app = angular.module('spaceApp', [
+    'ui.router'
 ]);
+
+app.config(function($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/log');
+
+    $stateProvider
+
+        .state('log', {
+            url: '/log',
+            templateUrl: 'partials/log.html'
+        })
+
+        .state('stats', {
+            url: '/stats',
+            templateUrl: 'partials/stats.html'
+        })
+
+        .state('inventory', {
+            url: '/inventory',
+            templateUrl: 'partials/inventory.html'
+        });
+
+});
 
 app.controller('MainController', function(
     $scope,

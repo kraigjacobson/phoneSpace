@@ -2,6 +2,8 @@
     padding-top:15px;
 }
 #console {
-    height:250px;
-    overflow-y: scroll;
+
+}
+#view img {
+    width:100%;
 }

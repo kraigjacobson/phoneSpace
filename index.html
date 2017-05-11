@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Space</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="app.js"></script>
     <script src="services/DataService.js"></script>
@@ -18,18 +19,9 @@
 
 <body ng-controller="MainController">
 
-    <div class="col-sm-5 partial" ng-controller="ViewscreenController">
+    <div id="view" class="col-sm-12 partial" ng-controller="ViewscreenController">
 
         <img class="img-responsive img-rounded" ng-src="{{ image }}" alt="">
-
-    </div>
-
-    <div class="col-sm-7 partial" ng-controller="StatsController">
-
-        <h4>Stats</h4>
-        <p ng-repeat="(key, value) in stats">
-            {{ key | camelCaseToHuman }}: {{ value }}
-        </p>
 
     </div>
 
@@ -41,13 +33,17 @@
 
     </div>
 
-    <div id="console" class="col-sm-12 partial" ng-controller="ConsoleController">
+    <div class="col-sm-12 partial">
 
-        <p ng-repeat="item in journal track by $index">
+        <button class="btn" ui-sref="log" ui-sref-active="active">Log</button>
+        <button class="btn" ui-sref="stats" ui-sref-active="active">Stats</button>
+        <button class="btn" ui-sref="inventory" ui-sref-active="active">Inventory</button>
 
-            {{ item }}
+    </div>
 
-        </p>
+    <div class="col-sm-12 partial">
+
+        <ui-view></ui-view>
 
     </div>
 
