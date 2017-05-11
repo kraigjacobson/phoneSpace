@@ -21,6 +21,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('inventory', {
             url: '/inventory',
             templateUrl: 'partials/inventory.html'
+        })
+
+        .state('settings', {
+            url: '/settings',
+            templateUrl: 'partials/settings.html'
         });
 
 });
