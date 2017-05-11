@@ -72,7 +72,7 @@ app.controller('ActionsController', function(
     UniverseService
 ){
 
-    $rootScope.investigated = 1;
+    $rootScope.investigated = true;
 
     $scope.travel = PlayerService.travel;
 

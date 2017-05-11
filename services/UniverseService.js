@@ -57,7 +57,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
         });
 
-        $rootScope.investigated = 1;
+        $rootScope.investigated = true;
 
     };
 
@@ -86,7 +86,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.opportunity = function() {
-        $rootScope.investigated = 0;
+        $rootScope.investigated = false;
         $rootScope.$broadcast('getLog', { log: "You come across a wrecked ship floating in space." });
     };
 

@@ -12,7 +12,8 @@ app.service('DataService', function($http) {
         credits: 100,
         totalDistance: 5000,
         distanceLeft: 5000,
-        distanceTraveled: 0
+        distanceTraveled: 0,
+        daysTraveled: 0
     };
 
     this.text = {
