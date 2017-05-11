@@ -11,6 +11,8 @@ body {
     padding:15px 15px 5px;
     font-family: Consolas;
     border-radius:0 0 6px 6px;
+    height:300px;
+    overflow-y: auto;
 }
 #console-buttons {
     border-radius:6px 6px 0 0;
