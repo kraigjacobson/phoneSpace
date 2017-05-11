@@ -1,8 +1,39 @@
-.partial {
-    padding-top:15px;
+body {
 }
-#console {
-
+.partial {
+    margin-top:15px;
+}
+.console {
+    background-color: black;
+    color: dodgerblue;
+}
+#console-inner {
+    padding:15px 15px 5px;
+    font-family: Consolas;
+    border-radius:0 0 6px 6px;
+}
+#console-buttons {
+    border-radius:6px 6px 0 0;
+    background-color: dodgerblue;
+    color: darkblue;
+}
+#console-buttons ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#console-buttons ul li{
+    border-right:1px solid darkblue;
+    display: inline-block;
+    padding:15px;
+    cursor: pointer;
+}
+#console-buttons ul li:hover{
+    /*color: deepskyblue;*/
+}
+#console-buttons ul li:active{
+    background-color: deepskyblue;
+    color: darkblue;
 }
 #view img {
     width:100%;

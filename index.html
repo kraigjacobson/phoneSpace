@@ -34,19 +34,26 @@
 
     </div>
 
-    <div class="col-sm-6 partial">
+    <div id="console" class="col-sm-6">
 
-        <button class="btn" ui-sref="log" ui-sref-active="active" ng-click="">Log</button>
-        <button class="btn" ui-sref="stats" ui-sref-active="active">Stats</button>
-        <button class="btn" ui-sref="inventory" ui-sref-active="active">Inventory</button>
 
+        <div id="console-buttons" class="partial console">
+
+            <ul>
+                <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
+                <li ui-sref="stats" ui-sref-active="active">Stats</li>
+                <li ui-sref="inventory" ui-sref-active="active">Inventory</li>
+            </ul>
+
+
+        </div>
+        <div id="console-inner" class="console">
+
+            <ui-view></ui-view>
+
+        </div>
     </div>
 
-    <div class="col-sm-6 partial">
-
-        <ui-view></ui-view>
-
-    </div>
 
 </body>
 
