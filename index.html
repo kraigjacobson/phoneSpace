@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Space</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-ui-router.js"></script>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="app.js"></script>
+    <script src="services/ActionService.js"></script>
     <script src="services/DataService.js"></script>
-    <script src="services/PlayerService.js"></script>
     <script src="services/ShipService.js"></script>
     <script src="services/UniverseService.js"></script>
     <script src="services/UtilService.js"></script>
     <script src="filters/filters.js"></script>
-    <link rel="stylesheet" href="assets/main.css">
+    <link rel="stylesheet" href="assets/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
@@ -26,11 +26,12 @@
 
     </div>
 
-    <div class="col-sm-6 partial" ng-controller="ActionsController">
-
-        <button class="btn" ng-click="travel()">Travel</button>
-        <button class="btn" ng-click="merchant()" ng-if="state==='merchant'">Merchant</button>
-        <button class="btn" ng-click="investigate()" ng-if="state==='opportunity'">Investigate</button>
+    <div class="col-sm-6 partial" ng-controller="ActionController">
+        <button class="btn" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
+        <button class="btn" ng-click="action.merchant()" ng-if="currentState==='merchant'">Merchant</button>
+        <button class="btn" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
+        <button class="btn" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
+        <button class="btn" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
 
     </div>
 
@@ -43,6 +44,7 @@
                 <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
                 <li ui-sref="stats" ui-sref-active="active">Stats</li>
                 <li ui-sref="inventory" ui-sref-active="active">Inventory</li>
+                <li ui-sref="settings" ui-sref-active="active">Settings</li>
             </ul>
 
 

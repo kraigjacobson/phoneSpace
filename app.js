@@ -21,6 +21,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('inventory', {
             url: '/inventory',
             templateUrl: 'partials/inventory.html'
+        })
+
+        .state('settings', {
+            url: '/settings',
+            templateUrl: 'partials/settings.html'
         });
 
 });
@@ -60,18 +65,19 @@ app.controller('StatsController', function(
 
 });
 
-app.controller('ActionsController', function(
+app.controller('ActionController', function(
     $scope,
     $rootScope,
-    PlayerService,
+    ActionService,
     UniverseService
 ){
 
+    $rootScope.investigated = true;
 
-    $scope.travel = PlayerService.travel;
+    $scope.action = ActionService;
 
     $scope.merchant = function () {
-        alert('merchant clicked');
+
     };
 
     $scope.investigate = function () {
@@ -87,6 +93,7 @@ app.controller('ConsoleController', function(
 ){
 
     $scope.log = DataService.log;
+    $scope.inventory = DataService.inventory;
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;

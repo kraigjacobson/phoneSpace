@@ -2,31 +2,28 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     var self = this;
 
-    this.currentState = "station";
+    $rootScope.currentState = "station";
 
     this.event = function () {
 
         var roll = UtilService.random(1,20);
 
         if (roll <= 3) {
-            self.currentState = "weird";
+            $rootScope.currentState = "weird";
             self.weird();
         } else if (roll <= 6) {
-            self.currentState = "opportunity";
+            $rootScope.currentState = "opportunity";
             self.opportunity();
         } else if (roll <= 9) {
-            self.currentState = "merchant";
+            $rootScope.currentState = "merchant";
             self.merchant();
         } else if (roll <= 12) {
-            self.currentState = "ship issue";
+            $rootScope.currentState = "ship issue";
         } else if (roll <= 15) {
-            self.currentState = "combat";
+            $rootScope.currentState = "combat";
         } else {
-            self.currentState = "nothing";
+            $rootScope.currentState = "nothing";
         }
-
-        self.updateState();
-        return self.currentState;
 
     };
 
@@ -38,22 +35,26 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             var roll = UtilService.random(1,20);
 
             if (roll <= 3) {
-                $rootScope.$broadcast('getLog', { log: "It's a trap! You are ambushed by ." + "addBadGuysHere" });
+                $rootScope.$broadcast('getLog', { log: "It's a trap! You are ambushed by " + "addBadGuysHere" + "." });
             } else if (roll <= 6) {
                 var credits = self.gainCredits(1,5);
                 var item = UtilService.generateItem();
+                DataService.inventory.unshift(item);
                 $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.slug + " ." });
             } else if (roll <= 9) {
                 var credits = self.gainCredits(1,5);
                 $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
             } else if (roll <= 12) {
                 var item = UtilService.generateItem();
+                DataService.inventory.unshift(item);
                 $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.slug + "." });
             } else {
                 $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
             }
 
         });
+
+        $rootScope.investigated = true;
 
     };
 
@@ -82,6 +83,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.opportunity = function() {
+        $rootScope.investigated = false;
         $rootScope.$broadcast('getLog', { log: "You come across a wrecked ship floating in space." });
     };
 
@@ -92,13 +94,5 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.combat = function() {
 
     };
-
-    this.updateState = function () {
-
-        $rootScope.$broadcast('getState', { state: self.currentState });
-
-    };
-
-    self.updateState();
 
 });
