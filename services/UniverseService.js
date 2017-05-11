@@ -2,31 +2,28 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     var self = this;
 
-    this.currentState = "station";
+    $rootScope.currentState = "station";
 
     this.event = function () {
 
         var roll = UtilService.random(1,20);
 
         if (roll <= 3) {
-            self.currentState = "weird";
+            $rootScope.currentState = "weird";
             self.weird();
         } else if (roll <= 6) {
-            self.currentState = "opportunity";
+            $rootScope.currentState = "opportunity";
             self.opportunity();
         } else if (roll <= 9) {
-            self.currentState = "merchant";
+            $rootScope.currentState = "merchant";
             self.merchant();
         } else if (roll <= 12) {
-            self.currentState = "ship issue";
+            $rootScope.currentState = "ship issue";
         } else if (roll <= 15) {
-            self.currentState = "combat";
+            $rootScope.currentState = "combat";
         } else {
-            self.currentState = "nothing";
+            $rootScope.currentState = "nothing";
         }
-
-        self.updateState();
-        return self.currentState;
 
     };
 
@@ -97,13 +94,5 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.combat = function() {
 
     };
-
-    this.updateState = function () {
-
-        $rootScope.$broadcast('getState', { state: self.currentState });
-
-    };
-
-    self.updateState();
 
 });

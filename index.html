@@ -7,8 +7,8 @@
     <script src="assets/js/angular-ui-router.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="app.js"></script>
+    <script src="services/ActionService.js"></script>
     <script src="services/DataService.js"></script>
-    <script src="services/PlayerService.js"></script>
     <script src="services/ShipService.js"></script>
     <script src="services/UniverseService.js"></script>
     <script src="services/UtilService.js"></script>
@@ -26,11 +26,12 @@
 
     </div>
 
-    <div class="col-sm-6 partial" ng-controller="ActionsController">
-
-        <button class="btn" ng-click="travel()">{{!state === "merchant" ? "Travel" : "Ignore"}}</button>
-        <button class="btn" ng-click="merchant()" ng-if="state==='merchant'">Merchant</button>
-        <button id="invBtn" class="btn" ng-click="investigate()" ng-if="investigated === false">Investigate</button>
+    <div class="col-sm-6 partial" ng-controller="ActionController">
+        <button class="btn" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
+        <button class="btn" ng-click="action.merchant()" ng-if="currentState==='merchant'">Merchant</button>
+        <button class="btn" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
+        <button class="btn" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
+        <button class="btn" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
 
     </div>
 

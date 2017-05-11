@@ -65,16 +65,16 @@ app.controller('StatsController', function(
 
 });
 
-app.controller('ActionsController', function(
+app.controller('ActionController', function(
     $scope,
     $rootScope,
-    PlayerService,
+    ActionService,
     UniverseService
 ){
 
     $rootScope.investigated = true;
 
-    $scope.travel = PlayerService.travel;
+    $scope.action = ActionService;
 
     $scope.merchant = function () {
 
