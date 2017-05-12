@@ -1,5 +1,6 @@
 body {
-    background-color: darkslategrey;
+    background-image: url("../img/1.jpg");
+    background-size: 100%;
 }
 .partial {
     margin-top:15px;
@@ -9,10 +10,10 @@ body {
     color: dodgerblue;
 }
 #console-inner {
+    height:165px;
     padding:15px 15px 5px;
     font-family: Consolas;
     border-radius:0 0 6px 6px;
-    height:300px;
     overflow-y: auto;
 }
 #console-buttons {
@@ -54,5 +55,6 @@ body {
     color: dodgerblue;
 }
 #view img {
+    border:2px solid #595959;
     width:100%;
 }

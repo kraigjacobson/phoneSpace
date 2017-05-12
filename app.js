@@ -32,7 +32,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 app.controller('MainController', function(
     $scope,
-    $rootScope
+    $rootScope,
+    UtilService
 ){
 
 
@@ -102,7 +103,6 @@ app.controller('ConsoleController', function(
     $scope.$on('getLog', function (event, args) {
         DataService.log.unshift(args.log);
     });
-
 
 });
 

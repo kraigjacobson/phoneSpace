@@ -27,48 +27,6 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     };
 
-    this.investigation = function () {
-
-
-        $state.go('log').then(function () {
-
-            var roll = UtilService.random(1,20);
-
-            if (roll <= 3) {
-                $rootScope.$broadcast('getLog', { log: "It's a trap! You are ambushed by " + "addBadGuysHere" + "." });
-            } else if (roll <= 6) {
-                var credits = self.gainCredits(1,5);
-                var item = UtilService.generateItem();
-                DataService.inventory.unshift(item);
-                $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.slug + " ." });
-            } else if (roll <= 9) {
-                var credits = self.gainCredits(1,5);
-                $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
-            } else if (roll <= 12) {
-                var item = UtilService.generateItem();
-                DataService.inventory.unshift(item);
-                $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.slug + "." });
-            } else {
-                $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
-            }
-
-        });
-
-        $rootScope.investigated = true;
-
-    };
-
-    this.gainCredits = function (minBase, maxBase) {
-        var credits = UtilService.random(minBase*DataService.stats.level, maxBase*DataService.stats.level);
-        DataService.stats.credits += credits;
-        $rootScope.$broadcast('updateStats');
-        return credits;
-    };
-
-    this.gainItems = function () {
-
-    };
-
     this.weird = function() {
 
         $rootScope.$broadcast('getLog', { log: UtilService.randomFromArray(DataService.text.weird) });

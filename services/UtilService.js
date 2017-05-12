@@ -1,4 +1,4 @@
-app.service('UtilService', function (DataService){
+app.service('UtilService', function ($rootScope, DataService){
 
     var self = this;
 
@@ -51,6 +51,13 @@ app.service('UtilService', function (DataService){
         o.slug = condition + ' ' + item.name;
         return o;
 
+    };
+
+    this.gainCredits = function (minBase, maxBase) {
+        var credits = self.random(minBase*DataService.stats.level, maxBase*DataService.stats.level);
+        DataService.stats.credits += credits;
+        $rootScope.$broadcast('updateStats');
+        return credits;
     };
 
 });
