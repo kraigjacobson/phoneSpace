@@ -14,41 +14,104 @@ app.service('UtilService', function ($rootScope, DataService){
 
     };
 
-    this.getImage = function (arrayWithinImages) {
+    this.getImagePath = function (imageFileName) {
 
-        return self.randomFromArray(DataService.images[arrayWithinImages]);
+        return '/space/www/assets/img/' + imageFileName;
 
     };
 
     this.fullName = function() {
 
-        return self.randomFromArray(DataService.text.names.first) + " " + self.randomFromArray(DataService.text.names.last);
+        var buildName = function () {
+            var number = self.random(2,5);
+            var name = "";
+            if(self.random(1,3)===1){
+                name += self.randomFromArray(DataService.text.names.vowels);
+            }
+            for (i=0;i<number;i++) {
+                if (i%2===0) {
+                    name += self.randomFromArray(DataService.text.names.parts);
+                } else {
+                    name += self.randomFromArray(DataService.text.names.vowels);
+                }
+            }
+            return name;
+        };
 
-    };
-
-    this.rollCondition = function () {
-
-        var roll = self.random(1,15);
-
-        if (roll <= 1) {
-            return DataService.conditions.poor;
-        } else if (roll <= 2) {
-            return DataService.conditions.fair;
-        } else {
-            return DataService.conditions.excellent;
-        }
+        var fullName = buildName() + " " + buildName();
+        return (fullName);
 
     };
 
     this.generateItem = function () {
 
+        var self = this;
+
         o = {};
-        var condObject = self.rollCondition();
-        var condition = self.randomFromArray(condObject.adjectives);
-        o.type = self.randomFromArray(Object.keys(DataService.items));
-        var item = self.randomFromArray(DataService.items[o.type]);
-        o.value = item.value*condObject.valueModifier;
-        o.slug = condition + ' ' + item.name;
+
+        o.level = DataService.stats.level;
+
+        var getType = function () {
+
+            var roll = self.random(1,1);
+
+            if (roll <= 1) {
+                return self.randomFromArray(DataService.items.shipPart);
+            } else if (roll <= 2) {
+                return self.randomFromArray(DataService.items.junk);
+            } else {
+                return self.randomFromArray(DataService.items.shipPart);
+            }
+
+        };
+
+        var materialsNeeded = function () {
+        // adjective named for how much is needed to fix it
+            var mats = {};
+            var numberNeeded = self.random(1,Math.ceil(o.level*0.5));
+            for (i=0;i<numberNeeded;i++) {
+                var randomMaterial = self.randomFromArray(Object.keys(DataService.materials));
+                var amt = self.random(1,Math.ceil(o.level*1.5));
+                if (mats[randomMaterial]){
+                    mats[randomMaterial] += amt;
+                }
+                mats[randomMaterial] = amt;
+            }
+            return mats;
+
+        };
+        var type = getType();
+        o.type = type.type;
+        o.name = "adjective " + o.type;
+        o.enhancement = type.enhancement;
+        o.value = type.value;
+        var val = o.value * o.level;
+        o.mats = materialsNeeded();
+        o.needed = 0;
+        for (i in o.mats) {
+            o.needed += o.mats[i];
+        }
+        console.log(o.needed);
+        console.log(val);
+        if (o.needed > val) {
+            o.value = 0;
+        } else {
+            o.value = val - o.needed;
+        }
+        console.log(o);
+        return o;
+
+
+
+    };
+
+    this.generateEnemy = function () {
+
+        o = {};
+        var randomShip = self.randomFromArray(Object.keys(DataService.ships));
+        o.ship = DataService.ships[randomShip];
+        o.currentShield = o.ship.shield;
+        o.currentHull = o.ship.hull;
         return o;
 
     };

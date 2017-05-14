@@ -32,19 +32,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 app.controller('MainController', function(
     $scope,
-    $rootScope,
-    UtilService
+    $rootScope
 ){
 
+    $rootScope.starfield = false;
+    $rootScope.label = "Deep Space";
 
 });
 
 app.controller('ViewscreenController', function(
     $scope,
-    UtilService
+    UtilService,
+    DataService
 ){
+
     if(!$scope.image) {
-        $scope.image = UtilService.getImage('space');
+        $scope.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
     }
 
     $scope.$on('getView', function (event, args) {
@@ -93,6 +96,7 @@ app.controller('ConsoleController', function(
     DataService
 ){
 
+    $scope.ships = DataService.ships;
     $scope.log = DataService.log;
     $scope.inventory = DataService.inventory;
 
