@@ -1,9 +1,9 @@
 <div ng-controller="ConsoleController">
+    <div id="inventory">
+        <p ng-repeat="item in inventory track by $index">
 
-    <p ng-repeat="item in inventory track by $index">
+            {{ item.name | titlecase }} {{ item.value }} cr <button class="btn btn-sm btn-danger pull-right deets" onclick="alert('delete coming soon')">Delete</button> <button class="btn btn-sm btn-info pull-right delete" onclick="alert('details coming soon')">Details</button>
 
-        {{ item.name | titlecase }} {{ item.value }} cr
-
-    </p>
-
+        </p>
+    </div>
 </div>

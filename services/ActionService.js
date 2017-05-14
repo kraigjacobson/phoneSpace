@@ -3,6 +3,9 @@ app.service('ActionService', function($rootScope, $state, ShipService, UniverseS
     var self = this;
 
     this.travel = function () {
+        // for testing inventory screen
+        var item = UtilService.generateItem();
+        DataService.inventory.unshift(item);
 
         $rootScope.starfield = true;
 
@@ -12,11 +15,18 @@ app.service('ActionService', function($rootScope, $state, ShipService, UniverseS
             $rootScope.starfield = false;
             $rootScope.investigated = true;
             var distance = ShipService.getDistance();
-            DataService.stats.distanceLeft -= distance;
-            DataService.stats.distanceTraveled += distance;
             DataService.stats.daysTraveled ++;
-            $rootScope.$broadcast('getLog', { log: "You have traveled " + distance + " light years." });
-            UniverseService.event();
+            if (DataService.stats.distanceLeft - distance >= 0) {
+                DataService.stats.distanceLeft -= distance;
+                DataService.stats.distanceTraveled += distance;
+                $rootScope.$broadcast('getLog', { log: "You have traveled " + distance + " light years." });
+                UniverseService.event();
+            } else {
+                DataService.stats.distanceTraveled = DataService.stats.totalDistance;
+                $rootScope.$broadcast('getLog', { log: "You have traveled " + DataService.stats.distanceLeft + " light years." });
+                DataService.stats.distanceLeft = 0;
+                $rootScope.$broadcast('getLog', { log: "You have arrived at your destination! It took you " + DataService.stats.daysTraveled + " days!" });
+            }
 
         });
 

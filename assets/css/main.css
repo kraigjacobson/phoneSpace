@@ -3,6 +3,30 @@ body {
     background-size: 100%;
     font-family: Consolas;
 }
+.btn-sm {
+    font-size:0.8em;
+    padding:3px 5px;
+}
+.deets {
+    border-radius: 0 3px 3px 0;
+}
+.delete {
+    border-radius: 3px 0 0 3px;
+}
+#stats {
+    font-size:0.9em;
+}
+.top-stats div{
+    text-align: center;
+    border-right:1px solid dodgerblue;
+    margin-bottom:15px;
+}
+.top-stats div:last-child {
+    border-right:none;
+}
+#inventory {
+    font-size:0.8em;
+}
 .partial {
     margin-top:15px;
 }

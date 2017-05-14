@@ -1,7 +1,26 @@
 <div ng-controller="StatsController">
+    <div id="stats">
+        <div class="row top-stats">
+            <div class="col-xs-4">{{ stats.name | camelCaseToHuman }}</div>
+            <div class="col-xs-4">Level: {{ stats.level }}</div>
+            <div class="col-sm-4">{{ stats.credits }} cr</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p>Dist: {{ stats.distanceTraveled }}/{{ stats.totalDistance }} ly</p>
+                <p>Days Traveled: {{ stats.daysTraveled }}</p>
+                Ship: {{ stats.ship }}</p>
+            </div>
+            <div class="col-xs-6">
+                Attack: {{ stats.attack }}</p>
+                <p>Accuracy: {{ stats.accuracy }}</p>
+                <p>Maneuverability: {{ stats.maneuverability }}</p>
+                <p>Speed: {{ stats.speed }}</p>
+                <p>Shield: {{ stats.shield }}</p>
+                <p>Hull: {{ stats.hull }}</p>
+            </div>
+        </div>
 
-    <p ng-repeat="(key, value) in stats">
-        {{ key | camelCaseToHuman }}: {{ value }}
-    </p>
+    </div>
 
 </div>

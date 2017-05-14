@@ -74,7 +74,7 @@ var animCount = 0;
 
 function anim() {
     animCount++;
-    if(animCount===5){context.clearRect(0,0, context.canvas.width, context.canvas.height); context=null;animCount=0; return;}
+    if(animCount===100){context.clearRect(0,0, context.canvas.width, context.canvas.height); context=null;animCount=0; return;}
     mouse_x=cursor_x-x;
     mouse_y=cursor_y-y;
     context.fillRect(0,0,w,h);

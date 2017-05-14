@@ -1,10 +1,10 @@
-app.service('ShipService', function(UtilService){
+app.service('ShipService', function(UtilService, DataService){
 
     var self = this;
 
     this.minDistance = 1;
     this.maxDistance = 5;
-    this.speed = 1;
+    this.speed = DataService.stats.speed;
 
     this.getSpeed = function () {
         return speed;
