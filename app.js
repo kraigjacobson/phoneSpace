@@ -42,17 +42,24 @@ app.controller('MainController', function(
 
 app.controller('ViewscreenController', function(
     $scope,
+    $rootScope,
     UtilService,
     DataService
 ){
 
-    if(!$scope.image) {
-        $scope.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+    $("#starfield").hide();
+    if(!$rootScope.foreground) {
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
     }
 
-    $scope.$on('getView', function (event, args) {
-        $scope.image = args.image;
+    $scope.$on('getBackground', function (event, args) {
+        $rootScope.background = args.image;
     });
+
+    $scope.$on('getForeground', function (event, args) {
+        $rootScope.foreground = args.image;
+    });
+
 
 });
 
@@ -110,3 +117,11 @@ app.controller('ConsoleController', function(
 
 });
 
+app.directive('backgroundImg', function () {
+    return function (scope, element, attrs) {
+        element.css({
+            'background-image': 'url(' + attrs.backgroundImageDirective + ')',
+            'background-repeat': 'no-repeat',
+        });
+    };
+});

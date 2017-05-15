@@ -31,9 +31,9 @@ function $c(code) { return String.fromCharCode(code); }
 
 function get_screen_size()
 {
-    var w=document.documentElement.clientWidth;
-    var h=document.documentElement.clientHeight;
-    return Array(w-34,200+16);
+    var w=$('#background').width();
+    var h=$('#background').height();
+    return Array(w,h);
 }
 
 var url=document.location.href;
@@ -51,6 +51,7 @@ var timeout;
 var fps=0;
 
 function init() {
+    $("#starfield").show();
     var a=0;
     for(var i=0;i<n;i++) {
         star[i]=new Array(5);
@@ -74,7 +75,7 @@ var animCount = 0;
 
 function anim() {
     animCount++;
-    if(animCount===100){context.clearRect(0,0, context.canvas.width, context.canvas.height); context=null;animCount=0; return;}
+    if(animCount===120){context.clearRect(0,0, context.canvas.width, context.canvas.height); context=null;animCount=0; return;}
     mouse_x=cursor_x-x;
     mouse_y=cursor_y-y;
     context.fillRect(0,0,w,h);
@@ -105,6 +106,7 @@ function start() {
 }
 
 function resize() {
+    $("#starfield").hide();
     w=parseInt((url.indexOf('w=')!=-1)?url.substring(url.indexOf('w=')+2,((url.substring(url.indexOf('w=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('w=')+2+(url.substring(url.indexOf('w=')+2,url.length)).indexOf('&'):url.length):get_screen_size()[0]);
     h=parseInt((url.indexOf('h=')!=-1)?url.substring(url.indexOf('h=')+2,((url.substring(url.indexOf('h=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('h=')+2+(url.substring(url.indexOf('h=')+2,url.length)).indexOf('&'):url.length):get_screen_size()[1]);
     x=Math.round(w/2);

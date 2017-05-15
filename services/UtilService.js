@@ -16,7 +16,7 @@ app.service('UtilService', function ($rootScope, DataService){
 
     this.getImagePath = function (imageFileName) {
 
-        return '/space/www/assets/img/' + imageFileName;
+        return window.location.origin + '/Space/www/assets/img/' + imageFileName;
 
     };
 
@@ -38,7 +38,12 @@ app.service('UtilService', function ($rootScope, DataService){
             return name;
         };
 
-        var fullName = buildName() + " " + buildName();
+        var fullName = capitalizeFirstLetter(buildName())  + " " + capitalizeFirstLetter(buildName());
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
         return (fullName);
 
     };
@@ -91,14 +96,11 @@ app.service('UtilService', function ($rootScope, DataService){
         for (i in o.mats) {
             o.needed += o.mats[i];
         }
-        console.log(o.needed);
-        console.log(val);
         if (o.needed > val) {
             o.value = 0;
         } else {
             o.value = val - o.needed;
         }
-        console.log(o);
         return o;
 
 

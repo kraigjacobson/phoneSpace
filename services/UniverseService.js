@@ -20,12 +20,14 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             self.merchant();
         } else if (roll <= 12) {
             $rootScope.currentState = "ship issue";
+            self.shipIssue();
         } else if (roll <= 15) {
             $rootScope.currentState = "combat";
             self.combat();
         } else {
             $rootScope.currentState = "nothing";
-            $rootScope.$broadcast('getView', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+            $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+            $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
             $rootScope.label = "Deep Space";
         }
 
@@ -34,7 +36,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.weird = function() {
 
         $rootScope.$broadcast('getLog', { log: UtilService.randomFromArray(DataService.text.weird) });
-        $rootScope.$broadcast('getView', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";
 
     };
@@ -42,7 +44,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.merchant = function() {
         var merchantName = UtilService.fullName();
         $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + merchantName + "." });
-        $rootScope.$broadcast('getView', { image: UtilService.getImagePath("merchant.png") });
+        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("merchant.png") });
         $rootScope.label = "Merchant: " + merchantName;
 
     };
@@ -50,19 +53,24 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.opportunity = function() {
         $rootScope.investigated = false;
         $rootScope.$broadcast('getLog', { log: "You come across a wrecked ship floating in space." });
-        $rootScope.$broadcast('getView', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.wrecks)) });
+        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.wrecks)) });
         $rootScope.label = "Wrecked Ship";
     };
 
     this.shipIssue = function() {
-
+        $rootScope.$broadcast('getLog', { log: 'ship issue.' });
+        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getBackground', { image: null });
+        $rootScope.label = "Deep Space";
     };
 
     this.combat = function() {
         var enemyName = UtilService.fullName();
         $rootScope.enemy = UtilService.generateEnemy();
         $rootScope.$broadcast('getLog', { log: "You are attacked by " + enemyName + "." });
-        $rootScope.$broadcast('getView', { image: UtilService.getImagePath($rootScope.enemy.ship.img) });
+        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath($rootScope.enemy.ship.img) });
         $rootScope.label = "Pirate: " + enemyName;
 
     };

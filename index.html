@@ -24,25 +24,29 @@
 
 <div class="container">
     <div class="row">
-
-        <div id="view" class="col-sm-6 partial" ng-controller="ViewscreenController">
-            <canvas id="starfield"></canvas>
-            <img class="img-responsive img-rounded" ng-src="{{ image }}" alt="">
+        <div id="view" class="col-md-6 partial" ng-controller="ViewscreenController">
+            <div id="view-inner">
+                <div style="position:relative">
+                    <canvas id="starfield"></canvas>
+                    <img id="background" class="img-responsive img-rounded" ng-src="{{ background }}">
+                    <img id="foreground" class="img-responsive img-rounded" ng-src="{{ foreground }}">
+                </div>
+            </div>
         </div>
+    </div>
+    <div id="label" class="col-md-6 partial">{{ label | titlecase }}</div>
 
-        <div id="label" class="col-sm-6 partial">{{ label | titlecase }}</div>
-
-        <div id="actions" class="col-sm-6 partial" ng-controller="ActionController">
-            <button class="btn" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
-            <button class="btn" ng-click="action.merchant()" ng-if="currentState==='merchant'">Trade</button>
-            <button class="btn" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
-            <button class="btn" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
-            <button class="btn" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
-
-        </div>
-
+<div class="row">
+    <div id="actions" class="col-sm-6 partial" ng-controller="ActionController">
+        <button class="btn" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
+        <button class="btn" ng-click="action.merchant()" ng-if="currentState==='merchant'">Trade</button>
+        <button class="btn" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
+        <button class="btn" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
+        <button class="btn" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
+    </div>
+</div>
+    <div class="row">
         <div id="console" class="col-sm-6">
-
 
             <div id="console-buttons" class="partial console">
 
@@ -60,7 +64,6 @@
 
             </div>
         </div>
-
     </div>
 </div>
 

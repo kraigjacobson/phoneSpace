@@ -3,6 +3,9 @@ app.service('ActionService', function($rootScope, $state, ShipService, UniverseS
     var self = this;
 
     this.travel = function () {
+
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         // for testing inventory screen
         var item = UtilService.generateItem();
         DataService.inventory.unshift(item);
@@ -83,7 +86,7 @@ app.service('ActionService', function($rootScope, $state, ShipService, UniverseS
                 if ($rootScope.enemy.currentHull - damageRoll <= 0) {
                     var bounty = UtilService.random(1*DataService.stats.level,10*DataService.stats.level);
                     DataService.stats.credits += bounty;
-                    $rootScope.$broadcast('getView', { image: UtilService.getImagePath("explosion.jpg") });
+                    $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
                     $rootScope.$broadcast('getLog', { log: "You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and destroy them!" });
                     $rootScope.$broadcast('getLog', { log: "A bounty of " + bounty + " credits has been transferred to your account." });
                     $rootScope.$broadcast('updateStats');
@@ -105,7 +108,7 @@ app.service('ActionService', function($rootScope, $state, ShipService, UniverseS
     this.escape = function () {
 
         if (UtilService.random(1,2)===1) {
-            $rootScope.$broadcast('getView', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+            $rootScope.$broadcast('getForeground', { image: null });
             $rootScope.$broadcast('getLog', { log: "You escape with your life!" });
             $rootScope.currentState = "nothing";
 
