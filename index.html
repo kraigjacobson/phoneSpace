@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Space</title>
+    <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/angular-ui-router.js"></script>
-    <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="assets/js/bootstrap-modal.min.js"></script>
+    <script src="assets/js/angular-modal-service.js"></script>
     <script src="app.js"></script>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="services/ActionService.js"></script>
     <script src="services/DataService.js"></script>
     <script src="services/ShipService.js"></script>
@@ -36,37 +38,35 @@
     </div>
     <div id="label" class="col-md-6 partial">{{ label | titlecase }}</div>
 
-<div class="row">
-    <div id="actions" class="col-sm-6 partial" ng-controller="ActionController">
-        <button class="btn" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
-        <button class="btn" ng-click="action.merchant()" ng-if="currentState==='merchant'">Trade</button>
-        <button class="btn" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
-        <button class="btn" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
-        <button class="btn" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
+    <div class="row">
+        <div id="actions" class="col-sm-6 partial" ng-controller="ActionController">
+            <button class="btn" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
+            <button class="btn" ng-click="action.trade()" ng-if="currentState==='merchant'">Trade</button>
+            <button class="btn" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
+            <button class="btn" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
+            <button class="btn" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
+        </div>
     </div>
-</div>
+
     <div class="row">
         <div id="console" class="col-sm-6">
-
             <div id="console-buttons" class="partial console">
-
                 <ul>
                     <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
                     <li ui-sref="stats" ui-sref-active="active">Stats</li>
                     <li ui-sref="inventory" ui-sref-active="active">Inventory</li>
                     <li ui-sref="settings" ui-sref-active="active">Settings</li>
                 </ul>
-
-
             </div>
             <div id="console-inner" class="console col-sm-12">
                 <ui-view></ui-view>
-
             </div>
         </div>
     </div>
 </div>
 
+<!--bootstrap modal start-->
+<!--bootstrap modal end-->
 
 </body>
 

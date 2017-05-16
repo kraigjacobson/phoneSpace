@@ -16,7 +16,7 @@ app.service('UtilService', function ($rootScope, DataService){
 
     this.getImagePath = function (imageFileName) {
 
-        return window.location.origin + '/Space/www/assets/img/' + imageFileName;
+        return window.location.origin + '/space/www/assets/img/' + imageFileName;
 
     };
 
@@ -89,6 +89,7 @@ app.service('UtilService', function ($rootScope, DataService){
         o.type = type.type;
         o.name = "adjective " + o.type;
         o.enhancement = type.enhancement;
+        o.image = self.getImagePath(self.randomFromArray(DataService.images.components[o.type]));
         o.value = type.value;
         var val = o.value * o.level;
         o.mats = materialsNeeded();

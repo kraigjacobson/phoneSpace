@@ -1,0 +1,32 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ currentItem.name | titlecase }}</h4>
+            </div>
+            <div class="modal-body">
+                <p>Level: {{ currentItem.level }}</p>
+                <p>Type: {{ currentItem.type | titlecase }}</p>
+                <p>Enhancement: {{ currentItem.enhancement | titlecase }}</p>
+                <p>Value: {{ currentItem.value }} credits</p>
+                Required for use:
+                <ul>
+                    <li ng-repeat="(mat, amt) in currentItem.mats">
+                        {{mat | titlecase}} {{amt}}
+                    </li>
+                </ul>
+                <img src="{{currentItem.image}}" alt="">
+                <p ng-if="currentState !== 'station'">Stop by an appropriate facility to equip or recycle this part.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="alert('coming soon')" ng-click="close(false)" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" onclick="alert('coming soon')" ng-if="currentState === 'station'" ng-click="close(false)" class="btn btn-sm btn-success" data-dismiss="modal">Equip</button>
+                <button type="button" onclick="alert('coming soon')" ng-if="currentState === 'station' || currentState === 'merchant'" ng-click="close(false)" class="btn btn-sm btn-warning" data-dismiss="modal">Sell</button>
+                <button type="button" onclick="alert('coming soon')" ng-if="currentState === 'station'" ng-click="close(false)" class="btn btn-sm btn-warning" data-dismiss="modal">Scrap</button>
+                <button type="button" onclick="alert('coming soon')" ng-click="close(true);ActionService.deleteItem($index)" class="btn btn-sm btn-danger" data-dismiss="modal">Destroy</button>
+            </div>
+        </div>
+    </div>
+</div>

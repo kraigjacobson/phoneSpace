@@ -1,6 +1,4 @@
-var app = angular.module('spaceApp', [
-    'ui.router'
-]);
+var app = angular.module('spaceApp', [ 'ui.router', 'angularModalService']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -100,12 +98,29 @@ app.controller('ActionController', function(
 app.controller('ConsoleController', function(
     $scope,
     $rootScope,
-    DataService
+    ModalService,
+    DataService,
+    ActionService
 ){
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
     $scope.inventory = DataService.inventory;
+    $scope.details = ActionService.details;
+    $scope.deleteItem = ActionService.deleteItem;
+
+
+    $scope.show = function() {
+        ModalService.showModal({
+            templateUrl: 'partials/item.html',
+            controller: "ModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                $scope.message = "You said " + result;
+            });
+        });
+    };
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
@@ -117,11 +132,23 @@ app.controller('ConsoleController', function(
 
 });
 
+// bootstrap modal start
+
+
+app.controller('ModalController', function($scope, close) {
+
+    $scope.close = function(result) {
+        close(result, 500); // close, but give 500ms for bootstrap to animate
+    };
+
+});
+// bootstrap modal end
+
 app.directive('backgroundImg', function () {
     return function (scope, element, attrs) {
         element.css({
             'background-image': 'url(' + attrs.backgroundImageDirective + ')',
-            'background-repeat': 'no-repeat',
+            'background-repeat': 'no-repeat'
         });
     };
 });

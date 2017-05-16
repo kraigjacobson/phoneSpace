@@ -6,7 +6,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        var roll = UtilService.random(1,20);
+        var roll = UtilService.random(9,9);
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -18,9 +18,12 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         } else if (roll <= 9) {
             $rootScope.currentState = "merchant";
             self.merchant();
-        } else if (roll <= 12) {
+        } else if (roll <= 10) {
             $rootScope.currentState = "ship issue";
             self.shipIssue();
+        } else if (roll <= 11) {
+            $rootScope.currentState = "station";
+            self.station();
         } else if (roll <= 15) {
             $rootScope.currentState = "combat";
             self.combat();
@@ -63,6 +66,13 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";
+    };
+
+    this.station = function() {
+        $rootScope.$broadcast('getLog', { log: 'You arrive at a station.' });
+        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getBackground', { image: null });
+        $rootScope.label = "Station";
     };
 
     this.combat = function() {

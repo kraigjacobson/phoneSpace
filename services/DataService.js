@@ -73,7 +73,15 @@ app.service('DataService', function($http) {
         wrecks:[
             'wreck.jpg',
             'wreck2.jpg'
-        ]
+        ],
+        components: {
+            weapon: ['weapon.jpg'],
+            targetingComputer: ['targeting.png'],
+            drive: ['drive.png'],
+            thrusters: ['thruster.png'],
+            shieldHardener: ['shield.png'],
+            armor: ['armor.png']
+        }
 
     };
 
@@ -94,10 +102,10 @@ app.service('DataService', function($http) {
         ],
         shipPart: [
             new self.shipPart("weapon",5,'attack'),
-            new self.shipPart("targeting computer",5,'accuracy'),
+            new self.shipPart("targetingComputer",5,'accuracy'),
             new self.shipPart("drive",5,'speed'),
             new self.shipPart("thrusters",5,'maneuverability'),
-            new self.shipPart("shield hardener",5,'shield'),
+            new self.shipPart("shieldHardener",5,'shield'),
             new self.shipPart("armor",5,'hull')
         ]
 
@@ -129,21 +137,6 @@ app.service('DataService', function($http) {
         prometheum: new self.material('scarce',200),
         samarium: new self.material('scarce',200),
         einsteinium: new self.material('scarce',200)
-    };
-
-    this.conditions = {
-        poor: {
-            adjectives: ['bent', 'cracked', 'melted'],
-            valueModifier: 1
-        },
-        fair: {
-            adjectives: ['used', 'worn', 'greasy', 'dusty'],
-            valueModifier: 3
-        },
-        excellent: {
-            adjectives: ['pristine', 'gleaming', 'brand-new', 'premium', 'advanced'],
-            valueModifier: 5
-        }
     };
 
 });

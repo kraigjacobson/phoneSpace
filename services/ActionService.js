@@ -1,4 +1,4 @@
-app.service('ActionService', function($rootScope, $state, ShipService, UniverseService, DataService, UtilService){
+app.service('ActionService', function($rootScope, $state, ModalService, ShipService, UniverseService, DataService, UtilService){
 
     var self = this;
 
@@ -115,6 +115,35 @@ app.service('ActionService', function($rootScope, $state, ShipService, UniverseS
         } else {
             $rootScope.$broadcast('getLog', { log: "You fail to escape!" });
         }
+
+    };
+
+    this.trade = function () {
+
+        alert('coming soon');
+
+    };
+
+    this.details = function (i) {
+        self = this;
+        $rootScope.currentItem = DataService.inventory[i];
+        self.show(i);
+        this.show = function(i) {
+            ModalService.showModal({
+                templateUrl: 'partials/item.html',
+                controller: "ModalController"
+            }).then(function(modal) {
+                modal.element.modal();
+                modal.close.then(function(result) {
+                    //callback
+                });
+            });
+        };
+    };
+
+    this.deleteItem = function (i) {
+
+        DataService.inventory.splice(i, 1);
 
     };
 
