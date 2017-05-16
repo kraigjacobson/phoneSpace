@@ -6,7 +6,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        var roll = UtilService.random(9,9);
+        var roll = UtilService.random(1,18);
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -62,7 +62,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.shipIssue = function() {
-        $rootScope.$broadcast('getLog', { log: 'ship issue.' });
+        $rootScope.$broadcast('getLog', { log: 'ship issue' });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";

@@ -48,6 +48,12 @@ app.service('UtilService', function ($rootScope, DataService){
 
     };
 
+    this.itemName = function () {
+
+        return self.randomFromArray(DataService.text.adjectives);
+
+    };
+
     this.generateItem = function () {
 
         var self = this;
@@ -87,7 +93,7 @@ app.service('UtilService', function ($rootScope, DataService){
         };
         var type = getType();
         o.type = type.type;
-        o.name = "adjective " + o.type;
+        o.name = o.type;
         o.enhancement = type.enhancement;
         o.image = self.getImagePath(self.randomFromArray(DataService.images.components[o.type]));
         o.value = type.value;

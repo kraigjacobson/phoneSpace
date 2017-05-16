@@ -3,19 +3,23 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{ currentItem.name | titlecase }}</h4>
+                <h4 class="modal-title">{{ currentItem.name | camelCaseToHuman | titlecase }}</h4>
             </div>
             <div class="modal-body">
-                <p>Level: {{ currentItem.level }}</p>
-                <p>Type: {{ currentItem.type | titlecase }}</p>
-                <p>Enhancement: {{ currentItem.enhancement | titlecase }}</p>
-                <p>Value: {{ currentItem.value }} credits</p>
-                Required for use:
-                <ul>
-                    <li ng-repeat="(mat, amt) in currentItem.mats">
-                        {{mat | titlecase}} {{amt}}
-                    </li>
-                </ul>
+                <div class="col-xs-6">
+                    <p>Level: {{ currentItem.level }}</p>
+                    <p>Type: {{ currentItem.type | camelCaseToHuman }}</p>
+                    <p>Enhancement: {{ currentItem.enhancement | titlecase }}</p>
+                    <p>Value: {{ currentItem.value }} credits</p>
+                </div>
+                <div class="col-xs-6">
+                    <p>Required for use:</p>
+                    <ul>
+                        <li ng-repeat="(mat, amt) in currentItem.mats">
+                            {{mat | titlecase}} {{amt}}
+                        </li>
+                    </ul>
+                </div>
                 <img src="{{currentItem.image}}" alt="">
                 <p ng-if="currentState !== 'station'">Stop by an appropriate facility to equip or recycle this part.</p>
 

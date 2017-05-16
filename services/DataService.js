@@ -45,7 +45,7 @@ app.service('DataService', function($http) {
     };
 
     this.text = {
-
+        adjectives: ['deflector','shift','anti-matter','coil', 'phase','force','coupling','sonic','transdimensional','dilithium','vortex','neutron','resonating','polarized','temporal','axionic'],
         weird: [
             'A nearby supernova causes the instruments to go haywire for an hour.',
             'A crew member has smuggled an unknown life-form on the ship. You jettison it out the airlock.'
@@ -77,7 +77,7 @@ app.service('DataService', function($http) {
         components: {
             weapon: ['weapon.jpg'],
             targetingComputer: ['targeting.png'],
-            drive: ['drive.png'],
+            hyperdrive: ['drive.png'],
             thrusters: ['thruster.png'],
             shieldHardener: ['shield.png'],
             armor: ['armor.png']
@@ -103,7 +103,7 @@ app.service('DataService', function($http) {
         shipPart: [
             new self.shipPart("weapon",5,'attack'),
             new self.shipPart("targetingComputer",5,'accuracy'),
-            new self.shipPart("drive",5,'speed'),
+            new self.shipPart("hyperdrive",5,'speed'),
             new self.shipPart("thrusters",5,'maneuverability'),
             new self.shipPart("shieldHardener",5,'shield'),
             new self.shipPart("armor",5,'hull')

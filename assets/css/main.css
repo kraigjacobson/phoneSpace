@@ -105,7 +105,6 @@ body {
 }
 .modal img {
     width:75%;
-    margin: auto;
+    margin: 10px auto;
     display: block;
-    margin-bottom:10px;
 }
