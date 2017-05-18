@@ -12,7 +12,7 @@
                         <p>Enhancement: {{ inventory[itemIndex].enhancement | titlecase }}</p>
                         <p>Value: {{  inventory[itemIndex].currentValue }} credits</p>
 
-                        <div ng-if="inventory[itemIndex].componentsNeeded.length > 0" class="repairsNeeded">
+                        <div ng-if="inventory[itemIndex].componentsNeeded.length > 0">
                             <p>Repairs Needed <i class="fa fa-warning"></i></p>
                             <ul>
                                 <li ng-repeat="component in inventory[itemIndex].componentsNeeded">
@@ -30,7 +30,7 @@
                             <div class="clearfix"></div>
                         </div>
 
-                        <div ng-if="inventory[itemIndex].repaired.length > 0" class="repairsNeeded">
+                        <div ng-if="inventory[itemIndex].repaired.length > 0">
                             <p>Repairs Completed</p>
                             <ul>
                                 <li ng-repeat="component in inventory[itemIndex].repaired | orderBy:$index">
@@ -48,11 +48,10 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="close(false)" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="close(true)" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
                 <button type="button" onclick="alert('coming soon')" ng-if="currentState === 'station'" ng-click="close(false)" class="btn btn-sm btn-success" data-dismiss="modal">Equip</button>
                 <button type="button" onclick="alert('coming soon')" ng-if="currentState === 'station' || currentState === 'merchant'" ng-click="close(false)" class="btn btn-sm btn-warning" data-dismiss="modal">Sell</button>
                 <button type="button" onclick="alert('coming soon')" ng-if="currentState === 'station'" ng-click="close(false)" class="btn btn-sm btn-warning" data-dismiss="modal">Scrap</button>
-                <button type="button" ng-click="close(true);deleteItem($index)" class="btn btn-sm btn-danger" data-dismiss="modal">Destroy</button>
             </div>
         </div>
     </div>

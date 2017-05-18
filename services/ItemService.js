@@ -40,31 +40,31 @@ app.service('ItemService', function (DataService, InventoryService, UtilService,
 
     };
 
-    this.deleteItem = function (i) {
-
-        DataService.inventory.splice(i, 1);
-
-    };
-
     this.damageItem = function (itemLevel, minComponentsMultiplier, maxComponentsMultiplier, minComponentQtyMultiplier, maxComponentQtyMultiplier) {
 
         var componentsNeeded = [];
         var numberNeeded = UtilService.random(Math.ceil(itemLevel*minComponentsMultiplier),Math.ceil(itemLevel*maxComponentsMultiplier));
         if (numberNeeded !== 0) {
+
+            var tempArray = Object.keys(DataService.components);
             for (i=0;i<numberNeeded;i++) {
-                var randomComponent = UtilService.randomFromArray(Object.keys(DataService.components));
+                var randomIndex = UtilService.random(-1,tempArray.length-1);
+                var randomComponent = tempArray.splice(randomIndex, 1);
                 var amt = UtilService.random(Math.ceil(itemLevel*minComponentQtyMultiplier),Math.ceil(itemLevel*maxComponentQtyMultiplier));
-                var duplicate = $.inArray(randomComponent, componentsNeeded);
-                if (duplicate) {
-                }
                 componentsNeeded.push({
-                    name: randomComponent,
+                    name: randomComponent[0],
                     need: amt
                 })
             }
         }
 
         return componentsNeeded;
+
+    };
+
+    this.deleteItem = function (i) {
+
+        InventoryService.inventory.splice(i, 1);
 
     };
 
