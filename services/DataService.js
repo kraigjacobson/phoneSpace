@@ -1,4 +1,4 @@
-app.service('DataService', function($http) {
+app.service('DataService', function() {
 
     var self = this;
 
@@ -27,7 +27,7 @@ app.service('DataService', function($http) {
 
     this.stats = {
         name: "Guy",
-        level: 1,
+        level: 13,
         ship: self.ships.scamp.name,
         attack: self.ships.scamp.attack,
         accuracy: self.ships.scamp.accuracy,
@@ -82,9 +82,8 @@ app.service('DataService', function($http) {
 
     };
 
-    this.shipPart = function (type, value, enhancement) {
+    this.shipPart = function (value, enhancement) {
 
-        this.type = type;
         this.value = value;
         this.enhancement = enhancement;
 
@@ -97,14 +96,14 @@ app.service('DataService', function($http) {
             { name: "wrench", value: 3 },
             { name: "thermal inverter", value: 5 }
         ],
-        shipPart: [
-            new self.shipPart("weapon",5,'attack'),
-            new self.shipPart("targetingComputer",5,'accuracy'),
-            new self.shipPart("hyperdrive",5,'speed'),
-            new self.shipPart("thrusters",5,'maneuverability'),
-            new self.shipPart("shieldHardener",5,'shield'),
-            new self.shipPart("armor",5,'hull')
-        ]
+        shipPart: {
+            weapon: new self.shipPart(5, 'attack'),
+            targetingComputer: new self.shipPart(5, 'accuracy'),
+            hyperdrive: new self.shipPart(5, 'speed'),
+            thrusters: new self.shipPart(5, 'maneuverability'),
+            shieldHardener: new self.shipPart(5, 'shield'),
+            armor: new self.shipPart(5, 'hull')
+        }
 
     };
 

@@ -30,34 +30,64 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
 
     };
 
-    this.generateItem = function () {
+    this.generateItem = function (type, broken) {
+        // Object.keys(DataService.items.shipParts)
 
         var o = {};
 
-        o.level = DataService.stats.level;
+        if (type) {
+            var thisType = type;
+        } else {
+            var thisType = (function () {
 
-        var getType = function () {
+                var roll = UtilService.random(1,1);
 
-            var roll = UtilService.random(1,1);
+                if (roll <= 1) {
+                    return UtilService.randomFromArray(Object.keys(DataService.items.shipPart));
+                }
 
-            if (roll <= 1) {
-                return UtilService.randomFromArray(DataService.items.shipPart);
-            } else if (roll <= 2) {
-                return UtilService.randomFromArray(DataService.items.junk);
+            })();
+        }
+
+        var getQuality = function() {
+
+            var actual = o.effectiveness;
+            var max = o.maxEffectiveness;
+            var percent = actual / max;
+
+            if (percent > .99) {
+                return "legendary";
+            } else if (percent > .95) {
+                return "epic";
+            } else if (percent > .90) {
+                return "rare";
+            } else if (percent > .75) {
+                return "uncommon";
+            } else if (percent > .50) {
+                return "common";
             } else {
-                return UtilService.randomFromArray(DataService.items.shipPart);
+                return "trash";
             }
 
         };
 
-        var type = getType();
-        o.type = type.type;
-        o.name = o.type;
-        o.enhancement = type.enhancement;
-        o.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.components[o.type]));
-        o.componentsNeeded = ItemService.damageItem(o.level,3,3,1,1);
+        o.level = DataService.stats.level;
+        var tempType = DataService.items.shipPart[thisType];
+        o.name = thisType;
+        o.type = thisType;
+        o.enhancement = tempType.enhancement;
+        const effectivenessMax = 3;
+        o.effectiveness = UtilService.random(1 * o.level, effectivenessMax * o.level) + UtilService.random(1,effectivenessMax);
+        o.maxEffectiveness = effectivenessMax * o.level + effectivenessMax;
+        o.quality = getQuality();
+        o.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.components[thisType]));
+        if (broken) {
+            o.componentsNeeded = ItemService.damageItem(o.level,3,3,1,1);
+        } else {
+            o.componentsNeeded = 0;
+        }
         o.repaired = [];
-        o.fullValue = type.value * o.level;
+        o.fullValue = tempType.value * o.effectiveness + UtilService.random(1,9);
         o.currentValue = o.componentsNeeded.length > 0 ? Math.floor(o.fullValue / o.componentsNeeded.length) : o.fullValue;
         console.log(o);
         return o;

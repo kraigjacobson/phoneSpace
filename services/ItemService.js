@@ -2,28 +2,36 @@ app.service('ItemService', function (DataService, InventoryService, UtilService,
 
     var self = this;
 
-    this.details = function (i) {
-
+    this.details = function (i, isShip) {
+        if (isShip) {
+            var template = 'partials/ship-item.html';
+        } else {
+            var template = 'partials/item.html';
+        }
         self.currentItemIndex = i;
-        this.show(i);
-        this.show = function(i) {
-            ModalService.showModal({
-                templateUrl: 'partials/item.html',
-                controller: "ModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-                modal.close.then(function(result) {
-                    //callback
-                });
-            });
-        };
-
+        self.show(template);
     };
 
-    this.repairItem = function (i) {
+    this.show = function(template) {
+        ModalService.showModal({
+            templateUrl: template,
+            controller: "ModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+            });
+        });
+    };
 
-        var item = InventoryService.inventory[self.currentItemIndex];
-        var itemComponent = InventoryService.inventory[self.currentItemIndex].componentsNeeded;
+    this.repairItem = function (i, isShip) {
+        if(isShip) {
+            var itemLocation = "myShip";
+        } else {
+            var itemLocation = "inventory";
+        }
+
+        var item = InventoryService[itemLocation][self.currentItemIndex];
+        var itemComponent = InventoryService[itemLocation][self.currentItemIndex].componentsNeeded;
 
         if (InventoryService.componentInventory[itemComponent[i].name] < itemComponent[i].need) {
             alert("You don't have the required components to repair this item.");
@@ -33,7 +41,7 @@ app.service('ItemService', function (DataService, InventoryService, UtilService,
             itemComponent.splice(i,1);
             item.repaired.push(self.componentName);
             if (!itemComponent.length) {
-                InventoryService.inventory[self.currentItemIndex].repaired = [];
+                InventoryService[itemLocation][self.currentItemIndex].repaired = [];
                 item.currentValue = item.fullValue;
             }
         }

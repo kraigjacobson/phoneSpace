@@ -21,14 +21,30 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/inventory.html'
         })
 
-        .state('settings', {
-            url: '/settings',
-            templateUrl: 'partials/settings.html'
+        .state('ship', {
+            url: '/ship',
+            templateUrl: 'partials/ship.html'
         });
 
 });
 
-app.run(function($transitions, $location, $window, GenerateService) {
+app.run(function($transitions, $location, $window, GenerateService, InventoryService, DataService) {
+    GenerateService.generateItem();
+
+    InventoryService.myShip.weapon = GenerateService.generateItem("weapon", false);
+    InventoryService.myShip.targetingComputer = GenerateService.generateItem("targetingComputer", false);
+    InventoryService.myShip.hyperdrive = GenerateService.generateItem("hyperdrive", false);
+    InventoryService.myShip.thrusters = GenerateService.generateItem("thrusters", false);
+    InventoryService.myShip.shieldHardener = GenerateService.generateItem("shieldHardener", false);
+    InventoryService.myShip.armor = GenerateService.generateItem("armor", false);
+
+    DataService.stats.attack += InventoryService.myShip.weapon.effectiveness;
+    DataService.stats.accuracy += InventoryService.myShip.targetingComputer.effectiveness;
+    DataService.stats.speed += InventoryService.myShip.hyperdrive.effectiveness;
+    DataService.stats.maneuverability += InventoryService.myShip.thrusters.effectiveness;
+    DataService.stats.shield += InventoryService.myShip.shieldHardener.effectiveness;
+    DataService.stats.hull += InventoryService.myShip.armor.effectiveness;
+
 
     $transitions.onStart( {}, function() {
         if (!$window.ga) {
@@ -95,19 +111,9 @@ app.controller('ConsoleController', function( $scope, $rootScope, ModalService, 
     $scope.inventory = InventoryService.inventory;
     $scope.details = ItemService.details;
     $scope.deleteItem = ItemService.deleteItem;
+    $scope.myShip = InventoryService.myShip;
 
-
-    $scope.show = function() {
-        ModalService.showModal({
-            templateUrl: 'partials/item.html',
-            controller: "ModalController"
-        }).then(function(modal) {
-            modal.element.modal();
-            modal.close.then(function(result) {
-                $scope.message = "You said " + result;
-            });
-        });
-    };
+    console.log($scope.myShip);
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
@@ -126,6 +132,7 @@ app.controller('ModalController', function( $scope, close, DataService, ItemServ
     };
     $scope.componentInventory = InventoryService.componentInventory;
     $scope.inventory = InventoryService.inventory;
+    $scope.myShip = InventoryService.myShip;
     $scope.repairItem = ItemService.repairItem;
     $scope.deleteItem = ItemService.deleteItem;
     $scope.itemIndex = ItemService.currentItemIndex;

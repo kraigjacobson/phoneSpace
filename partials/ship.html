@@ -1,0 +1,6 @@
+<div ng-controller="ConsoleController">
+    <p ng-repeat="item in myShip track by $index">
+        <button class="btn btn-info deets {{item.quality}}" ng-click="details(item.name, true)">{{ item.name | camelCaseToHuman | titlecase}}<i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
+        {{item.effectiveness}} {{item.enhancement}}
+    </p>
+</div>

@@ -1,8 +1,10 @@
-app.service("InventoryService", function() {
+app.service("InventoryService", function(  ) {
 
     var self = this;
 
     this.inventory = [];
+
+    this.myShip = {};
 
     this.componentInventory = {
 

@@ -162,5 +162,23 @@ body {
 .warning {
     color: #fcf8e3;
 }
+.legendary {
+    color: #ffae05;
+}
+.epic {
+    color: #cd2fff;
+}
+.rare {
+    color: #454dff;
+}
+.uncommon {
+    color: #2eeb1f;
+}
+.common {
+    color: #ffffff;
+}
+.trash {
+    color: #d8d8d8;
+}
 
 
