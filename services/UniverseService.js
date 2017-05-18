@@ -1,4 +1,4 @@
-app.service('UniverseService', function($rootScope, $state, UtilService, DataService){
+app.service('UniverseService', function($rootScope, $state, UtilService, DataService, GenerateService){
 
     var self = this;
 
@@ -45,7 +45,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.merchant = function() {
-        var merchantName = UtilService.fullName();
+        var merchantName = GenerateService.generateFullName();
         $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + merchantName + "." });
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("merchant.png") });
@@ -76,8 +76,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.combat = function() {
-        var enemyName = UtilService.fullName();
-        $rootScope.enemy = UtilService.generateEnemy();
+        var enemyName = GenerateService.generateFullName();
+        $rootScope.enemy = GenerateService.generateEnemy();
         $rootScope.$broadcast('getLog', { log: "You are attacked by " + enemyName + "." });
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath($rootScope.enemy.ship.img) });

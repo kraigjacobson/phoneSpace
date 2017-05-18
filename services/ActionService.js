@@ -1,4 +1,4 @@
-app.service('ActionService', function($rootScope, $state, ModalService, ShipService, UniverseService, DataService, UtilService){
+app.service('ActionService', function($rootScope, $state, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService){
 
     var self = this;
 
@@ -7,8 +7,8 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         // for testing inventory screen
-        var item = UtilService.generateItem();
-        DataService.inventory.unshift(item);
+        var item = GenerateService.generateItem();
+        InventoryService.inventory.unshift(item);
 
         $rootScope.starfield = true;
 
@@ -45,15 +45,15 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                 $rootScope.currentState = "combat";
                 UniverseService.combat();
             } else if (roll <= 7) {
-                var credits = UtilService.gainCredits(1,5);
-                var item = UtilService.generateItem();
+                var credits = GenerateService.gainCredits(1,5);
+                var item = GenerateService.generateItem();
                 DataService.inventory.unshift(item);
                 $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.name + "." });
             } else if (roll <= 9) {
-                var credits = UtilService.gainCredits(1,5);
+                var credits = GenerateService.gainCredits(1,5);
                 $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
             } else if (roll <= 11) {
-                var item = UtilService.generateItem();
+                var item = GenerateService.generateItem();
                 DataService.inventory.unshift(item);
                 $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.name + "." });
             } else {
@@ -121,29 +121,6 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
     this.trade = function () {
 
         alert('coming soon');
-
-    };
-
-    this.details = function (i) {
-        self = this;
-        $rootScope.currentItem = DataService.inventory[i];
-        self.show(i);
-        this.show = function(i) {
-            ModalService.showModal({
-                templateUrl: 'partials/item.html',
-                controller: "ModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-                modal.close.then(function(result) {
-                    //callback
-                });
-            });
-        };
-    };
-
-    this.deleteItem = function (i) {
-
-        DataService.inventory.splice(i, 1);
 
     };
 

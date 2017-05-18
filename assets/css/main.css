@@ -1,7 +1,57 @@
 body {
     background-image: url("../img/1.jpg");
-    background-size: 100%;
+    background-repeat: repeat;
     font-family: Consolas;
+}
+.modal-content {
+    background-image: url("../img/screen2.png");
+    background-color: rgba(94, 255, 216, 0.75);
+    background-repeat: repeat;
+    color: #17837a;
+}
+.modal-body, .modal-title {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+}
+.modal-body {
+    padding: 10px 0;
+}
+.modal-body .fa {
+    color: #17837a;
+}
+.modal-title {
+    text-align: center;
+    font-weight: 600;
+}
+.modal-inner {
+    font-size: 1.2em;
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+}
+.modal-inner ul{
+    margin:0;
+    list-style:none;
+    font-size:.8em;
+}
+.modal-inner ul li{
+}
+.modal-inner ul li .btn{
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px rgba(23, 131, 122, 0.5) solid;
+}
+.modal-inner p{
+    margin-bottom:5px;
+}
+.modal img {
+    width:100%;
+    opacity: .8;
+    display: block;
+    border-radius: 6px;
+}
+.modal-footer .btn {
+    opacity:.8;
 }
 #stats {
     font-size:0.9em;
@@ -103,8 +153,14 @@ body {
     background-color: rgba(0,0,0,.7);
     color: dodgerblue;
 }
-.modal img {
-    width:75%;
-    margin: 10px auto;
-    display: block;
+.danger {
+    color: #d9534f;
 }
+.success {
+    color: #5cb85c;
+}
+.warning {
+    color: #fcf8e3;
+}
+
+

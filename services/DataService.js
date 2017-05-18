@@ -4,8 +4,6 @@ app.service('DataService', function($http) {
 
     this.log = ['Your journey begins!'];
 
-    this.inventory = [];
-
     this.classA = function (name, attack, accuracy, maneuverability, speed, cost, img) {
 
         this.name = name;
@@ -45,7 +43,6 @@ app.service('DataService', function($http) {
     };
 
     this.text = {
-        adjectives: ['deflector','shift','anti-matter','coil', 'phase','force','coupling','sonic','transdimensional','dilithium','vortex','neutron','resonating','polarized','temporal','axionic'],
         weird: [
             'A nearby supernova causes the instruments to go haywire for an hour.',
             'A crew member has smuggled an unknown life-form on the ship. You jettison it out the airlock.'
@@ -111,32 +108,32 @@ app.service('DataService', function($http) {
 
     };
 
-    this.material = function (rarity, value) {
+    this.component = function (rarity, value) {
         this.rarity = rarity;
         this.value = value;
     };
 
-    this.materials = {
-        aluminum: new self.material('common',10),
-        zinc: new self.material('common',10),
-        silicon: new self.material('common',10),
-        copper: new self.material('common',10),
-        neodymium: new self.material('uncommon',20),
-        dysprosium: new self.material('uncommon',20),
-        terbium: new self.material('uncommon',20),
-        yttrium: new self.material('uncommon',20),
-        lanthanum: new self.material('rare',40),
-        europium: new self.material('rare',40),
-        lutetium: new self.material('rare',40),
-        cerium: new self.material('rare',40),
-        thulium: new self.material('very rare',80),
-        erbium: new self.material('very rare',80),
-        praseodymium: new self.material('very rare',80),
-        scandium: new self.material('very rare',80),
-        holmium: new self.material('scarce',200),
-        prometheum: new self.material('scarce',200),
-        samarium: new self.material('scarce',200),
-        einsteinium: new self.material('scarce',200)
+    this.components = {
+        wiringHarness: new self.component('common',10),
+        powerConverter: new self.component('common',10),
+        microController: new self.component('common',10),
+        polarityReducer: new self.component('common',10),
+        heatSync: new self.component('uncommon',20),
+        particleEmitter: new self.component('uncommon',20),
+        matterTransverter: new self.component('uncommon',20),
+        voltageDiode: new self.component('uncommon',20),
+        gammaRayDeflector: new self.component('rare',40),
+        plasmaCapacitor: new self.component('rare',40),
+        grapheneManifold: new self.component('rare',40),
+        quantumAccelerator: new self.component('rare',40),
+        trionicCoil: new self.component('very rare',80),
+        gravitronAssembly: new self.component('very rare',80),
+        pulseInhibitor: new self.component('very rare',80),
+        singularityArray: new self.component('very rare',80),
+        chargeLimiter: new self.component('scarce',200),
+        fuseConduit: new self.component('scarce',200),
+        resonanceIsolator: new self.component('scarce',200),
+        tachyonFilament: new self.component('scarce',200)
     };
 
 });

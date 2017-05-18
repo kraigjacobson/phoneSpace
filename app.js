@@ -28,23 +28,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
-app.controller('MainController', function(
-    $scope,
-    $rootScope
-){
+app.run(function($transitions, $location, $window, GenerateService) {
+
+    $transitions.onStart( {}, function() {
+        if (!$window.ga) {
+            return;
+        }
+        $window.ga('send', 'pageview', { page: $location.path() });
+    });
+});
+
+app.controller('MainController', function( $scope, $rootScope ){
 
     $rootScope.starfield = false;
     $rootScope.label = "Deep Space";
 
 });
 
-app.controller('ViewscreenController', function(
-    $scope,
-    $rootScope,
-    UtilService,
-    DataService
-){
-
+app.controller('ViewscreenController', function( $scope, $rootScope, UtilService, DataService ){
     $("#starfield").hide();
     if(!$rootScope.foreground) {
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
@@ -61,10 +62,7 @@ app.controller('ViewscreenController', function(
 
 });
 
-app.controller('StatsController', function(
-    $scope,
-    DataService
-){
+app.controller('StatsController', function( $scope, DataService ){
 
     $scope.stats = DataService.stats;
 
@@ -74,12 +72,7 @@ app.controller('StatsController', function(
 
 });
 
-app.controller('ActionController', function(
-    $scope,
-    $rootScope,
-    ActionService,
-    UniverseService
-){
+app.controller('ActionController', function( $scope, $rootScope, ActionService, UniverseService ){
 
     $rootScope.investigated = true;
 
@@ -95,19 +88,13 @@ app.controller('ActionController', function(
 
 });
 
-app.controller('ConsoleController', function(
-    $scope,
-    $rootScope,
-    ModalService,
-    DataService,
-    ActionService
-){
+app.controller('ConsoleController', function( $scope, $rootScope, ModalService, DataService, ActionService, ItemService, InventoryService ){
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
-    $scope.inventory = DataService.inventory;
-    $scope.details = ActionService.details;
-    $scope.deleteItem = ActionService.deleteItem;
+    $scope.inventory = InventoryService.inventory;
+    $scope.details = ItemService.details;
+    $scope.deleteItem = ItemService.deleteItem;
 
 
     $scope.show = function() {
@@ -132,17 +119,18 @@ app.controller('ConsoleController', function(
 
 });
 
-// bootstrap modal start
-
-
-app.controller('ModalController', function($scope, close) {
+app.controller('ModalController', function( $scope, close, DataService, ItemService, InventoryService ) {
 
     $scope.close = function(result) {
         close(result, 500); // close, but give 500ms for bootstrap to animate
     };
+    $scope.componentInventory = InventoryService.componentInventory;
+    $scope.inventory = InventoryService.inventory;
+    $scope.repairItem = ItemService.repairItem;
+    $scope.deleteItem = ItemService.deleteItem;
+    $scope.itemIndex = ItemService.currentItemIndex;
 
 });
-// bootstrap modal end
 
 app.directive('backgroundImg', function () {
     return function (scope, element, attrs) {
