@@ -17,9 +17,9 @@
                             <p>Repairs Needed <i class="fa fa-warning"></i></p>
                             <ul>
                                 <li ng-repeat="component in myShip[itemIndex].componentsNeeded">
-                                    <div class="btn btn-default btn-xs" ng-click="repairItem($index)" data-toggle="tooltip" title="Click to Repair">
+                                    <div class="btn btn-default btn-xs" ng-click="repairItem($index, true)" data-toggle="tooltip" title="Click to Repair">
                                         <i class="fa fa-check-square-o"></i>
-                                        {{ component.name | camelCaseToHuman }}<span>: {{ componentmyShip[component.name] }}/{{ component.need }}
+                                        {{ component.name | camelCaseToHuman }}<span>: {{ componentInventory[component.name] }}/{{ component.need }}
                                         <span class="fa-stack">
                                             <i class="fa fa-square-o fa-stack-2x"></i>
                                             <i class="fa fa-wrench fa-stack-1x"></i>

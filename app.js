@@ -113,8 +113,6 @@ app.controller('ConsoleController', function( $scope, $rootScope, ModalService, 
     $scope.deleteItem = ItemService.deleteItem;
     $scope.myShip = InventoryService.myShip;
 
-    console.log($scope.myShip);
-
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
     });

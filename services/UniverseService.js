@@ -1,4 +1,4 @@
-app.service('UniverseService', function($rootScope, $state, UtilService, DataService, GenerateService){
+app.service('UniverseService', function($rootScope, $state, UtilService, DataService, GenerateService, InventoryService, ItemService){
 
     var self = this;
 
@@ -6,7 +6,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        var roll = UtilService.random(1,18);
+        // var roll = UtilService.random(1,18);
+        var roll = 10;
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -62,7 +63,9 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.shipIssue = function() {
-        $rootScope.$broadcast('getLog', { log: 'ship issue' });
+        var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
+        InventoryService.myShip[randomShipPart].componentsNeeded = ItemService.damageItem(UtilService.random(1,2),1,2,1,1);
+        $rootScope.$broadcast('getLog', { log: 'Your ' + randomShipPart + ' has malfunctioned and needs new parts!'});
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";

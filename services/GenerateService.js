@@ -89,7 +89,6 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
         o.repaired = [];
         o.fullValue = tempType.value * o.effectiveness + UtilService.random(1,9);
         o.currentValue = o.componentsNeeded.length > 0 ? Math.floor(o.fullValue / o.componentsNeeded.length) : o.fullValue;
-        console.log(o);
         return o;
 
     };
