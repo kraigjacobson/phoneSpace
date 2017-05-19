@@ -27,7 +27,7 @@ app.service('DataService', function() {
 
     this.stats = {
         name: "Guy",
-        level: 13,
+        level: 10,
         ship: self.ships.scamp.name,
         attack: self.ships.scamp.attack,
         accuracy: self.ships.scamp.accuracy,
