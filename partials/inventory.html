@@ -1,7 +1,8 @@
 <div ng-controller="ConsoleController">
         <p ng-repeat="item in inventory track by $index">
-            <button class="btn btn-info deets {{item.quality}}" ng-click="details($index)">{{ item.name | camelCaseToHuman | titlecase}}<i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
-            <button class="btn btn-danger pull-right delete" ng-click="deleteItem(currentItemIndex)">Destroy</button>
+            <button class="btn deets {{item.quality}}" ng-click="details($index)">{{ item.name | camelCaseToHuman | titlecase}} <i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
+            <button class="btn btn-danger pull-right delete" ng-click="deleteItem(currentItemIndex)">Jetison</button>
+            <button class="btn btn-success pull-right delete" onclick="alert('coming soon')" ng-click="" ng-if="currentState === 'station'||currentState === 'merchant'">Sell</button>
         </p>
     </div>
 </div>

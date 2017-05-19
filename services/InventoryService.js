@@ -8,26 +8,26 @@ app.service("InventoryService", function(  ) {
 
     this.componentInventory = {
 
-        wiringHarness: 2,
-        powerConverter: 2,
-        microController: 2,
-        polarityReducer: 2,
-        heatSync: 2,
-        particleEmitter: 2,
-        matterTransverter: 2,
-        voltageDiode: 2,
-        gammaRayDeflector: 2,
-        plasmaCapacitor: 2,
-        grapheneManifold: 2,
-        quantumAccelerator: 2,
-        trionicCoil: 2,
-        gravitronAssembly: 2,
-        pulseInhibitor: 2,
-        singularityArray: 2,
-        chargeLimiter: 2,
-        fuseConduit: 2,
-        resonanceIsolator: 2,
-        tachyonFilament: 2
+        wiringHarness: 20,
+        powerConverter: 20,
+        microController: 20,
+        polarityReducer: 20,
+        heatSync: 20,
+        particleEmitter: 20,
+        matterTransverter: 20,
+        voltageDiode: 20,
+        gammaRayDeflector: 20,
+        plasmaCapacitor: 20,
+        grapheneManifold: 20,
+        quantumAccelerator: 20,
+        trionicCoil: 20,
+        gravitronAssembly: 20,
+        pulseInhibitor: 20,
+        singularityArray: 20,
+        chargeLimiter: 20,
+        fuseConduit: 20,
+        resonanceIsolator: 20,
+        tachyonFilament: 20
 
     };
 

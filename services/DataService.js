@@ -4,37 +4,39 @@ app.service('DataService', function() {
 
     this.log = ['Your journey begins!'];
 
-    this.classA = function (name, attack, accuracy, maneuverability, speed, cost, img) {
+    this.classA = function (name, attack, accuracy, maneuverability, speed, capacity, cost, img) {
 
         this.name = name;
         this.attack = attack;
         this.accuracy = accuracy;
         this.maneuverability = maneuverability;
         this.speed = speed;
+        this.capacity = capacity;
         this.cost = cost;
         this.img = img;
-        this.shield = 1;
-        this.hull = 1;
+        this.shield = 10;
+        this.hull = 10;
 
     };
 
     this.ships = {
 
-        scamp: new self.classA("Scamp",2,1,1,1,0,"scamp.png"),
-        scout: new self.classA("Scout",1,1,1,2,0,"scout.png")
+        scamp: new self.classA("Scamp",20,10,10,10,20,0,"scamp.png"),
+        scout: new self.classA("Scout",15,10,15,20,10,0,"scout.png")
 
     };
 
     this.stats = {
         name: "Guy",
-        level: 10,
-        ship: self.ships.scamp.name,
-        attack: self.ships.scamp.attack,
-        accuracy: self.ships.scamp.accuracy,
-        speed: self.ships.scamp.speed,
-        maneuverability: self.ships.scamp.maneuverability,
-        shield: self.ships.scamp.shield,
-        hull: self.ships.scamp.hull,
+        level: 12,
+        ship: '',
+        attack: 0,
+        accuracy: 0,
+        speed: 0,
+        maneuverability: 0,
+        shield: 0,
+        capacity: 0,
+        hull: 0,
         credits: 100,
         totalDistance: 50000,
         distanceLeft: 50000,
@@ -82,9 +84,8 @@ app.service('DataService', function() {
 
     };
 
-    this.shipPart = function (value, enhancement) {
+    this.shipPart = function (enhancement) {
 
-        this.value = value;
         this.enhancement = enhancement;
 
     };
@@ -97,12 +98,12 @@ app.service('DataService', function() {
             { name: "thermal inverter", value: 5 }
         ],
         shipPart: {
-            weapon: new self.shipPart(5, 'attack'),
-            targetingComputer: new self.shipPart(5, 'accuracy'),
-            hyperdrive: new self.shipPart(5, 'speed'),
-            thrusters: new self.shipPart(5, 'maneuverability'),
-            shieldHardener: new self.shipPart(5, 'shield'),
-            armor: new self.shipPart(5, 'hull')
+            weapon: new self.shipPart('attack'),
+            targetingComputer: new self.shipPart('accuracy'),
+            hyperdrive: new self.shipPart('speed'),
+            thrusters: new self.shipPart('maneuverability'),
+            shieldHardener: new self.shipPart('shield'),
+            armor: new self.shipPart('hull')
         }
 
     };

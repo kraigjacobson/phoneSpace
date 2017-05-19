@@ -1,10 +1,10 @@
-app.service('ShipService', function(UtilService, DataService){
+app.service('ShipService', function(UtilService, InventoryService){
 
     var self = this;
 
     this.minDistance = 1;
     this.maxDistance = 5;
-    this.speed = DataService.stats.speed;
+    this.speed = InventoryService.myShip.hyperdrive.fullEffectiveness;
 
     this.getSpeed = function () {
         return speed;

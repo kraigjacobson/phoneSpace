@@ -180,8 +180,6 @@ body {
 .trash {
     color: #d8d8d8;
 }
-.fa-wrench {
-    color: red;
+.btn {
+    border: 1px white solid;
 }
-
-

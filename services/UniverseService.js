@@ -6,8 +6,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        // var roll = UtilService.random(1,18);
-        var roll = 10;
+        var roll = UtilService.random(9,10);
+        // var roll = 10;
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -20,8 +20,14 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             $rootScope.currentState = "merchant";
             self.merchant();
         } else if (roll <= 10) {
-            $rootScope.currentState = "ship issue";
-            self.shipIssue();
+            var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
+            console.log(InventoryService.myShip[randomShipPart].componentsNeeded.length);
+            if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
+                self.event();
+            } else {
+                $rootScope.currentState = "ship issue";
+                self.shipIssue(randomShipPart);
+            }
         } else if (roll <= 11) {
             $rootScope.currentState = "station";
             self.station();
@@ -62,13 +68,20 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         $rootScope.label = "Wrecked Ship";
     };
 
-    this.shipIssue = function() {
-        var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
-        InventoryService.myShip[randomShipPart].componentsNeeded = ItemService.damageItem(UtilService.random(1,2),1,2,1,1);
+    this.shipIssue = function(randomShipPart) {
+
+        var partItemLevel = InventoryService.myShip[randomShipPart].level;
+        var damage = ItemService.damageItem(partItemLevel);
+        console.log(damage);
+        InventoryService.myShip[randomShipPart].componentsNeeded = damage.componentsNeeded; // bug here, will replace whole components needed object, even if there are already damaged items in it
+        InventoryService.myShip[randomShipPart].penalty = damage.penalty; // bug here, will replace penalty even if there already is one
+        InventoryService.myShip[randomShipPart].currentEffectiveness -= damage.penalty;
+        InventoryService.myShip[randomShipPart].currentValue - damage.penalty*partItemLevel < 0 ? InventoryService.myShip[randomShipPart].currentValue = 0 : Math.floor(InventoryService.myShip[randomShipPart].currentValue -= damage.penalty*partItemLevel);
         $rootScope.$broadcast('getLog', { log: 'Your ' + randomShipPart + ' has malfunctioned and needs new parts!'});
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";
+        console.log(InventoryService.myShip[randomShipPart]);
     };
 
     this.station = function() {

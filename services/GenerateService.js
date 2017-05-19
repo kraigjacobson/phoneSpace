@@ -30,7 +30,7 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
 
     };
 
-    this.generateItem = function (type, broken) {
+    this.generateItem = function (type, perfect) {
         // Object.keys(DataService.items.shipParts)
 
         var o = {};
@@ -51,7 +51,7 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
 
         var getQuality = function() {
 
-            var actual = o.effectiveness;
+            var actual = o.fullEffectiveness;
             var max = o.maxEffectiveness;
             var percent = actual / max;
 
@@ -77,18 +77,29 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
         o.type = thisType;
         o.enhancement = tempType.enhancement;
         const effectivenessMax = 3;
-        o.effectiveness = UtilService.random(1 * o.level, effectivenessMax * o.level) + UtilService.random(1,effectivenessMax);
+        o.fullEffectiveness = UtilService.random(o.level, effectivenessMax * o.level) + UtilService.random(1,effectivenessMax);
         o.maxEffectiveness = effectivenessMax * o.level + effectivenessMax;
         o.quality = getQuality();
         o.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.components[thisType]));
-        if (broken) {
-            o.componentsNeeded = ItemService.damageItem(o.level,3,3,1,1);
-        } else {
-            o.componentsNeeded = 0;
-        }
         o.repaired = [];
-        o.fullValue = tempType.value * o.effectiveness + UtilService.random(1,9);
-        o.currentValue = o.componentsNeeded.length > 0 ? Math.floor(o.fullValue / o.componentsNeeded.length) : o.fullValue;
+        o.fullValue = Math.pow(o.fullEffectiveness, 2);
+        if (!perfect) {
+            var damage = ItemService.damageItem(o.level);
+            o.componentsNeeded = damage.componentsNeeded;
+            o.penalty = damage.penalty;
+            if (o.fullValue - o.penalty*o.level < 0) {
+                o.currentValue = 0;
+            } else {
+                o.currentValue = Math.floor(o.fullValue - o.penalty*o.level);
+            }
+            o.currentEffectiveness = Math.floor(o.fullEffectiveness - o.penalty)
+        } else {
+            o.componentsNeeded = [];
+            o.penalty = 0;
+            o.currentValue = o.fullValue;
+            o.currentEffectiveness = o.fullEffectiveness;
+        }
+
         return o;
 
     };

@@ -28,22 +28,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
-app.run(function($transitions, $location, $window, GenerateService, InventoryService, DataService) {
-    GenerateService.generateItem();
+app.run(function($transitions, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
 
-    InventoryService.myShip.weapon = GenerateService.generateItem("weapon", false);
-    InventoryService.myShip.targetingComputer = GenerateService.generateItem("targetingComputer", false);
-    InventoryService.myShip.hyperdrive = GenerateService.generateItem("hyperdrive", false);
-    InventoryService.myShip.thrusters = GenerateService.generateItem("thrusters", false);
-    InventoryService.myShip.shieldHardener = GenerateService.generateItem("shieldHardener", false);
-    InventoryService.myShip.armor = GenerateService.generateItem("armor", false);
+    NewGameService.init();
 
-    DataService.stats.attack += InventoryService.myShip.weapon.effectiveness;
-    DataService.stats.accuracy += InventoryService.myShip.targetingComputer.effectiveness;
-    DataService.stats.speed += InventoryService.myShip.hyperdrive.effectiveness;
-    DataService.stats.maneuverability += InventoryService.myShip.thrusters.effectiveness;
-    DataService.stats.shield += InventoryService.myShip.shieldHardener.effectiveness;
-    DataService.stats.hull += InventoryService.myShip.armor.effectiveness;
+    console.log("myShip:", InventoryService.myShip);
+    console.log("stats:", DataService.stats);
 
 
     $transitions.onStart( {}, function() {
@@ -81,10 +71,6 @@ app.controller('ViewscreenController', function( $scope, $rootScope, UtilService
 app.controller('StatsController', function( $scope, DataService ){
 
     $scope.stats = DataService.stats;
-
-    $scope.$on('updateStats', function (event, args) {
-        $scope.stats = DataService.stats;
-    });
 
 });
 
