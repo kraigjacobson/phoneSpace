@@ -1,0 +1,8 @@
+<div ng-controller="ConsoleController">
+        <p ng-repeat="item in merchantInventory track by $index">
+            <button class="btn deets {{item.quality}}" ng-click="details($index)">{{ item.name | camelCaseToHuman | titlecase}} <i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
+            <span ng-if="currentState === 'station'||currentState === 'merchant'">{{ item.currentValue }} cr</span>
+            <button class="btn btn-success pull-right delete" ng-click="buyItem($index)" ng-if="currentState === 'station'||currentState === 'merchant'">Buy</button>
+        </p>
+    </div>
+</div>

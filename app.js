@@ -24,6 +24,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('ship', {
             url: '/ship',
             templateUrl: 'partials/ship.html'
+        })
+
+        .state('buy', {
+            url: '/buy',
+            templateUrl: 'partials/buy.html'
+        })
+
+        .state('sell', {
+            url: '/sell',
+            templateUrl: 'partials/sell.html'
         });
 
 });
@@ -95,9 +105,13 @@ app.controller('ConsoleController', function( $scope, $rootScope, ModalService, 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
     $scope.inventory = InventoryService.inventory;
+    $scope.merchantInventory = InventoryService.merchantInventory;
     $scope.details = ItemService.details;
     $scope.deleteItem = ItemService.deleteItem;
+    $scope.sellItem = ItemService.sellItem;
+    $scope.buyItem = ItemService.buyItem;
     $scope.myShip = InventoryService.myShip;
+    $scope.itemIndex = ItemService.currentItemIndex;
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;

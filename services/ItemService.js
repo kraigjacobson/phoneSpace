@@ -1,4 +1,4 @@
-app.service('ItemService', function (DataService, InventoryService, UtilService, ModalService){
+app.service('ItemService', function ($rootScope, DataService, InventoryService, UtilService, ModalService){
 
     var self = this;
 
@@ -86,8 +86,32 @@ app.service('ItemService', function (DataService, InventoryService, UtilService,
     };
 
     this.deleteItem = function (i) {
-
+        console.log('index',i);
         InventoryService.inventory.splice(i, 1);
+    };
+
+    this.sellItem = function (i) {
+        item = InventoryService.inventory[i];
+        console.log('index',i);
+        amt = Math.floor(item.currentValue / 2); // change number with bartering perk
+        console.log(amt);
+        $rootScope.$broadcast('getLog', { log: 'You sell ' + item.name + ' for ' + amt + 'credits.' });
+        DataService.stats.credits += amt;
+        InventoryService.inventory.splice(i, 1);
+
+    };
+
+    this.buyItem = function (i) {
+        item = InventoryService.merchantInventory[i];
+        amt = item.currentValue; // change number with bartering perk
+        if (amt <= DataService.stats.credits) {
+            $rootScope.$broadcast('getLog', { log: 'You buy ' + item.name + ' for ' + amt + 'credits.' });
+            DataService.stats.credits -= amt;
+            InventoryService.inventory.unshift(item);
+            InventoryService.merchantInventory.splice(i, 1);
+        } else {
+            alert("You don't have enough credits.");
+        }
 
     };
 

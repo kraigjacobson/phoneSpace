@@ -127,13 +127,9 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
     this.loot = function () {
 
-        var roll = UtilService.random(6,7);
+        var roll = UtilService.random(1,15);
 
-        if (roll <= 5) {
-            $rootScope.currentState = "combat";
-            UniverseService.combat();
-            $rootScope.$broadcast('getLog', { log: "It's a trap!" });
-        } else if (roll <= 7) {
+        if (roll <= 7) {
             var credits = self.gainCredits(1,5);
             var item = self.generateItem();
             InventoryService.inventory.unshift(item);

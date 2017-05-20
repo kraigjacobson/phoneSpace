@@ -4,6 +4,8 @@ app.service("InventoryService", function(  ) {
 
     this.inventory = [];
 
+    this.merchantInventory = [];
+
     this.myShip = {};
 
     this.componentInventory = {

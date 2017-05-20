@@ -6,8 +6,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        var roll = UtilService.random(1,18);
-        // var roll = 10;
+        var roll = UtilService.random(1,30);
+        // var roll = 8;
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -16,10 +16,10 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             $rootScope.currentState = "opportunity";
             $rootScope.investigated = false;
             self.opportunity();
-        } else if (roll <= 9) {
+        } else if (roll <= 8) {
             $rootScope.currentState = "merchant";
             self.merchant();
-        } else if (roll <= 10) {
+        } else if (roll <= 9) {
             var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
             console.log(InventoryService.myShip[randomShipPart].componentsNeeded.length);
             if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
@@ -28,10 +28,10 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
                 $rootScope.currentState = "ship issue";
                 self.shipIssue(randomShipPart);
             }
-        } else if (roll <= 11) {
+        } else if (roll <= 10) {
             $rootScope.currentState = "station";
             self.station();
-        } else if (roll <= 15) {
+        } else if (roll <= 12) {
             $rootScope.currentState = "combat";
             self.combat();
         } else {
@@ -52,6 +52,16 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.merchant = function() {
+        var roll = UtilService.random(1,10);
+        console.log(roll);
+        var tempArray = [];
+        for (k = 0; k < roll; k++) {
+            var item = GenerateService.generateItem();
+            tempArray.unshift(item);
+            console.log('roll ' + k);
+        }
+        InventoryService.merchantInventory = tempArray;
+        console.log(tempArray);
         var merchantName = GenerateService.generateFullName();
         $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + merchantName + "." });
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });

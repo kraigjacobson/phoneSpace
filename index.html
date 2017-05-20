@@ -54,7 +54,8 @@
         <div class="row">
             <div id="actions" class="span-12 partial" ng-controller="ActionController">
                 <button class="btn btn-default col" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
-                <button class="btn btn-default col" ng-click="action.trade()" ng-if="currentState==='merchant'">Trade</button>
+                <button class="btn btn-default col" ng-click="action.buy()" ng-if="currentState==='merchant'">Buy</button>
+                <button class="btn btn-default col" ng-click="action.sell()" ng-if="currentState==='merchant'">Sell</button>
                 <button class="btn btn-default col" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
                 <button class="btn btn-default col" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
                 <button class="btn btn-default col" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
@@ -70,7 +71,7 @@
                         <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
                         <li ui-sref="stats" ui-sref-active="active">Stats</li>
                         <li ui-sref="inventory" ui-sref-active="active">Inventory</li>
-                        <li ui-sref="ship" ui-sref-active="active">My Ship</li>
+                        <li ui-sref="ship" ui-sref-active="active">Ship</li>
                     </ul>
                 </div>
                 <div id="console-inner" class="console col-sm-12">

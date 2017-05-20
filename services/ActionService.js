@@ -7,8 +7,8 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         // for testing inventory screen
-        // var item = GenerateService.generateItem();
-        // InventoryService.inventory.unshift(item);
+        var item = GenerateService.generateItem();
+        InventoryService.inventory.unshift(item);
 
         $rootScope.starfield = true;
 
@@ -38,8 +38,9 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
     this.investigate = function () {
 
         $state.go('log').then(function () {
+            var roll = UtilService.random(1,5);
 
-            GenerateService.loot();
+            roll = 5 ? UniverseService.combat() : GenerateService.loot();
 
         });
 
@@ -75,9 +76,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                         $rootScope.$broadcast('getLog', { log: "You achieved level " + root + "!" });
                         DataService.stats.experience = root;
                     }
-
-
-
+                    GenerateService.loot();
                     $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
                     $rootScope.$broadcast('getLog', { log: "You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and destroy them!" });
                     $rootScope.$broadcast('getLog', { log: "A bounty of " + bounty + " credits has been transferred to your account." });
@@ -110,9 +109,15 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
 
     };
 
-    this.trade = function () {
+    this.buy = function () {
 
-        alert('coming soon');
+        $state.go('buy');
+
+    };
+
+    this.sell = function () {
+
+        $state.go('sell');
 
     };
 
