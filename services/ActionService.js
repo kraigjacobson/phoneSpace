@@ -7,8 +7,8 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         // for testing inventory screen
-        var item = GenerateService.generateItem();
-        InventoryService.inventory.unshift(item);
+        // var item = GenerateService.generateItem();
+        // InventoryService.inventory.unshift(item);
 
         $rootScope.starfield = true;
 
@@ -39,26 +39,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
 
         $state.go('log').then(function () {
 
-            var roll = UtilService.random(6,7);
-
-            if (roll <= 5) {
-                $rootScope.currentState = "combat";
-                UniverseService.combat();
-            } else if (roll <= 7) {
-                var credits = GenerateService.gainCredits(1,5);
-                var item = GenerateService.generateItem();
-                DataService.inventory.unshift(item);
-                $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.name + "." });
-            } else if (roll <= 9) {
-                var credits = GenerateService.gainCredits(1,5);
-                $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
-            } else if (roll <= 11) {
-                var item = GenerateService.generateItem();
-                DataService.inventory.unshift(item);
-                $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.name + "." });
-            } else {
-                $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
-            }
+            GenerateService.loot();
 
         });
 
@@ -86,6 +67,17 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                 if ($rootScope.enemy.currentHull - damageRoll <= 0) {
                     var bounty = UtilService.random(1*DataService.stats.level,10*DataService.stats.level);
                     DataService.stats.credits += bounty;
+                    DataService.stats.experience += $rootScope.enemy.experience;
+                    var currentLevel = DataService.stats.level;
+                    var root = Math.floor(Math.sqrt(DataService.stats.experience));
+                    console.log(root);
+                    if (currentLevel < root) {
+                        $rootScope.$broadcast('getLog', { log: "You achieved level " + root + "!" });
+                        DataService.stats.experience = root;
+                    }
+
+
+
                     $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
                     $rootScope.$broadcast('getLog', { log: "You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and destroy them!" });
                     $rootScope.$broadcast('getLog', { log: "A bounty of " + bounty + " credits has been transferred to your account." });

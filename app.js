@@ -32,8 +32,8 @@ app.run(function($transitions, $location, $window, GenerateService, InventorySer
 
     NewGameService.init();
 
-    console.log("myShip:", InventoryService.myShip);
-    console.log("stats:", DataService.stats);
+    // console.log("myShip:", InventoryService.myShip);
+    // console.log("stats:", DataService.stats);
 
 
     $transitions.onStart( {}, function() {

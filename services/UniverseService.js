@@ -6,7 +6,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        var roll = UtilService.random(9,10);
+        var roll = UtilService.random(1,18);
         // var roll = 10;
 
         if (roll <= 3) {

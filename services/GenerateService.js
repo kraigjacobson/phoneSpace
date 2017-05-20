@@ -1,4 +1,4 @@
-app.service('GenerateService', function ($rootScope, DataService, ItemService, UtilService){
+app.service('GenerateService', function ($rootScope, DataService, InventoryService, ItemService, UtilService){
 
     var self = this;
 
@@ -111,6 +111,7 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
         o.ship = DataService.ships[randomShip];
         o.currentShield = o.ship.shield;
         o.currentHull = o.ship.hull;
+        o.experience = 1;
         return o;
 
     };
@@ -123,5 +124,31 @@ app.service('GenerateService', function ($rootScope, DataService, ItemService, U
         return credits;
 
     };
+
+    this.loot = function () {
+
+        var roll = UtilService.random(6,7);
+
+        if (roll <= 5) {
+            $rootScope.currentState = "combat";
+            UniverseService.combat();
+            $rootScope.$broadcast('getLog', { log: "It's a trap!" });
+        } else if (roll <= 7) {
+            var credits = self.gainCredits(1,5);
+            var item = self.generateItem();
+            InventoryService.inventory.unshift(item);
+            $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits and a " + item.name + "." });
+        } else if (roll <= 9) {
+            var credits = self.gainCredits(1,5);
+            $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + " credits." });
+        } else if (roll <= 11) {
+            var item = self.generateItem();
+            InventoryService.inventory.unshift(item);
+            $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.name + "." });
+        } else {
+            $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
+        }
+
+    }
 
 });

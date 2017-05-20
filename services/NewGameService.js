@@ -21,7 +21,7 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
 
         // calculate total stats
 
-        stats.ship = ship.type;
+        stats.ship = firstShip.name;
         stats.attack += firstShip.attack + ship.weapon.currentEffectiveness;
         stats.accuracy += firstShip.accuracy + ship.targetingComputer.currentEffectiveness;
         stats.speed += firstShip.speed + ship.hyperdrive.currentEffectiveness;
@@ -30,7 +30,6 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         stats.hull += firstShip.hull + ship.armor.currentEffectiveness;
         // stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
-        console.log(stats);
     }
 
 });

@@ -9,15 +9,16 @@
             <div class="col-xs-6">
                 <p>Dist: {{ stats.distanceTraveled }}/{{ stats.totalDistance }} ly</p>
                 <p>Days Traveled: {{ stats.daysTraveled }}</p>
-                Ship: {{ stats.ship }}</p>
+                <p>Ship: {{ stats.ship }}</p>
+                <p>Exp: {{ stats.experience }}</p>
             </div>
             <div class="col-xs-6">
-                <p>Attack: {{ InventoryService.myShip.attack }}</p>
-                <p>Accuracy: {{ InventoryService.myShip.accuracy }}</p>
-                <p>Maneuverability: {{ InventoryService.myShip.maneuverability }}</p>
-                <p>Speed: {{ InventoryService.myShip.speed }}</p>
-                <p>Shield: {{ InventoryService.myShip.shield }}</p>
-                <p>Hull: {{ InventoryService.myShip.hull }}</p>
+                <p>Attack: {{ stats.attack }}</p>
+                <p>Accuracy: {{ stats.accuracy }}</p>
+                <p>Maneuverability: {{ stats.maneuverability }}</p>
+                <p>Speed: {{ stats.speed }}</p>
+                <p>Shield: {{ stats.shield }}</p>
+                <p>Hull: {{ stats.hull }}</p>
             </div>
         </div>
 
