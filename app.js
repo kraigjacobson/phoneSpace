@@ -21,9 +21,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/inventory.html'
         })
 
+        .state('inventory-selection', {
+            url: '/inventory-selection',
+            templateUrl: 'partials/inventory-selection.html'
+        })
+
         .state('ship', {
             url: '/ship',
             templateUrl: 'partials/ship.html'
+        })
+
+        .state('components', {
+            url: '/components',
+            templateUrl: 'partials/components.html'
         })
 
         .state('buy', {
@@ -57,7 +67,7 @@ app.run(function($transitions, $location, $window, GenerateService, InventorySer
 app.controller('MainController', function( $scope, $rootScope ){
 
     $rootScope.starfield = false;
-    $rootScope.label = "Deep Space";
+    $rootScope.label = "Station";
 
 });
 
@@ -104,12 +114,18 @@ app.controller('ConsoleController', function( $scope, $rootScope, ModalService, 
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
+    $scope.components = InventoryService.componentInventory;
     $scope.inventory = InventoryService.inventory;
     $scope.merchantInventory = InventoryService.merchantInventory;
     $scope.details = ItemService.details;
     $scope.deleteItem = ItemService.deleteItem;
+    $scope.fitToShip = ItemService.fitToShip;
+    $scope.recycle = ItemService.recycle;
     $scope.sellItem = ItemService.sellItem;
     $scope.buyItem = ItemService.buyItem;
+    $scope.goToShip = ActionService.goToShip;
+    $scope.goToInventory = ActionService.goToInventory;
+    $scope.goToComponents = ActionService.goToComponents;
     $scope.myShip = InventoryService.myShip;
     $scope.itemIndex = ItemService.currentItemIndex;
     $scope.Math = window.Math;

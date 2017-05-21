@@ -1,0 +1,7 @@
+<div ng-controller="ConsoleController">
+    <div class="modal-inner">
+        <p ng-repeat="(component, qty) in components track by $index">
+            {{ component }} {{ qty }}
+        </p>
+    </div>
+</div>

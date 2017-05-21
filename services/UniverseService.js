@@ -7,7 +7,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.event = function () {
 
         // var roll = UtilService.random(1,30);
-        var roll = 8;
+        var roll = 10;
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -53,15 +53,12 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.merchant = function() {
         var roll = UtilService.random(3,10);
-        console.log(roll);
         var tempArray = [];
         for (k = 0; k < roll; k++) {
             var item = GenerateService.generateItem();
             tempArray.unshift(item);
-            console.log('roll ' + k);
         }
         InventoryService.merchantInventory = tempArray;
-        console.log(InventoryService.merchantInventory);
         var merchantName = GenerateService.generateFullName();
         $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + merchantName + "." });
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
@@ -95,6 +92,15 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.station = function() {
+        // generate merchant at station
+        var roll = UtilService.random(5,15);
+        var tempArray = [];
+        for (k = 0; k < roll; k++) {
+            var item = GenerateService.generateItem();
+            tempArray.unshift(item);
+        }
+
+        InventoryService.merchantInventory = tempArray;
         $rootScope.$broadcast('getLog', { log: 'You arrive at a station.' });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });

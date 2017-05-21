@@ -199,3 +199,6 @@ body {
 #buy-screen .fa-arrow-down {
     color: #d9534f;
 }
+.fullwidth {
+    width:100%;
+}

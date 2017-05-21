@@ -94,9 +94,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
 
     this.sellItem = function (i) {
         item = InventoryService.inventory[i];
-        console.log('index',i);
         amt = Math.floor(item.currentValue / 2); // change number with bartering perk
-        console.log(amt);
         $rootScope.$broadcast('getLog', { log: 'You sell ' + item.name + ' for ' + amt + ' credits.' });
         DataService.stats.credits += amt;
         InventoryService.merchantInventory.unshift(item);
@@ -117,5 +115,17 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         }
 
     };
+
+    this.recycle = function (i) {
+        alert('you received 3 wiring harnesses by recycling ' + InventoryService.inventory[i].name);
+        InventoryService.componentInventory.wiringHarness += 3;
+        InventoryService.inventory.splice(i, 1);
+    };
+
+    this.fitToShip = function () {
+        alert('fitting to ship');
+        InventoryService.merchantInventory.unshift(item);
+        InventoryService.inventory.splice(i, 1);
+    }
 
 });

@@ -121,4 +121,28 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
 
     };
 
+    this.hangar = function () {
+
+        $state.go('inventory');
+
+    };
+
+    this.goToShip = function () {
+
+        $state.go('ship');
+
+    };
+
+    this.goToInventory = function () {
+
+        $state.go('inventory');
+
+    };
+
+    this.goToComponents = function () {
+
+        $state.go('components');
+
+    };
+
 });
