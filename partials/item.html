@@ -14,7 +14,7 @@
                             <i class="fa fa-arrow-up" ng-if="inventory[itemIndex].fullEffectiveness > myShip[inventory[itemIndex].type].fullEffectiveness">{{}}</i>
                             <i class="fa fa-arrow-down" ng-if="inventory[itemIndex].fullEffectiveness < myShip[inventory[itemIndex].type].fullEffectiveness">{{}}</i>
                         </p>
-                        <p>Value: {{  inventory[itemIndex].currentValue }} credits</p>
+                        <p>Value: {{  inventory[itemIndex].currentValue }}&#11363;</p>
                         <p>Quality: {{  inventory[itemIndex].quality | titlecase }}</p>
                         <div ng-if="!inventory[itemIndex].componentsNeeded.length">
                             <p>Status: Good</p>

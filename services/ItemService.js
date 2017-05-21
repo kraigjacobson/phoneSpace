@@ -95,7 +95,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
     this.sellItem = function (i) {
         item = InventoryService.inventory[i];
         amt = Math.floor(item.currentValue / 2); // change number with bartering perk
-        $rootScope.$broadcast('getLog', { log: 'You sell ' + item.name + ' for ' + amt + ' credits.' });
+        DataService.log.unshift('You sell ' + item.name + ' for ' + amt + '&#11363;.');
         DataService.stats.credits += amt;
         InventoryService.merchantInventory.unshift(item);
         InventoryService.inventory.splice(i, 1);
@@ -106,7 +106,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         item = InventoryService.merchantInventory[i];
         amt = item.currentValue; // change number with bartering perk
         if (amt <= DataService.stats.credits) {
-            $rootScope.$broadcast('getLog', { log: 'You buy ' + item.name + ' for ' + amt + ' credits.' });
+            DataService.log.unshift('You buy ' + item.name + ' for ' + amt + '&#11363;.');
             DataService.stats.credits -= amt;
             InventoryService.inventory.unshift(item);
             InventoryService.merchantInventory.splice(i, 1);
