@@ -1,4 +1,4 @@
-var app = angular.module('spaceApp', [ 'ui.router', 'angularModalService']);
+var app = angular.module('spaceApp', [ 'ui.router', 'angularModalService', 'ngSanitize']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -110,7 +110,7 @@ app.controller('ActionController', function( $scope, $rootScope, ActionService, 
 
 });
 
-app.controller('ConsoleController', function( $scope, $rootScope, ModalService, DataService, ActionService, ItemService, InventoryService ){
+app.controller('ConsoleController', function( $scope, $rootScope, $sce, ModalService, DataService, ActionService, ItemService, InventoryService ){
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
@@ -132,10 +132,6 @@ app.controller('ConsoleController', function( $scope, $rootScope, ModalService, 
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
-    });
-
-    $scope.$on('getLog', function (event, args) {
-        DataService.log.unshift(args.log);
     });
 
 });

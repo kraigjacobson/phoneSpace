@@ -22,13 +22,14 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
             if (DataService.stats.distanceLeft - distance >= 0) {
                 DataService.stats.distanceLeft -= distance;
                 DataService.stats.distanceTraveled += distance;
-                $rootScope.$broadcast('getLog', { log: "You have traveled " + distance + " light years." });
+                DataService.log.unshift("You have traveled <span class='danger'>" + distance + "</span> light years.");
+                console.log(DataService.log);
                 UniverseService.event();
             } else {
                 DataService.stats.distanceTraveled = DataService.stats.totalDistance;
-                $rootScope.$broadcast('getLog', { log: "You have traveled " + DataService.stats.distanceLeft + " light years." });
+                DataService.log.unshift("You have traveled " + DataService.stats.distanceLeft + " light years.");
                 DataService.stats.distanceLeft = 0;
-                $rootScope.$broadcast('getLog', { log: "You have arrived at your destination! It took you " + DataService.stats.daysTraveled + " days!" });
+                DataService.log.unshift("You have arrived at your destination! It took you " + DataService.stats.daysTraveled + " days!");
             }
 
         });
@@ -58,10 +59,10 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                 // damage shield
                 if ($rootScope.enemy.currentShield - damageRoll <= 0) {
                     $rootScope.enemy.currentShield = 0;
-                    $rootScope.$broadcast('getLog', { log: "You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and disable their shields!" });
+                    DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and disable their shields!");
                 } else {
                     $rootScope.enemy.currentShield -= damageRoll;
-                    $rootScope.$broadcast('getLog', { log: "You damage " + $rootScope.enemy.ship.name + "'s shields for " + damageRoll + "!" });
+                    DataService.log.unshift("You damage " + $rootScope.enemy.ship.name + "'s shields for " + damageRoll + "!");
                 }
             } else {
                 // damage hull
@@ -73,24 +74,23 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                     var root = Math.floor(Math.sqrt(DataService.stats.experience));
                     console.log(root);
                     if (currentLevel < root) {
-                        $rootScope.$broadcast('getLog', { log: "You achieved level " + root + "!" });
+                        DataService.log.unshift("You achieved level " + root + "!");
                         DataService.stats.experience = root;
                     }
                     GenerateService.loot();
                     $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
-                    $rootScope.$broadcast('getLog', { log: "You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and destroy them!" });
-                    $rootScope.$broadcast('getLog', { log: "A bounty of " + bounty + " credits has been transferred to your account." });
-                    $rootScope.$broadcast('updateStats');
+                    DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and destroy them!");
+                    DataService.log.unshift("A bounty of " + bounty + " credits has been transferred to your account.");
                     $rootScope.currentState = "nothing";
                 } else {
                     $rootScope.enemy.currentShield -= damageRoll;
-                    $rootScope.$broadcast('getLog', { log: "You damage " + $rootScope.enemy.ship.name + "'s hull for " + damageRoll + "!" });
+                    DataService.log.unshift("You damage " + $rootScope.enemy.ship.name + "'s hull for " + damageRoll + "!");
                 }
 
             }
         } else {
             // miss
-            $rootScope.$broadcast('getLog', { log: "You miss!" });
+            DataService.log.unshift("You miss!");
         }
         var enemy = $rootScope.enemy;
 
@@ -100,11 +100,11 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
 
         if (UtilService.random(1,2)===1) {
             $rootScope.$broadcast('getForeground', { image: null });
-            $rootScope.$broadcast('getLog', { log: "You escape with your life!" });
+            DataService.log.unshift("You escape with your life!");
             $rootScope.currentState = "nothing";
 
         } else {
-            $rootScope.$broadcast('getLog', { log: "You fail to escape!" });
+            DataService.log.unshift("You fail to escape!");
         }
 
     };

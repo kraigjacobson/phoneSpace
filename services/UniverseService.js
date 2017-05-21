@@ -45,7 +45,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.weird = function() {
 
-        $rootScope.$broadcast('getLog', { log: UtilService.randomFromArray(DataService.text.weird) });
+        DataService.log.unshift(UtilService.randomFromArray(DataService.text.weird));
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";
 
@@ -60,7 +60,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         }
         InventoryService.merchantInventory = tempArray;
         var merchantName = GenerateService.generateFullName();
-        $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + merchantName + "." });
+        DataService.log.unshift("You come across a merchant named " + merchantName + ".");
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("merchant.png") });
         $rootScope.label = "Merchant: " + merchantName;
@@ -69,7 +69,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.opportunity = function() {
         $rootScope.investigated = false;
-        $rootScope.$broadcast('getLog', { log: "You come across a wrecked ship floating in space." });
+        DataService.log.unshift("You come across a wrecked ship floating in space.");
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.wrecks)) });
         $rootScope.label = "Wrecked Ship";
@@ -84,7 +84,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         InventoryService.myShip[randomShipPart].penalty = damage.penalty; // bug here, will replace penalty even if there already is one
         InventoryService.myShip[randomShipPart].currentEffectiveness -= damage.penalty;
         InventoryService.myShip[randomShipPart].currentValue - damage.penalty*partItemLevel < 0 ? InventoryService.myShip[randomShipPart].currentValue = 0 : Math.floor(InventoryService.myShip[randomShipPart].currentValue -= damage.penalty*partItemLevel);
-        $rootScope.$broadcast('getLog', { log: 'Your ' + randomShipPart + ' has malfunctioned and needs new parts!'});
+        DataService.log.unshift('Your ' + randomShipPart + ' has malfunctioned and needs new parts!');
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Deep Space";
@@ -101,7 +101,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         }
 
         InventoryService.merchantInventory = tempArray;
-        $rootScope.$broadcast('getLog', { log: 'You arrive at a station.' });
+        DataService.log.unshift('You arrive at a station.');
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Station";
@@ -110,7 +110,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.combat = function() {
         var enemyName = GenerateService.generateFullName();
         $rootScope.enemy = GenerateService.generateEnemy();
-        $rootScope.$broadcast('getLog', { log: "You are attacked by " + enemyName + "." });
+        DataService.log.unshift("You are attacked by " + enemyName + ".");
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath($rootScope.enemy.ship.img) });
         $rootScope.label = "Pirate: " + enemyName;
