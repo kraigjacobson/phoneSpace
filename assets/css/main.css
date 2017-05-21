@@ -92,7 +92,7 @@ body {
     /*border:solid #595959;*/
     border-width: 2px 2px 0 2px;
     border-radius:6px 6px 0 0;
-    background-color:rgba(30,144,255,0.7);
+    background-color: rgba(71, 177, 144, 0.75);
     /*color: black;*/
 }
 #console-buttons ul{
@@ -201,4 +201,7 @@ body {
 }
 .fullwidth {
     width:100%;
+}
+.log-text {
+    font-size:.9em;
 }

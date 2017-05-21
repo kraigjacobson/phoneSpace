@@ -22,8 +22,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
             if (DataService.stats.distanceLeft - distance >= 0) {
                 DataService.stats.distanceLeft -= distance;
                 DataService.stats.distanceTraveled += distance;
-                DataService.log.unshift("You have traveled <span class='danger'>" + distance + "</span> light years.");
-                console.log(DataService.log);
+                DataService.log.unshift("You have traveled " + distance + " light years.");
                 UniverseService.event();
             } else {
                 DataService.stats.distanceTraveled = DataService.stats.totalDistance;
@@ -41,7 +40,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
         $state.go('log').then(function () {
             var roll = UtilService.random(1,5);
 
-            roll = 5 ? UniverseService.combat() : GenerateService.loot();
+            roll === 5 ? UniverseService.event(12) : GenerateService.loot();
 
         });
 

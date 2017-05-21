@@ -48,7 +48,11 @@ app.service('DataService', function() {
     this.text = {
         weird: [
             'A nearby supernova causes the instruments to go haywire for an hour.',
-            'A crew member has smuggled an unknown life-form on the ship. You jettison it out the airlock.'
+            'An unknown life-form was found on the ship. You jettison it out the airlock.',
+            'Time turbulence causes you to experience echoes of events that occured just moments ago.',
+            'You find a picture of an old partner in your bunk.',
+            'Your cat has 3 kittens. You should probably find a home for them on the next station.',
+            'All your instrument panels go dark as a bright jellyfish like creature flies past the main viewscreen.'
         ],
         names: {
             vowels: ['a', 'e', 'i', 'o', 'u'],
@@ -65,7 +69,9 @@ app.service('DataService', function() {
             "space3.jpg"
         ],
         stations: [
-
+            "station1.jpg",
+            "station2.jpg",
+            "station3.jpg"
         ],
         characters: [
 

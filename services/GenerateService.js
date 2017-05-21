@@ -133,18 +133,18 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             var credits = self.gainCredits(1,5);
             var item = self.generateItem();
             InventoryService.inventory.unshift(item);
-            $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + "&#11363; and a " + item.name + "." });
+            console.log(item.name);
+            DataService.log.unshift("You manage to find " + credits + "&#11363; and <span class='" + item.quality + "'>" + item.name + "</span>.");
         } else if (roll <= 9) {
             var credits = self.gainCredits(1,5);
-            $rootScope.$broadcast('getLog', { log: "You manage to find " + credits + "&#11363;." });
+            DataService.log.unshift("You manage to find " + credits + "&#11363;.");
         } else if (roll <= 11) {
             var item = self.generateItem();
             InventoryService.inventory.unshift(item);
-            $rootScope.$broadcast('getLog', { log: "You manage to find a " + item.name + "." });
+            DataService.log.unshift("You manage to find <span class='" + item.quality + "'>" + item.name + "</span>.");
         } else {
-            $rootScope.$broadcast('getLog', { log: "You don't find anything interesting." });
+            DataService.log.unshift("You don't find anything interesting.");
         }
-
     }
 
 });

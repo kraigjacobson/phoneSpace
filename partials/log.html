@@ -1,7 +1,7 @@
 <div ng-controller="ConsoleController">
     <div class="modal-inner">
         <p ng-repeat="entry in log track by $index">
-            <span ng-bind-html="entry"></span>
+            <span class="log-text" ng-bind-html="entry"></span>
 
         </p>
     </div>

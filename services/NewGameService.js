@@ -1,4 +1,4 @@
-app.service('NewGameService', function( $rootScope, DataService, GenerateService, InventoryService ){
+app.service('NewGameService', function( $rootScope, DataService, GenerateService, InventoryService, UniverseService ){
     
     this.init = function () {
 
@@ -29,6 +29,8 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         stats.shield += firstShip.shield + ship.shieldHardener.currentEffectiveness;
         stats.hull += firstShip.hull + ship.armor.currentEffectiveness;
         // stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
+
+        UniverseService.event(10);
 
     }
 

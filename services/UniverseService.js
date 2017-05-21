@@ -4,10 +4,14 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     $rootScope.currentState = "station";
 
-    this.event = function () {
+    this.event = function (forcedRoll) {
 
-        // var roll = UtilService.random(1,30);
-        var roll = 10;
+        if (forcedRoll) {
+            var roll = forcedRoll;
+        } else {
+            var roll = UtilService.random(1,25);
+            var roll = 6;
+        }
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -102,7 +106,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
         InventoryService.merchantInventory = tempArray;
         DataService.log.unshift('You arrive at a station.');
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations)) });
         $rootScope.$broadcast('getBackground', { image: null });
         $rootScope.label = "Station";
     };
