@@ -1,9 +1,9 @@
 <div ng-controller="ConsoleController">
+    <div class="modal-inner">
+        <p ng-repeat="entry in log track by $index">
 
-    <p ng-repeat="entry in log track by $index">
+            {{ entry }}
 
-        {{ entry }}
-
-    </p>
-
+        </p>
+    </div>
 </div>

@@ -112,6 +112,7 @@ app.controller('ConsoleController', function( $scope, $rootScope, ModalService, 
     $scope.buyItem = ItemService.buyItem;
     $scope.myShip = InventoryService.myShip;
     $scope.itemIndex = ItemService.currentItemIndex;
+    $scope.Math = window.Math;
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
@@ -130,6 +131,7 @@ app.controller('ModalController', function( $scope, close, DataService, ItemServ
     };
     $scope.componentInventory = InventoryService.componentInventory;
     $scope.inventory = InventoryService.inventory;
+    $scope.merchantInventory = InventoryService.merchantInventory;
     $scope.myShip = InventoryService.myShip;
     $scope.repairItem = ItemService.repairItem;
     $scope.deleteItem = ItemService.deleteItem;

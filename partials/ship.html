@@ -1,6 +1,6 @@
 <div ng-controller="ConsoleController">
     <p ng-repeat="item in myShip track by $index">
-        <button style="width:100%" class="btn deets {{item.quality}}" ng-click="details(item.name, true)">{{ item.name | camelCaseToHuman | titlecase}}
+        <button style="width:100%" class="btn deets {{item.quality}}" ng-click="details(item.name, 'ship')">{{ item.name | camelCaseToHuman | titlecase}}
             <span class="fa-stack" ng-if="item.componentsNeeded.length > 0">
                 <i class="fa fa-wrench"></i>
             </span>

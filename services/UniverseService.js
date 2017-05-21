@@ -6,8 +6,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     this.event = function () {
 
-        var roll = UtilService.random(1,30);
-        // var roll = 8;
+        // var roll = UtilService.random(1,30);
+        var roll = 8;
 
         if (roll <= 3) {
             $rootScope.currentState = "weird";
@@ -52,7 +52,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.merchant = function() {
-        var roll = UtilService.random(1,10);
+        var roll = UtilService.random(3,10);
         console.log(roll);
         var tempArray = [];
         for (k = 0; k < roll; k++) {
@@ -61,7 +61,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             console.log('roll ' + k);
         }
         InventoryService.merchantInventory = tempArray;
-        console.log(tempArray);
+        console.log(InventoryService.merchantInventory);
         var merchantName = GenerateService.generateFullName();
         $rootScope.$broadcast('getLog', { log: "You come across a merchant named " + merchantName + "." });
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });

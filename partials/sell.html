@@ -1,8 +1,9 @@
 <div ng-controller="ConsoleController">
+    <div class="modal-inner">
         <p ng-repeat="item in inventory track by $index">
-            <button class="btn deets {{item.quality}}" ng-click="details($index)">{{ item.name | camelCaseToHuman | titlecase}} <i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
-            <span ng-if="currentState === 'station'||currentState === 'merchant'">{{ item.currentValue }} cr</span>
-            <button class="btn btn-success pull-right delete" ng-click="buyItem($index)" ng-if="currentState === 'station'||currentState === 'merchant'">Sell</button>
+            <button class="btn deets {{item.quality}}" ng-click="details($index, 'inventory')">{{ item.name | camelCaseToHuman | titlecase}} <i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
+            <span ng-if="currentState === 'station'||currentState === 'merchant'">{{ Math.floor(item.currentValue / 2) }} cr</span>
+            <button class="btn btn-success pull-right delete" ng-click="sellItem($index)" ng-if="currentState === 'station'||currentState === 'merchant'">Sell</button>
         </p>
     </div>
 </div>

@@ -2,11 +2,13 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
 
     var self = this;
 
-    this.details = function (i, isShip) {
-        if (isShip) {
+    this.details = function (i, inventory) {
+        if (inventory === 'ship') {
             var template = 'partials/ship-item.html';
-        } else {
+        } else if (inventory === 'inventory') {
             var template = 'partials/item.html';
+        } else if (inventory === 'merchant') {
+            var template = 'partials/merchant-item.html'
         }
         self.currentItemIndex = i;
         self.show(template);
@@ -95,8 +97,9 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         console.log('index',i);
         amt = Math.floor(item.currentValue / 2); // change number with bartering perk
         console.log(amt);
-        $rootScope.$broadcast('getLog', { log: 'You sell ' + item.name + ' for ' + amt + 'credits.' });
+        $rootScope.$broadcast('getLog', { log: 'You sell ' + item.name + ' for ' + amt + ' credits.' });
         DataService.stats.credits += amt;
+        InventoryService.merchantInventory.unshift(item);
         InventoryService.inventory.splice(i, 1);
 
     };
@@ -105,7 +108,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         item = InventoryService.merchantInventory[i];
         amt = item.currentValue; // change number with bartering perk
         if (amt <= DataService.stats.credits) {
-            $rootScope.$broadcast('getLog', { log: 'You buy ' + item.name + ' for ' + amt + 'credits.' });
+            $rootScope.$broadcast('getLog', { log: 'You buy ' + item.name + ' for ' + amt + ' credits.' });
             DataService.stats.credits -= amt;
             InventoryService.inventory.unshift(item);
             InventoryService.merchantInventory.splice(i, 1);

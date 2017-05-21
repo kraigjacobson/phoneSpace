@@ -3,7 +3,7 @@ body {
     background-repeat: repeat;
     font-family: Consolas;
 }
-.modal-content {
+.modal-content, .console {
     background-image: url("../img/screen2.png");
     background-color: rgba(94, 255, 216, 0.75);
     background-repeat: repeat;
@@ -27,8 +27,9 @@ body {
 .modal-inner {
     font-size: 1.2em;
     padding: 10px 15px;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 6px;
+    min-height: 200px;
 }
 .modal-inner ul{
     margin:0;
@@ -73,8 +74,10 @@ body {
 }
 .console {
     border-width: 0 2px 2px 2px;
+}
+.console .btn{
+
     background-color: rgba(0,0,0,.7);
-    color: dodgerblue;
 }
 #console-inner {
     height:215px;
@@ -86,11 +89,11 @@ body {
     margin-bottom:5px;
 }
 #console-buttons {
-    border:solid #595959;
+    /*border:solid #595959;*/
     border-width: 2px 2px 0 2px;
     border-radius:6px 6px 0 0;
     background-color:rgba(30,144,255,0.7);
-    color: black;
+    /*color: black;*/
 }
 #console-buttons ul{
     display: -moz-box;
@@ -108,6 +111,7 @@ body {
     padding:15px;
     cursor: pointer;
     text-align:center;
+    color: white;
 }
 #console-buttons ul li:first-child:hover{
     border-radius:6px 0 0 0;
@@ -186,4 +190,12 @@ body {
 }
 .btn {
     border: 1px white solid;
+    padding: 2px 5px;
+}
+#buy-screen .fa-arrow-up {
+    color: #2eeb1f;
+
+}
+#buy-screen .fa-arrow-down {
+    color: #d9534f;
 }
