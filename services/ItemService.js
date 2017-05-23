@@ -123,15 +123,27 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
     };
 
     this.fitToShip = function (i) {
-        var thisItem = InventoryService.inventory[i];
+        var newPart = InventoryService.inventory[i];
+        var installCost = newPart.level * 10;
+        if (DataService.stats.credits < installCost) {
+            alert("You don't have enough credits to pay for the part installation.");
+        } else {
+            var oldPart = InventoryService.myShip[newPart.type];
+            DataService.stats.credits -= installCost;
 
-        // old ship part into inventory
-        InventoryService.inventory.push(InventoryService.myShip[thisItem.type]);
-        // new part into ship slot - works
-        InventoryService.myShip[thisItem.type] = thisItem;
-        // delete new part from ship inventory
-        InventoryService.inventory.splice(i, 1);
-        // $rootScope.$broadcast('getInventory', { inventory: InventoryService.inventory });
+            DataService.log.unshift('You spent ' + installCost + ' to install <span class="' + newPart.quality + '">' + newPart.name + '</span>');
+            // remove old ship part stat
+            DataService.stats[oldPart.enhancement] -= oldPart.currentEffectiveness;
+            // add new part stat
+            DataService.stats[oldPart.enhancement] += newPart.currentEffectiveness;
+
+            // old ship part into inventory
+            InventoryService.inventory.push(InventoryService.myShip[newPart.type]);
+            // new part into ship slot
+            InventoryService.myShip[newPart.type] = newPart;
+            // delete new part from ship inventory
+            InventoryService.inventory.splice(i, 1);
+        }
     }
 
 });

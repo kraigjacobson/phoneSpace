@@ -9,8 +9,7 @@
                     <div class="modal-inner">
                         <p>Level: {{ myShip[itemIndex].level }}</p>
                         <p>Type: {{ myShip[itemIndex].type | camelCaseToHuman }}</p>
-                        <p ng-if="myShip[itemIndex].penalty">Damaged Penalty: {{ myShip[itemIndex].penalty }}</p>
-                        <p>Enhancement: <span ng-if="myShip[itemIndex].currentEffectiveness > 0">+</span>{{ myShip[itemIndex].currentEffectiveness }} {{ myShip[itemIndex].enhancement | titlecase }}</p>
+                        <p>Enhancement: <span ng-if="myShip[itemIndex].currentEffectiveness > 0">+</span>{{ myShip[itemIndex].currentEffectiveness }}/{{ myShip[itemIndex].fullEffectiveness }} {{ myShip[itemIndex].enhancement | titlecase }}</p>
                         <p>Value: {{  myShip[itemIndex].currentValue }}&#11363;</p>
                         <p>Quality: {{  myShip[itemIndex].quality | titlecase }}</p>
                         <div ng-if="!myShip[itemIndex].componentsNeeded.length">

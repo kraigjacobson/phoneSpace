@@ -88,12 +88,6 @@ app.controller('ViewscreenController', function( $scope, $rootScope, UtilService
 
 });
 
-app.controller('StatsController', function( $scope, DataService ){
-
-    $scope.stats = DataService.stats;
-
-});
-
 app.controller('ActionController', function( $scope, $rootScope, ActionService, UniverseService ){
 
     $rootScope.investigated = true;
@@ -114,6 +108,7 @@ app.controller('ConsoleController', function( $scope, $rootScope, $sce, ModalSer
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
+    $scope.stats = DataService.stats;
     $scope.components = InventoryService.componentInventory;
     $scope.inventory = InventoryService.inventory;
     $scope.merchantInventory = InventoryService.merchantInventory;
@@ -129,14 +124,6 @@ app.controller('ConsoleController', function( $scope, $rootScope, $sce, ModalSer
     $scope.myShip = InventoryService.myShip;
     $scope.itemIndex = ItemService.currentItemIndex;
     $scope.Math = window.Math;
-
-    $scope.$on('getState', function (event, args) {
-        $rootScope.state = args.state;
-    });
-
-    $scope.$on('getInventory', function (event, args) {
-        $rootScope.inventory = args.inventory;
-    });
 
 });
 

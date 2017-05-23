@@ -183,12 +183,15 @@ body {
     border: 1px white solid;
     padding: 2px 5px;
 }
-#buy-screen .fa-arrow-up {
-    color: #2eeb1f;
+.fa-arrow-up {
+    color: #2eeb1f !important;
 
 }
-#buy-screen .fa-arrow-down {
-    color: #d9534f;
+.fa-arrow-down {
+    color: #d9534f !important;
+}
+.fa-minus {
+    color: #b2b2b3 !important;
 }
 .fullwidth {
     width:100%;

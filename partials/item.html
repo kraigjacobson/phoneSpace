@@ -10,9 +10,10 @@
                         <p>Level: {{ inventory[itemIndex].level }}</p>
                         <p>Type: {{ inventory[itemIndex].type | camelCaseToHuman }}</p>
                         <p ng-if="inventory[itemIndex].penalty">Damaged Penalty: {{ inventory[itemIndex].penalty }}</p>
-                        <p>Enhancement: <span ng-if="inventory[itemIndex].currentEffectiveness > 0">+</span>{{ inventory[itemIndex].currentEffectiveness }} {{ inventory[itemIndex].enhancement | titlecase }}
-                            <i class="fa fa-arrow-up" ng-if="inventory[itemIndex].fullEffectiveness > myShip[inventory[itemIndex].type].fullEffectiveness">{{}}</i>
-                            <i class="fa fa-arrow-down" ng-if="inventory[itemIndex].fullEffectiveness < myShip[inventory[itemIndex].type].fullEffectiveness">{{}}</i>
+                        <p>Enhancement: <span ng-if="inventory[itemIndex].currentEffectiveness > 0">+</span>{{ inventory[itemIndex].currentEffectiveness }}/{{ inventory[itemIndex].fullEffectiveness }} {{ inventory[itemIndex].enhancement | titlecase }}
+                            <i class="fa fa-arrow-up" ng-if="inventory[itemIndex].fullEffectiveness > myShip[inventory[itemIndex].type].fullEffectiveness"></i>
+                            <i class="fa fa-minus" ng-if="inventory[itemIndex].fullEffectiveness === myShip[inventory[itemIndex].type].fullEffectiveness"></i>
+                            <i class="fa fa-arrow-down" ng-if="inventory[itemIndex].fullEffectiveness < myShip[inventory[itemIndex].type].fullEffectiveness"></i>
                         </p>
                         <p>Value: {{  inventory[itemIndex].currentValue }}&#11363;</p>
                         <p>Quality: {{  inventory[itemIndex].quality | titlecase }}</p>
