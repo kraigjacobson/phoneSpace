@@ -122,10 +122,16 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         InventoryService.inventory.splice(i, 1);
     };
 
-    this.fitToShip = function () {
-        alert('fitting to ship');
-        InventoryService.merchantInventory.unshift(item);
+    this.fitToShip = function (i) {
+        var thisItem = InventoryService.inventory[i];
+
+        // old ship part into inventory
+        InventoryService.inventory.push(InventoryService.myShip[thisItem.type]);
+        // new part into ship slot - works
+        InventoryService.myShip[thisItem.type] = thisItem;
+        // delete new part from ship inventory
         InventoryService.inventory.splice(i, 1);
+        // $rootScope.$broadcast('getInventory', { inventory: InventoryService.inventory });
     }
 
 });

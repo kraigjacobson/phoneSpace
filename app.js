@@ -74,7 +74,7 @@ app.controller('MainController', function( $scope, $rootScope ){
 app.controller('ViewscreenController', function( $scope, $rootScope, UtilService, DataService ){
     $("#starfield").hide();
     if(!$rootScope.foreground) {
-        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
     }
 
     $scope.$on('getBackground', function (event, args) {
@@ -132,6 +132,10 @@ app.controller('ConsoleController', function( $scope, $rootScope, $sce, ModalSer
 
     $scope.$on('getState', function (event, args) {
         $rootScope.state = args.state;
+    });
+
+    $scope.$on('getInventory', function (event, args) {
+        $rootScope.inventory = args.inventory;
     });
 
 });

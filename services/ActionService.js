@@ -98,9 +98,8 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
     this.escape = function () {
 
         if (UtilService.random(1,2)===1) {
-            $rootScope.$broadcast('getForeground', { image: null });
             DataService.log.unshift("You escape with your life!");
-            $rootScope.currentState = "nothing";
+            self.travel();
 
         } else {
             DataService.log.unshift("You fail to escape!");

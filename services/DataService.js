@@ -65,8 +65,6 @@ app.service('DataService', function() {
 
         space: [
             "space1.jpg",
-            "space2.jpg",
-            "space3.jpg"
         ],
         stations: [
             "station1.jpg",
@@ -74,11 +72,14 @@ app.service('DataService', function() {
             "station3.jpg"
         ],
         characters: [
-
+            'alien1.png'
         ],
         wrecks:[
             'wreck.jpg',
             'wreck2.jpg'
+        ],
+        planets: [
+            'planet1.png'
         ],
         components: {
             weapon: ['weapon.jpg'],
@@ -87,7 +88,8 @@ app.service('DataService', function() {
             thrusters: ['thruster.png'],
             shieldHardener: ['shield.png'],
             armor: ['armor.png']
-        }
+        },
+        blank: 'blank.png'
 
     };
 

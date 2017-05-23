@@ -42,7 +42,7 @@ var flag=true;
 var test=true;
 var n=parseInt((url.indexOf('n=')!=-1)?url.substring(url.indexOf('n=')+2,((url.substring(url.indexOf('n=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('n=')+2+(url.substring(url.indexOf('n=')+2,url.length)).indexOf('&'):url.length):512);
 var star_color_ratio=0;
-var star_ratio=128;
+var star_ratio=256;
 var star_speed=3;
 var star=new Array(n);
 var color;
@@ -89,7 +89,7 @@ function anim() {
         star[i][3]=x+(star[i][0]/star[i][2])*star_ratio;
         star[i][4]=y+(star[i][1]/star[i][2])*star_ratio;
         if(star_x_save>0&&star_x_save<w&&star_y_save>0&&star_y_save<h&&test) {
-            context.lineWidth=(1-star_color_ratio*star[i][2])*2;
+            context.lineWidth=(1-star_color_ratio*star[i][2])*7;
             context.beginPath();
             context.moveTo(star_x_save,star_y_save);
             context.lineTo(star[i][3],star[i][4]);
