@@ -49,7 +49,7 @@
         </div>
         <div class="row">
             <div class="span-12">
-                <div id="label" class="partial">{{ label | titlecase }}</div>
+                <div id="label" class="info partial">{{ label | titlecase }}</div>
             </div>
         </div>
         <div class="row">
@@ -64,15 +64,17 @@
                 <button class="btn btn-default col" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
             </div>
         </div>
-    </div>
 
-    <div ng-controller="ConsoleController">
-        <div class="row">
-            <div class="col-sm-6 partial" style="text-align: center">
-                Hull: {{ stats.currentHull }} | Shields: {{ stats.currentShield }} | {{ stats.credits }} &#11363;
+
+        <div ng-controller="ConsoleController">
+            <div class="row">
+                <div class="span-12 info partial">
+                    <i class="fa fa-heartbeat danger"></i> Hull: {{ stats.currentHull }} | <i class="fa fa-shield shield"></i> Shields: {{ stats.currentShield }} | <span class="gold">&#11363;</span> {{ stats.credits }}
+                </div>
             </div>
         </div>
     </div>
+
 
     <div class="col-sm-6">
 

@@ -103,7 +103,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
 
         var enemyAttackRoll = UtilService.random(1,20);
         if (enemyAttackRoll + $rootScope.enemy.ship.accuracy >= DataService.stats.maneuverability) {
-            var damageRoll = UtilService.random(1,$rootScope.enemy.ship.attack);
+            var damageRoll = UtilService.random(1,Math.floor($rootScope.enemy.ship.attack/3));
             if (DataService.stats.currentShield > 0) {
                 // damage shield
                 if (DataService.stats.currentShield - damageRoll <= 0) {

@@ -86,10 +86,10 @@ app.service('DataService', function() {
         ],
         components: {
             weapon: ['weapon.jpg'],
-            targetingComputer: ['targeting.png'],
+            targetingChip: ['targeting.png'],
             hyperdrive: ['drive.png'],
             thrusters: ['thruster.png'],
-            shieldHardener: ['shield.png'],
+            shieldCell: ['shield.png'],
             armor: ['armor.png']
         },
         blank: 'blank.png'
@@ -111,10 +111,10 @@ app.service('DataService', function() {
         ],
         shipPart: {
             weapon: new self.shipPart('attack'),
-            targetingComputer: new self.shipPart('accuracy'),
+            targetingChip: new self.shipPart('accuracy'),
             hyperdrive: new self.shipPart('speed'),
             thrusters: new self.shipPart('maneuverability'),
-            shieldHardener: new self.shipPart('shield'),
+            shieldCell: new self.shipPart('shield'),
             armor: new self.shipPart('hull')
         }
 

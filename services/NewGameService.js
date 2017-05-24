@@ -12,10 +12,10 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         // get starting ship parts
 
         ship.weapon = GenerateService.generateItem("weapon", true);
-        ship.targetingComputer = GenerateService.generateItem("targetingComputer", true);
+        ship.targetingChip = GenerateService.generateItem("targetingChip", true);
         ship.hyperdrive = GenerateService.generateItem("hyperdrive", true);
         ship.thrusters = GenerateService.generateItem("thrusters", true);
-        ship.shieldHardener = GenerateService.generateItem("shieldHardener", true);
+        ship.shieldCell = GenerateService.generateItem("shieldCell", true);
         ship.armor = GenerateService.generateItem("armor", true);
         // ship.cargoHold = GenerateService.generateItem("capacity", true);
 
@@ -23,10 +23,10 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
 
         stats.ship = firstShip.name;
         stats.attack += firstShip.attack + ship.weapon.currentEffectiveness;
-        stats.accuracy += firstShip.accuracy + ship.targetingComputer.currentEffectiveness;
+        stats.accuracy += firstShip.accuracy + ship.targetingChip.currentEffectiveness;
         stats.speed += firstShip.speed + ship.hyperdrive.currentEffectiveness;
         stats.maneuverability += firstShip.maneuverability + ship.thrusters.currentEffectiveness;
-        stats.shield += firstShip.shield + ship.shieldHardener.currentEffectiveness;
+        stats.shield += firstShip.shield + ship.shieldCell.currentEffectiveness;
         stats.hull += firstShip.hull + ship.armor.currentEffectiveness;
         stats.currentShield += stats.shield;
         stats.currentHull += stats.hull;
