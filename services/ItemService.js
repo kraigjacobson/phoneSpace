@@ -126,12 +126,12 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         var newPart = InventoryService.inventory[i];
         var installCost = newPart.level * 10;
         if (DataService.stats.credits < installCost) {
-            alert("You don't have enough credits to pay for the part installation.");
+            alert("You need " + installCost + "Ᵽ to pay for installation.");
         } else {
             var oldPart = InventoryService.myShip[newPart.type];
             DataService.stats.credits -= installCost;
 
-            DataService.log.unshift('You spent ' + installCost + ' to install <span class="' + newPart.quality + '">' + newPart.name + '</span>');
+            DataService.log.unshift('You spent ' + installCost + ' to install <span class="' + newPart.quality + '">' + newPart.name + '</span>.');
             // remove old ship part stat
             DataService.stats[oldPart.enhancement] -= oldPart.currentEffectiveness;
             // add new part stat

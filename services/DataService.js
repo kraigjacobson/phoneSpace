@@ -27,6 +27,7 @@ app.service('DataService', function() {
     };
 
     this.stats = {
+        level1: 100,
         name: "Guy",
         level: 1,
         experience: 0,

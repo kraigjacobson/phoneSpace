@@ -68,14 +68,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                 if ($rootScope.enemy.currentHull - damageRoll <= 0) {
                     var bounty = UtilService.random(1*DataService.stats.level,10*DataService.stats.level);
                     DataService.stats.credits += bounty;
-                    DataService.stats.experience += $rootScope.enemy.experience;
-                    var currentLevel = DataService.stats.level;
-                    var root = Math.floor(Math.sqrt(DataService.stats.experience));
-                    console.log(root);
-                    if (currentLevel < root) {
-                        DataService.log.unshift("You achieved level " + root + "!");
-                        DataService.stats.experience = root;
-                    }
+                    UtilService.getExperience($rootScope.enemy.experience);
                     GenerateService.loot();
                     $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
                     DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for " + damageRoll + " and destroy them!");

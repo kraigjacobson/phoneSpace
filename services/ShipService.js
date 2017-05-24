@@ -1,4 +1,4 @@
-app.service('ShipService', function(UtilService, InventoryService){
+app.service('ShipService', function(UtilService, InventoryService, DataService){
 
     var self = this;
 
@@ -13,6 +13,7 @@ app.service('ShipService', function(UtilService, InventoryService){
     this.getDistance = function () {
 
         var distance = UtilService.random(self.minDistance*self.speed,self.maxDistance*self.speed);
+        UtilService.getExperience(Math.floor(distance/5));
         return distance;
 
     };

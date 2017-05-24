@@ -111,7 +111,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
         o.ship = DataService.ships[randomShip];
         o.currentShield = o.ship.shield;
         o.currentHull = o.ship.hull;
-        o.experience = 1;
+        o.experience = 10;
         return o;
 
     };

@@ -46,4 +46,30 @@ app.service('UtilService', function ($rootScope, DataService){
 
     };
 
+    this.getExperience = function (amt) {
+
+        DataService.stats.experience += amt;
+        var currentLevel = DataService.stats.level;
+        var getNextLevelXp = function () {
+            var init = 50, exp = 50;
+            for (i = 1; i < currentLevel; i++) {
+                if (i%2===0) {
+                    exp = exp + init + init/2;
+                } else {
+                    exp = exp + init + init/4;
+                }
+
+            }
+            console.log('exp',exp);
+            return Math.floor(exp);
+        };
+
+        if (DataService.stats.experience > getNextLevelXp()) {
+            var nextLevel = DataService.stats.level + 1;
+            DataService.log.unshift("You achieved level " + nextLevel + "!");
+            DataService.stats.level ++;
+        }
+
+    };
+
 });

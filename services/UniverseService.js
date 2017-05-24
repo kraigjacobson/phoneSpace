@@ -9,8 +9,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         if (forcedRoll) {
             var roll = forcedRoll;
         } else {
-            // var roll = UtilService.random(1,8);
-            var roll = 5;
+            var roll = UtilService.random(1,8);
+            // var roll = 5;
         }
 
         if (roll <= 1) {

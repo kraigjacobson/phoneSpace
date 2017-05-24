@@ -1,4 +1,4 @@
-app.service('NewGameService', function( $rootScope, DataService, GenerateService, InventoryService, UniverseService ){
+app.service('NewGameService', function( $rootScope, DataService, GenerateService, InventoryService, UniverseService, UtilService ){
     
     this.init = function () {
 
@@ -31,6 +31,7 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         // stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
         UniverseService.event(10);
+        UtilService.getExperience(0);
 
     }
 
