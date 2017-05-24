@@ -2,18 +2,13 @@ app.service('ShipService', function(UtilService, InventoryService, DataService){
 
     var self = this;
 
-    this.minDistance = 1;
-    this.maxDistance = 5;
-    this.speed = InventoryService.myShip.hyperdrive.fullEffectiveness;
-
-    this.getSpeed = function () {
-        return speed;
-    };
 
     this.getDistance = function () {
-
-        var distance = UtilService.random(self.minDistance*self.speed,self.maxDistance*self.speed);
-        UtilService.getExperience(Math.floor(distance/5));
+        var minDistance = 0.5;
+        var maxDistance = 1;
+        var speed = DataService.stats.speed;
+        var distance = UtilService.random(minDistance * speed, maxDistance * speed);
+        UtilService.getExperience(Math.floor(distance/4));
         return distance;
 
     };

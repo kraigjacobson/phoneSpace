@@ -9,21 +9,21 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         if (forcedRoll) {
             var roll = forcedRoll;
         } else {
-            var roll = UtilService.random(1,8);
+            var roll = UtilService.random(1,12);
             // var roll = 5;
         }
 
-        if (roll <= 1) {
+        if (roll <= 2) {
             $rootScope.currentState = "weird";
             self.weird();
-        } else if (roll <= 2) {
+        } else if (roll <= 4) {
             $rootScope.currentState = "opportunity";
             $rootScope.investigated = false;
             self.opportunity();
-        } else if (roll <= 3) {
+        } else if (roll <= 6) {
             $rootScope.currentState = "merchant";
             self.merchant();
-        } else if (roll <= 4) {
+        } else if (roll <= 7) {
             var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
             console.log(InventoryService.myShip[randomShipPart].componentsNeeded.length);
             if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
@@ -32,13 +32,13 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
                 $rootScope.currentState = "ship issue";
                 self.shipIssue(randomShipPart);
             }
-        } else if (roll <= 5) {
+        } else if (roll <= 8) {
             $rootScope.currentState = "station";
             self.station();
-        } else if (roll <= 6) {
+        } else if (roll <= 10) {
             $rootScope.currentState = "planet";
             self.planet();
-        } else if (roll <= 7) {
+        } else if (roll <= 11) {
             $rootScope.currentState = "combat";
             self.combat();
         } else {
