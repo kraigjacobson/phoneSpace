@@ -71,7 +71,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
         };
 
-        o.level = DataService.stats.level;
+        o.level = DataService.stats.level > 1 ? UtilService.random((DataService.stats.level -1), (DataService.stats.level + 1)) : DataService.stats.level;
         var tempType = DataService.items.shipPart[thisType];
         o.name = thisType;
         o.type = thisType;
@@ -134,10 +134,10 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             var item = self.generateItem();
             InventoryService.inventory.unshift(item);
             console.log(item.name);
-            DataService.log.unshift("You manage to find " + credits + "&#11363; and <span class='" + item.quality + "'>" + item.name + "</span>.");
+            DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span> and <span class='" + item.quality + "'>" + item.name + "</span>.");
         } else if (roll <= 9) {
             var credits = self.gainCredits(1,5);
-            DataService.log.unshift("You manage to find " + credits + "&#11363;.");
+            DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span>.");
         } else if (roll <= 11) {
             var item = self.generateItem();
             InventoryService.inventory.unshift(item);

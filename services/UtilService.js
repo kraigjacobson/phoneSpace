@@ -52,7 +52,7 @@ app.service('UtilService', function ($rootScope, DataService){
 
         if (DataService.stats.experience > getNextLevelXp()) {
             var nextLevel = DataService.stats.level + 1;
-            DataService.log.unshift("You achieved level " + nextLevel + "!");
+            DataService.log.unshift("<span class='gold'>You achieved level " + nextLevel + "!</span>");
             DataService.stats.level ++;
         }
 

@@ -136,6 +136,10 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
             DataService.stats[oldPart.enhancement] -= oldPart.currentEffectiveness;
             // add new part stat
             DataService.stats[oldPart.enhancement] += newPart.currentEffectiveness;
+            if (newPart.type==='armor') {
+                var difference = newPart.fullEffectiveness - oldPart.fullEffectiveness;
+                DataService.stats.currentHull += difference;
+            }
 
             // old ship part into inventory
             InventoryService.inventory.push(InventoryService.myShip[newPart.type]);
