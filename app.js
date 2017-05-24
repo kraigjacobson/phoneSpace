@@ -88,9 +88,10 @@ app.controller('ViewscreenController', function( $scope, $rootScope, UtilService
 
 });
 
-app.controller('ActionController', function( $scope, $rootScope, ActionService, UniverseService ){
+app.controller('ActionController', function( $scope, $rootScope, ActionService, UniverseService, DataService ){
 
     $rootScope.investigated = true;
+    $scope.stats = DataService.stats;
 
     $scope.action = ActionService;
 

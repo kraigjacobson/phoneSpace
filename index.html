@@ -58,12 +58,22 @@
                 <button class="btn btn-default col" ng-click="action.buy()" ng-if="currentState==='merchant'||currentState==='station'">Buy</button>
                 <button class="btn btn-default col" ng-click="action.sell()" ng-if="currentState==='merchant'||currentState==='station'">Sell</button>
                 <button class="btn btn-default col" ng-click="action.hangar()" ng-if="currentState==='station'">Hangar</button>
+                <button class="btn btn-default col" ng-click="action.repair()" ng-if="currentState==='station' && stats.currentHull < stats.hull">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</button>
                 <button class="btn btn-default col" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
                 <button class="btn btn-default col" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
                 <button class="btn btn-default col" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
             </div>
         </div>
     </div>
+
+    <div ng-controller="ConsoleController">
+        <div class="row">
+            <div class="col-sm-6 partial" style="text-align: center">
+                Hull: {{ stats.currentHull }} | Shields: {{ stats.currentShield }} | {{ stats.credits }} &#11363;
+            </div>
+        </div>
+    </div>
+
     <div class="col-sm-6">
 
         <div class="row">

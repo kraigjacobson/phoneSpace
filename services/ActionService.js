@@ -31,6 +31,15 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                 DataService.log.unshift("You have arrived at your destination! It took you " + DataService.stats.daysTraveled + " days!");
             }
 
+            if (DataService.stats.currentShield < DataService.stats.shield) {
+                var shieldRecharge = Math.ceil(DataService.stats.shield * 0.2);
+                if (DataService.stats.currentShield + shieldRecharge > DataService.stats.shield) {
+                    DataService.stats.currentShield = DataService.stats.shield;
+                } else {
+                    DataService.stats.currentShield += shieldRecharge;
+                }
+            }
+
         });
 
     };
@@ -51,7 +60,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
     this.attack = function () {
 
         var attackRoll = UtilService.random(1,20);
-        if (attackRoll >= $rootScope.enemy.ship.maneuverability) {
+        if (attackRoll + DataService.stats.accuracy >= $rootScope.enemy.ship.maneuverability) {
             // hit
             var damageRoll = UtilService.random(1,DataService.stats.attack);
             if ($rootScope.enemy.currentShield > 0) {
@@ -75,7 +84,7 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
                     DataService.log.unshift("A bounty of " + bounty + " credits has been transferred to your account.");
                     $rootScope.currentState = "nothing";
                 } else {
-                    $rootScope.enemy.currentShield -= damageRoll;
+                    $rootScope.enemy.currentHull -= damageRoll;
                     DataService.log.unshift("You damage " + $rootScope.enemy.ship.name + "'s hull for " + damageRoll + "!");
                 }
 
@@ -84,18 +93,55 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
             // miss
             DataService.log.unshift("You miss!");
         }
-        var enemy = $rootScope.enemy;
+
+        self.enemyAttack();
 
     };
 
-    this.escape = function () {
+    this.enemyAttack = function () {
+        // enemy attack
 
-        if (UtilService.random(1,2)===1) {
+        var enemyAttackRoll = UtilService.random(1,20);
+        if (enemyAttackRoll + $rootScope.enemy.ship.accuracy >= DataService.stats.maneuverability) {
+            var damageRoll = UtilService.random(1,$rootScope.enemy.ship.attack);
+            if (DataService.stats.currentShield > 0) {
+                // damage shield
+                if (DataService.stats.currentShield - damageRoll <= 0) {
+                    DataService.stats.currentShield = 0;
+                    DataService.log.unshift($rootScope.enemy.ship.name + " hits you for " + damageRoll + " and disables your shields!");
+                } else {
+                    DataService.stats.currentShield -= damageRoll;
+                    DataService.log.unshift($rootScope.enemy.ship.name + " damages your shields for " + damageRoll + "!");
+                }
+            } else {
+                // damage hull
+                if (DataService.stats.currentHull - damageRoll <= 0) {
+                    $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
+                    DataService.log.unshift("You were killed by " + $rootScope.enemy.ship.name + "!");
+                    $rootScope.currentState = "nothing";
+                } else {
+                    DataService.stats.currentHull -= damageRoll;
+                    DataService.log.unshift($rootScope.enemy.ship.name + " damaged your hull for " + damageRoll + "!");
+                }
+            }
+        } else {
+            // miss
+            DataService.log.unshift($rootScope.enemy.ship.name + " misses you.");
+        }
+    };
+
+    this.escape = function () {
+        enemyRoll = UtilService.random(1,($rootScope.enemy.ship.accuracy + $rootScope.enemy.ship.speed) / 2);
+        playerRoll = UtilService.random(1,(DataService.stats.maneuverability + DataService.stats.speed) / 2);
+        console.log('enemyRoll',enemyRoll);
+        console.log('playerRoll',playerRoll);
+
+        if (playerRoll > enemyRoll) {
             DataService.log.unshift("You escape with your life!");
             self.travel();
-
         } else {
             DataService.log.unshift("You fail to escape!");
+            self.enemyAttack();
         }
 
     };
@@ -115,6 +161,17 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
     this.hangar = function () {
 
         $state.go('inventory');
+
+    };
+
+    this.repair = function () {
+    var cost = (DataService.stats.hull - DataService.stats.currentHull) * 5;
+        if (DataService.stats.credits < cost) {
+            alert('You need ' + cost + 'Ᵽ to repair your ship.');
+        } else {
+            DataService.stats.currentHull = DataService.stats.hull;
+            DataService.stats.credits -= cost;
+        }
 
     };
 

@@ -4,8 +4,8 @@ app.service('ShipService', function(UtilService, InventoryService, DataService){
 
 
     this.getDistance = function () {
-        var minDistance = 0.5;
-        var maxDistance = 1;
+        var minDistance = 0.25;
+        var maxDistance = .5;
         var speed = DataService.stats.speed;
         var distance = UtilService.random(minDistance * speed, maxDistance * speed);
         UtilService.getExperience(Math.floor(distance/4));

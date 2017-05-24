@@ -28,6 +28,8 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         stats.maneuverability += firstShip.maneuverability + ship.thrusters.currentEffectiveness;
         stats.shield += firstShip.shield + ship.shieldHardener.currentEffectiveness;
         stats.hull += firstShip.hull + ship.armor.currentEffectiveness;
+        stats.currentShield += stats.shield;
+        stats.currentHull += stats.hull;
         // stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
         UniverseService.event(10);

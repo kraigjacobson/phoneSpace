@@ -37,6 +37,8 @@ app.service('DataService', function() {
         speed: 0,
         maneuverability: 0,
         shield: 0,
+        currentShield: 0,
+        currentHull: 0,
         capacity: 0,
         hull: 0,
         credits: 100,

@@ -9,7 +9,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         if (forcedRoll) {
             var roll = forcedRoll;
         } else {
-            var roll = UtilService.random(1,12);
+            var roll = UtilService.random(1,13);
             // var roll = 5;
         }
 
@@ -38,7 +38,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         } else if (roll <= 10) {
             $rootScope.currentState = "planet";
             self.planet();
-        } else if (roll <= 11) {
+        } else if (roll <= 12) {
             $rootScope.currentState = "combat";
             self.combat();
         } else {
