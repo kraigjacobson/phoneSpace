@@ -40,7 +40,7 @@
             <div id="view" class="span-12 partial" ng-controller="ViewscreenController">
                 <div id="view-inner">
                     <div style="position:relative">
-                        <canvas id="starfield"></canvas>
+                        <canvas id="starfield" ng-show="starfield"></canvas>
                         <img id="background" class="img-responsive img-rounded" ng-src="{{ background }}">
                         <img id="foreground" class="img-responsive img-rounded" ng-src="{{ foreground }}">
                     </div>
@@ -54,7 +54,7 @@
         </div>
         <div class="row">
             <div id="actions" class="span-12 partial" ng-controller="ActionController">
-                <button class="btn btn-default col" ng-click="action.travel()" ng-hide="currentState === 'combat'">Travel</button>
+                <button class="btn btn-default col" ng-click="action.travel()" ng-hide="currentState === 'combat'" ng-disabled="starfield">Travel</button>
                 <button class="btn btn-default col" ng-click="action.buy()" ng-if="currentState==='merchant'||currentState==='station'">Buy</button>
                 <button class="btn btn-default col" ng-click="action.sell()" ng-if="currentState==='merchant'||currentState==='station'">Sell</button>
                 <button class="btn btn-default col" ng-click="action.hangar()" ng-if="currentState==='station'">Hangar</button>

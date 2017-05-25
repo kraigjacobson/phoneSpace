@@ -85,7 +85,6 @@ app.controller('ViewscreenController', function( $scope, $rootScope, UtilService
         $rootScope.foreground = args.image;
     });
 
-
 });
 
 app.controller('ActionController', function( $scope, $rootScope, ActionService, UniverseService, DataService ){

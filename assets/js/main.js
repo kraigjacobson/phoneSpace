@@ -40,15 +40,16 @@ var url=document.location.href;
 
 var flag=true;
 var test=true;
-var n=parseInt((url.indexOf('n=')!=-1)?url.substring(url.indexOf('n=')+2,((url.substring(url.indexOf('n=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('n=')+2+(url.substring(url.indexOf('n=')+2,url.length)).indexOf('&'):url.length):512);
+var n=200;
 var star_color_ratio=0;
-var star_ratio=256;
-var star_speed=3;
+var star_ratio=128;
+var star_speed=4;
 var star=new Array(n);
 var color;
 
 var timeout;
 var fps=0;
+var running = false;
 
 function init() {
     $("#starfield").show();
@@ -72,24 +73,32 @@ function init() {
 }
 
 var animCount = 0;
+var startingFPS = 50; // 0 for no gradual speedup
+var noTrailFrame = 70;
 
 function anim() {
+    if (!running) {
+        return;
+    }
+
     animCount++;
-    if(animCount===120){context.clearRect(0,0, context.canvas.width, context.canvas.height); context=null;animCount=0; return;}
+    //if(animCount===120){context.clearRect(0,0, context.canvas.width, context.canvas.height); context=null;animCount=0; return;}
     mouse_x=cursor_x-x;
     mouse_y=cursor_y-y;
-    context.fillRect(0,0,w,h);
+    if (animCount > noTrailFrame) {
+        context.fillRect(0,0,w,h);
+    }
     for(var i=0;i<n;i++) {
         test=true;
         star_x_save=star[i][3];
         star_y_save=star[i][4];
         star[i][0]+=mouse_x>>4; if(star[i][0]>x<<1) { star[i][0]-=w<<1; test=false; } if(star[i][0]<-x<<1) { star[i][0]+=w<<1; test=false; }
         star[i][1]+=mouse_y>>4; if(star[i][1]>y<<1) { star[i][1]-=h<<1; test=false; } if(star[i][1]<-y<<1) { star[i][1]+=h<<1; test=false; }
-        star[i][2]-=star_speed; if(star[i][2]>z) { star[i][2]-=z; test=false; } if(star[i][2]<0) { star[i][2]+=z; test=false; }
+        star[i][2]-=star_speed; if(star[i][2]>z) { star[i][2]-=z; test=false; } if(star[i][2]<0) { star[i][2]+=z; test=false; star[i][0] = (Math.random()*w)-(w/2); star[i][1] = (Math.random()*h)-(h/2);}
         star[i][3]=x+(star[i][0]/star[i][2])*star_ratio;
         star[i][4]=y+(star[i][1]/star[i][2])*star_ratio;
         if(star_x_save>0&&star_x_save<w&&star_y_save>0&&star_y_save<h&&test) {
-            context.lineWidth=(1-star_color_ratio*star[i][2])*7;
+            context.lineWidth=(1-star_color_ratio*star[i][2])*6;
             context.beginPath();
             context.moveTo(star_x_save,star_y_save);
             context.lineTo(star[i][3],star[i][4]);
@@ -97,16 +106,21 @@ function anim() {
             context.closePath();
         }
     }
-    timeout=setTimeout('anim()',fps);
+    timeout=setTimeout('anim()',startingFPS>animCount?startingFPS-animCount*1:fps);
 }
 
 function start() {
+    running = true;
     resize();
     anim();
 }
 
+function stop() {
+    running = false;
+}
+
 function resize() {
-    $("#starfield").hide();
+    animCount = 0;
     w=parseInt((url.indexOf('w=')!=-1)?url.substring(url.indexOf('w=')+2,((url.substring(url.indexOf('w=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('w=')+2+(url.substring(url.indexOf('w=')+2,url.length)).indexOf('&'):url.length):get_screen_size()[0]);
     h=parseInt((url.indexOf('h=')!=-1)?url.substring(url.indexOf('h=')+2,((url.substring(url.indexOf('h=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('h=')+2+(url.substring(url.indexOf('h=')+2,url.length)).indexOf('&'):url.length):get_screen_size()[1]);
     x=Math.round(w/2);

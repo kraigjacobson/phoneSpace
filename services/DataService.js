@@ -67,7 +67,7 @@ app.service('DataService', function() {
     this.images = {
 
         space: [
-            "space1.jpg",
+            "space1.png"
         ],
         stations: [
             "station1.jpg",

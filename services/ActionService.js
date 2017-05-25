@@ -1,8 +1,9 @@
-app.service('ActionService', function($rootScope, $state, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService){
+app.service('ActionService', function($rootScope, $state, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, $timeout){
 
     var self = this;
 
     this.travel = function () {
+        $rootScope.label = "Warping";
 
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
@@ -11,34 +12,39 @@ app.service('ActionService', function($rootScope, $state, ModalService, ShipServ
         InventoryService.inventory.unshift(item);
 
         $rootScope.starfield = true;
+        console.log('test');
 
         $state.go('log').then(function () {
-
             start();
-            $rootScope.starfield = false;
-            $rootScope.investigated = true;
-            var distance = ShipService.getDistance();
-            DataService.stats.daysTraveled ++;
-            if (DataService.stats.distanceLeft - distance >= 0) {
-                DataService.stats.distanceLeft -= distance;
-                DataService.stats.distanceTraveled += distance;
-                DataService.log.unshift("You have traveled " + distance + " light years.");
-                UniverseService.event();
-            } else {
-                DataService.stats.distanceTraveled = DataService.stats.totalDistance;
-                DataService.log.unshift("You have traveled " + DataService.stats.distanceLeft + " light years.");
-                DataService.stats.distanceLeft = 0;
-                DataService.log.unshift("You have arrived at your destination! It took you " + DataService.stats.daysTraveled + " days!");
-            }
+            $timeout(function() {
+                $rootScope.starfield = false;
 
-            if (DataService.stats.currentShield < DataService.stats.shield) {
-                var shieldRecharge = Math.ceil(DataService.stats.shield * 0.2);
-                if (DataService.stats.currentShield + shieldRecharge > DataService.stats.shield) {
-                    DataService.stats.currentShield = DataService.stats.shield;
+
+                $rootScope.investigated = true;
+                var distance = ShipService.getDistance();
+                DataService.stats.daysTraveled ++;
+                if (DataService.stats.distanceLeft - distance >= 0) {
+                    DataService.stats.distanceLeft -= distance;
+                    DataService.stats.distanceTraveled += distance;
+                    DataService.log.unshift("You have traveled " + distance + " light years.");
+                    UniverseService.event();
                 } else {
-                    DataService.stats.currentShield += shieldRecharge;
+                    DataService.stats.distanceTraveled = DataService.stats.totalDistance;
+                    DataService.log.unshift("You have traveled " + DataService.stats.distanceLeft + " light years.");
+                    DataService.stats.distanceLeft = 0;
+                    DataService.log.unshift("You have arrived at your destination! It took you " + DataService.stats.daysTraveled + " days!");
                 }
-            }
+
+                if (DataService.stats.currentShield < DataService.stats.shield) {
+                    var shieldRecharge = Math.ceil(DataService.stats.shield * 0.2);
+                    if (DataService.stats.currentShield + shieldRecharge > DataService.stats.shield) {
+                        DataService.stats.currentShield = DataService.stats.shield;
+                    } else {
+                        DataService.stats.currentShield += shieldRecharge;
+                    }
+                }
+                stop();
+            }, 5000);
 
         });
 
