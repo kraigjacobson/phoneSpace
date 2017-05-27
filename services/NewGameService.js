@@ -32,6 +32,8 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         stats.currentHull += stats.hull;
         stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
+        DataService.station = true;
+
         DataService.policy = null;
 
         UniverseService.event('station');

@@ -17,9 +17,9 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         } else if (roll <= 15 || forcedEvent === 'opportunity') {
             $rootScope.currentState = "opportunity";
             self.opportunity();
-        } else if (roll <= 20 || forcedEvent === 'merchant') {
-            $rootScope.currentState = "merchant";
-            self.merchant();
+        // } else if (roll <= 20 || forcedEvent === 'merchant') {
+        //     $rootScope.currentState = "merchant";
+        //     self.merchant();
         } else if (roll <= 22 || forcedEvent === 'ship issue') {
             var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
             if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
@@ -93,6 +93,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.station = function() {
+        DataService.station = true;
         // generate merchant at station
         var roll = UtilService.random(5,15);
         var tempArray = [];

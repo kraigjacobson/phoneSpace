@@ -3,6 +3,7 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     var self = this;
 
     this.travel = function () {
+        // DataService.station = false;
         $rootScope.label = "Warping";
         if (DataService.policy) {
             DataService.policy.daysLeft --;
@@ -234,16 +235,10 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket)) });
     };
 
-    this.usedShipParts = function () {
+    this.market = function () {
         $state.go('buy');
-        $rootScope.label = "Used Parts";
+        $rootScope.label = "Market";
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.usedMarket)) });
-    };
-
-    this.newShipParts = function () {
-        $state.go('buy');
-        $rootScope.label = "New Parts";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket)) });
     };
 
     this.amenities = function () {

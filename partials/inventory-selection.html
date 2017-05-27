@@ -1,8 +1,10 @@
 <div ng-controller="ConsoleController">
-    <div class="col-xs-6">
-        <p class="btn btn-danger fullwidth" style="height:100%" ng-click="state.go('ship')">My Ship</p>
-    </div>
-    <div class="col-xs-6">
-        <p class="btn btn-danger fullwidth" ng-click="state.go('inventory')">Cargo Hold</p>
+    <div class="inventory-select">
+        <div class="col-xs-6">
+            <span class="btn btn-danger fullwidth" style="height:100%" ng-click="state.go('ship')">My Ship</span>
+        </div>
+        <div class="col-xs-6">
+            <span class="btn btn-danger fullwidth" ng-click="state.go('inventory')">Cargo Hold</span>
+        </div>
     </div>
 </div>

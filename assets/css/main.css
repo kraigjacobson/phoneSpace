@@ -63,7 +63,7 @@ body {
     font-size:0.8em;
 }
 .partial {
-    margin-top:15px;
+    margin-top:8px;
 }
 .console {
     border-width: 0 2px 2px 2px;
@@ -84,6 +84,9 @@ body {
 }
 #console-inner ul {
     list-style: none;
+}
+#console-inner .btn {
+    margin-bottom:5px;
 }
 #console-buttons {
     border-width: 2px 2px 0 2px;
@@ -107,13 +110,20 @@ body {
     text-align:center;
     color: white;
 }
-#console-buttons ul li:first-child:hover{
+#console-buttons-2 {
+    border-top:1px solid #595959;
+}
+#console-buttons-2 li {
+    padding:5px !important;
+    background-color: rgba(0,0,0,.5);
+}
+#console-buttons ul li:first-child:hover {
     border-radius:6px 0 0 0;
 }
-#console-buttons ul li:last-child{
+#console-buttons ul li:last-child {
     border:none;
 }
-#console-buttons ul li:last-child:hover{
+#console-buttons ul li:last-child:hover {
     border-radius:0 6px 0 0 ;
 }
 #console-buttons ul li:hover{
@@ -232,7 +242,9 @@ body {
 .btn {
     border: 1px white solid;
     padding: 2px 5px;
-    margin-bottom:5px;
+}
+.insurance.btn {
+    border:none;
 }
 #actions .btn {
     background-color: rgba(0,0,0,.7);
@@ -257,4 +269,8 @@ body {
 }
 img {
     image-rendering: pixelated;
+}
+.inventory-select .btn {
+    padding-top:40px;
+    padding-bottom:40px;
 }

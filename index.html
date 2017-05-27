@@ -80,13 +80,18 @@
 
         <div class="row">
             <div id="console" class="col-sm">
-                <div id="console-buttons" class="partial console">
+                <div id="console-buttons" class="partial console" ng-controller="ConsoleController">
                     <ul>
                         <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
                         <li ui-sref="stats" ui-sref-active="active">Stats</li>
                         <li ui-sref="inventory-selection" ui-sref-active="active">Inventory</li>
                         <li ui-sref="" ui-sref-active="active">Map?</li>
                     </ul>
+                    <!--<ul id="console-buttons-2">-->
+                        <!--<li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>-->
+                        <!--<li ui-sref="stats" ui-sref-active="active">Stats</li>-->
+                        <!--<li ui-sref="inventory-selection" ui-sref-active="active">Inventory</li>-->
+                    <!--</ul>-->
                 </div>
                 <div id="console-inner" class="console col-sm-12">
                     <ui-view></ui-view>

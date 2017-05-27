@@ -27,7 +27,7 @@ app.service('DataService', function() {
     };
 
     this.amenities = [
-        'usedShipParts', 'newShipParts', 'insurance', 'stockBrokerage', 'partInstallation', 'casino', 'nightClub', 'bountyOffice', 'reprocessing'
+        'market', 'insurance', 'stockBrokerage', 'partInstallation', 'casino', 'nightClub', 'bountyOffice', 'reprocessing'
     ];
 
     this.policy = {};
@@ -123,7 +123,7 @@ app.service('DataService', function() {
             thrusters: ['thruster.png'],
             shieldCell: ['shield.png'],
             armor: ['armor.png'],
-            cargoHold: ['shield.png']
+            cargoHold: ['cargo.jpg']
         },
         blank: 'blank.png',
         black: 'black.png'
@@ -182,5 +182,7 @@ app.service('DataService', function() {
         resonanceIsolator: new self.component('scarce',200),
         tachyonFilament: new self.component('scarce',200)
     };
+
+    this.station = true;
 
 });

@@ -168,6 +168,7 @@ app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, 
     $scope.policies = GenerateService.getInsuranceRates();
     $scope.getPolicy = GenerateService.generateInsurancePolicy;
     $scope.policy = DataService.policy;
+    $scope.station = DataService.station;
 
 });
 
