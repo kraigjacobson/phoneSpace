@@ -10,7 +10,7 @@
                         <p>Level: {{ myShip[itemIndex].level }}</p>
                         <p>Type: {{ myShip[itemIndex].type | camelCaseToHuman }}</p>
                         <p>Enhancement: <span ng-if="myShip[itemIndex].currentEffectiveness > 0">+</span>{{ myShip[itemIndex].currentEffectiveness }}/{{ myShip[itemIndex].fullEffectiveness }} {{ myShip[itemIndex].enhancement | titlecase }}</p>
-                        <p>Value: {{  myShip[itemIndex].currentValue }}&#11363;</p>
+                        <p>Value: {{  myShip[itemIndex].currentValue | currency:"Ᵽ" }}</p>
                         <p>Quality: {{  myShip[itemIndex].quality | titlecase }}</p>
                         <div ng-if="!myShip[itemIndex].componentsNeeded.length">
                             <p>Status: Good</p>
@@ -19,11 +19,12 @@
 
                         <div ng-if="myShip[itemIndex].componentsNeeded.length > 0">
                             <p>Status: Repairs Needed <i class="fa fa-warning"></i></p>
+                            <p>Repair Parts Available: {{ stats.repairParts }}</p>
                             <ul>
                                 <li ng-repeat="component in myShip[itemIndex].componentsNeeded">
                                     <div class="btn btn-default btn-xs" ng-click="repairItem($index, true)" data-toggle="tooltip" title="Click to Repair">
                                         <i class="fa fa-square-o"></i>
-                                        {{ component.name | camelCaseToHuman }}<span>: {{ componentInventory[component.name] }}/{{ component.need }}
+                                        {{ component.name | camelCaseToHuman }}<span>: {{ component.need }}
                                             <i class="fa fa-wrench"></i>
                                     </span>
                                     </div>

@@ -54,7 +54,7 @@ body {
 .top-stats div{
     text-align: center;
     border-right:1px solid dodgerblue;
-    margin-bottom:15px;
+    margin-bottom:2px;
 }
 .top-stats div:last-child {
     border-right:none;
@@ -74,13 +74,16 @@ body {
 }
 #console-inner {
     border-top:1px solid #595959;
-    height:215px;
-    padding:15px 15px 5px;
+    height:163px;
+    padding:5px 15px 5px;
     border-radius:0 0 6px 6px;
     overflow-y: auto;
 }
 #console-inner p {
-    margin-bottom:5px;
+    margin-bottom:0;
+}
+#console-inner ul {
+    list-style: none;
 }
 #console-buttons {
     border-width: 2px 2px 0 2px;
@@ -143,7 +146,7 @@ body {
     border-radius:6px;
     z-index:10;
 }
-.info  {
+.info {
     padding-top: 10px;
     padding-bottom:10px;
     text-align: center;
@@ -158,8 +161,49 @@ body {
 .shield {
     color: #2ff0fe;
 }
+.platinum {
+    color: #fefcfa;
+}
 .gold {
     color: #feec11;
+}
+.silver {
+    color: #d3d9b6;
+}
+.bronze {
+    color: #d8ae32;
+}
+.platinum-bg {
+    background-color: rgb(239, 240, 240) !important;
+    color: #b9bbb5 !important;
+}
+.platinum-bg:hover {
+    background-color: #dde1de !important;
+    color: rgba(255, 252, 252, 0.7) !important;
+}
+.gold-bg {
+    background-color: #b49c06 !important;
+    color: rgba(251, 211, 0, 0.7) !important;
+}
+.gold-bg:hover {
+    background-color: rgb(216, 197, 0) !important;
+    color: #9a8a00 !important;
+}
+.silver-bg {
+    background-color: #b0b4b0 !important;
+    color: rgba(251, 248, 245, 0.7) !important;
+}
+.silver-bg:hover {
+    background-color: rgb(214, 210, 216) !important;
+    color: #999a98 !important;
+}
+.bronze-bg {
+    background-color: #b48f2c !important;
+    color: rgba(251, 208, 51, 0.7) !important;
+}
+.bronze-bg:hover {
+    background-color: rgba(216, 174, 50, 1) !important;
+    color: #9a7728 !important;
 }
 .success {
     color: #5cb85c;
@@ -183,11 +227,17 @@ body {
     color: #ffffff;
 }
 .trash {
-    color: #d8d8d8;
+    color: #b4b4b4;
 }
 .btn {
     border: 1px white solid;
     padding: 2px 5px;
+    margin-bottom:5px;
+}
+#actions .btn {
+    background-color: rgba(0,0,0,.7);
+    color: dodgerblue;
+    padding:10px;
 }
 .fa-arrow-up {
     color: #2eeb1f !important;

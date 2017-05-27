@@ -1,0 +1,5 @@
+<div ng-controller="ConsoleController">
+    <span ng-repeat="amenity in amenities track by $index">
+        <button class="btn" ng-click="action[amenity]()">{{amenity | camelCaseToHuman}}</button>
+    </span>
+</div>

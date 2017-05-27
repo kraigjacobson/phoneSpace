@@ -4,12 +4,12 @@ app.service('DataService', function() {
 
     this.log = ['Your journey begins!'];
 
-    this.classA = function (name, attack, accuracy, maneuverability, speed, capacity, cost, img) {
+    this.classA = function (name, attack, accuracy, piloting, speed, capacity, cost, img) {
 
         this.name = name;
         this.attack = attack;
         this.accuracy = accuracy;
-        this.maneuverability = maneuverability;
+        this.piloting = piloting;
         this.speed = speed;
         this.capacity = capacity;
         this.cost = cost;
@@ -26,8 +26,13 @@ app.service('DataService', function() {
 
     };
 
+    this.amenities = [
+        'usedShipParts', 'newShipParts', 'insurance', 'stockBrokerage', 'partInstallation', 'casino', 'nightClub', 'bountyOffice', 'reprocessing'
+    ];
+
+    this.policy = {};
+
     this.stats = {
-        level1: 100,
         name: "Guy",
         level: 1,
         experience: 0,
@@ -35,13 +40,14 @@ app.service('DataService', function() {
         attack: 0,
         accuracy: 0,
         speed: 0,
-        maneuverability: 0,
+        piloting: 0,
         shield: 0,
         currentShield: 0,
         currentHull: 0,
         capacity: 0,
         hull: 0,
         credits: 100,
+        repairParts: 10,
         totalDistance: 50000,
         distanceLeft: 50000,
         distanceTraveled: 0,
@@ -74,6 +80,32 @@ app.service('DataService', function() {
             "station2.jpg",
             "station3.jpg"
         ],
+        bountyOffice: [
+            'bounty-office.jpg'
+        ],
+        casino: [
+            'casino.jpg'
+        ],
+        nightClub: [
+            'night-club.jpg'
+        ],
+        newMarket: [
+            'new-market.jpg',
+            'new-market2.jpg'
+        ],
+        usedMarket: [
+            'market.jpg',
+            'market2.jpg'
+        ],
+        stockBrokerage: [
+            'brokerage.jpg'
+        ],
+        insurance: [
+            'insurance.jpg'
+        ],
+        amenities: [
+            'amenities.jpg'
+        ],
         characters: [
             'alien1.png'
         ],
@@ -90,7 +122,8 @@ app.service('DataService', function() {
             hyperdrive: ['drive.png'],
             thrusters: ['thruster.png'],
             shieldCell: ['shield.png'],
-            armor: ['armor.png']
+            armor: ['armor.png'],
+            cargoHold: ['shield.png']
         },
         blank: 'blank.png'
 
@@ -113,9 +146,10 @@ app.service('DataService', function() {
             weapon: new self.shipPart('attack'),
             targetingChip: new self.shipPart('accuracy'),
             hyperdrive: new self.shipPart('speed'),
-            thrusters: new self.shipPart('maneuverability'),
+            thrusters: new self.shipPart('piloting'),
             shieldCell: new self.shipPart('shield'),
-            armor: new self.shipPart('hull')
+            armor: new self.shipPart('hull'),
+            cargoHold: new self.shipPart('capacity'),
         }
 
     };

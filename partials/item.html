@@ -15,7 +15,7 @@
                             <i class="fa fa-minus" ng-if="inventory[itemIndex].fullEffectiveness === myShip[inventory[itemIndex].type].fullEffectiveness"></i>
                             <i class="fa fa-arrow-down" ng-if="inventory[itemIndex].fullEffectiveness < myShip[inventory[itemIndex].type].fullEffectiveness"></i>
                         </p>
-                        <p>Value: {{  inventory[itemIndex].currentValue }}&#11363;</p>
+                        <p>Value: {{  inventory[itemIndex].currentValue | currency:"Ᵽ" }}</p>
                         <p>Quality: {{  inventory[itemIndex].quality | titlecase }}</p>
                         <div ng-if="!inventory[itemIndex].componentsNeeded.length">
                             <p>Status: Good</p>
@@ -24,11 +24,12 @@
 
                         <div ng-if="inventory[itemIndex].componentsNeeded.length > 0">
                             <p>Status: Repairs Needed <i class="fa fa-warning"></i></p>
+                            <p>Repair Parts Available: {{ stats.repairParts }}</p>
                             <ul>
                                 <li ng-repeat="component in inventory[itemIndex].componentsNeeded">
                                     <div class="btn btn-default btn-xs" ng-click="repairItem($index)" data-toggle="tooltip" title="Click to Repair">
                                         <i class="fa fa-square-o"></i>
-                                        {{ component.name | camelCaseToHuman }}<span>: {{ componentInventory[component.name] }}/{{ component.need }}
+                                        {{ component.name | camelCaseToHuman }}<span>: {{ component.need }}
                                             <i class="fa fa-wrench"></i>
                                     </span>
                                     </div>

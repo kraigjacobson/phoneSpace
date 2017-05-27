@@ -46,7 +46,6 @@ app.service('UtilService', function ($rootScope, DataService){
                 }
 
             }
-            console.log('exp',exp);
             return Math.floor(exp);
         };
 

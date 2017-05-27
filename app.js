@@ -21,6 +21,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/inventory.html'
         })
 
+        .state('reprocessing', {
+            url: '/reprocessing',
+            templateUrl: 'partials/inventory.html'
+        })
+
+        .state('installation', {
+            url: '/installation',
+            templateUrl: 'partials/inventory.html'
+        })
+
         .state('inventory-selection', {
             url: '/inventory-selection',
             templateUrl: 'partials/inventory-selection.html'
@@ -36,6 +46,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/components.html'
         })
 
+        .state('amenities', {
+            url: '/amenities',
+            templateUrl: 'partials/amenities.html'
+        })
+
         .state('buy', {
             url: '/buy',
             templateUrl: 'partials/buy.html'
@@ -44,6 +59,31 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('sell', {
             url: '/sell',
             templateUrl: 'partials/sell.html'
+        })
+
+        .state('casino', {
+            url: '/casino',
+            templateUrl: 'partials/casino.html'
+        })
+
+        .state('bounty-office', {
+            url: '/bounty-office',
+            templateUrl: 'partials/bounty-office.html'
+        })
+
+        .state('night-club', {
+            url: '/night-club',
+            templateUrl: 'partials/night-club.html'
+        })
+
+        .state('stock-brokerage', {
+            url: '/stock-brokerage',
+            templateUrl: 'partials/stock-brokerage.html'
+        })
+
+        .state('insurance', {
+            url: '/insurance',
+            templateUrl: 'partials/insurance.html'
         });
 
 });
@@ -51,10 +91,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.run(function($transitions, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
 
     NewGameService.init();
-
-    // console.log("myShip:", InventoryService.myShip);
-    // console.log("stats:", DataService.stats);
-
 
     $transitions.onStart( {}, function() {
         if (!$window.ga) {
@@ -87,10 +123,11 @@ app.controller('ViewscreenController', function( $scope, $rootScope, UtilService
 
 });
 
-app.controller('ActionController', function( $scope, $rootScope, ActionService, UniverseService, DataService ){
+app.controller('ActionController', function( $scope, $rootScope, $state, ActionService, UniverseService, DataService ){
 
     $rootScope.investigated = true;
     $scope.stats = DataService.stats;
+    $scope.state = $state;
 
     $scope.action = ActionService;
 
@@ -104,7 +141,7 @@ app.controller('ActionController', function( $scope, $rootScope, ActionService, 
 
 });
 
-app.controller('ConsoleController', function( $scope, $rootScope, $sce, ModalService, DataService, ActionService, ItemService, InventoryService ){
+app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, ModalService, DataService, ActionService, ItemService, InventoryService, GenerateService ){
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
@@ -124,6 +161,12 @@ app.controller('ConsoleController', function( $scope, $rootScope, $sce, ModalSer
     $scope.myShip = InventoryService.myShip;
     $scope.itemIndex = ItemService.currentItemIndex;
     $scope.Math = window.Math;
+    $scope.amenities = DataService.amenities;
+    $scope.state = $state.current.name;
+    $scope.action = ActionService;
+    $scope.policies = GenerateService.getInsuranceRates();
+    $scope.getPolicy = GenerateService.generateInsurancePolicy;
+    $scope.policy = DataService.policy;
 
 });
 
@@ -139,6 +182,7 @@ app.controller('ModalController', function( $scope, close, DataService, ItemServ
     $scope.repairItem = ItemService.repairItem;
     $scope.deleteItem = ItemService.deleteItem;
     $scope.itemIndex = ItemService.currentItemIndex;
+    $scope.stats = DataService.stats;
 
 });
 

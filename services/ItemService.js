@@ -35,46 +35,39 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         var item = InventoryService[itemLocation][self.currentItemIndex];
         var itemComponent = item.componentsNeeded;
 
-        if (InventoryService.componentInventory[itemComponent[i].name] < itemComponent[i].need) {
-            alert("You don't have the required components to repair this item.");
+        if (DataService.stats.repairParts < itemComponent[i].need) {
+            alert("You don't have enough parts to repair this item.");
         } else {
             self.componentName = itemComponent[i].name;
             var amt = itemComponent[i].need;
-            InventoryService.componentInventory[itemComponent[i].name] -= amt;
+            DataService.stats.repairParts -= amt;
             item.penalty -= amt;
-            item.currentEffectiveness += amt;
             itemComponent.splice(i,1);
             item.repaired.push(self.componentName);
             if (!itemComponent.length) {
                 InventoryService[itemLocation][self.currentItemIndex].repaired = [];
                 item.currentValue = item.fullValue;
-            } else {
-                item.currentValue += amt * item.level;
+                item.currentEffectiveness = item.fullEffectiveness;
             }
         }
 
     };
 
-    this.damageItem = function (itemLevel) {
-
-        const multiplier = 0.1;
-
-        var minMult = Math.ceil(itemLevel*multiplier);
-        var maxMult = Math.ceil(itemLevel/2);
+    this.damageItem = function (minComponents, maxComponents, minQty, maxQty) {
 
         var damage = {
             componentsNeeded: [],
             penalty: 0
         };
 
-        var numberNeeded = UtilService.random(minMult,maxMult);
+        var numberNeeded = UtilService.random(minComponents,maxComponents);
         if (numberNeeded !== 0) {
 
             var tempArray = Object.keys(DataService.components);
             for (i=0;i<numberNeeded;i++) {
                 var randomIndex = UtilService.random(-1,tempArray.length-1);
                 var randomComponent = tempArray.splice(randomIndex, 1);
-                var amt = UtilService.random(minMult,maxMult);
+                var amt = UtilService.random(minQty,maxQty);
                 damage.penalty += amt;
                 damage.componentsNeeded.push({
                     name: randomComponent[0],
@@ -103,28 +96,37 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
     };
 
     this.buyItem = function (i) {
-        item = InventoryService.merchantInventory[i];
-        amt = item.currentValue; // change number with bartering perk
-        if (amt <= DataService.stats.credits) {
-            DataService.log.unshift('You buy ' + item.name + ' for ' + amt + '&#11363;.');
-            DataService.stats.credits -= amt;
-            InventoryService.inventory.unshift(item);
-            InventoryService.merchantInventory.splice(i, 1);
+        if (InventoryService.inventory.length < DataService.stats.capacity) {
+            item = InventoryService.merchantInventory[i];
+            amt = item.currentValue; // change number with bartering perk
+            if (amt <= DataService.stats.credits) {
+                DataService.log.unshift('You buy ' + item.name + ' for ' + amt + '&#11363;.');
+                DataService.stats.credits -= amt;
+                InventoryService.inventory.unshift(item);
+                InventoryService.merchantInventory.splice(i, 1);
+            } else {
+                alert("You don't have enough credits.");
+            }
         } else {
-            alert("You don't have enough credits.");
+            alert('Your cargo hold is full.');
         }
 
     };
 
     this.recycle = function (i) {
-        alert('you received 3 wiring harnesses by recycling ' + InventoryService.inventory[i].name);
-        InventoryService.componentInventory.wiringHarness += 3;
+        var repairParts = Math.floor(UtilService.random(1,4) * InventoryService.inventory[i].level *.5);
+        if (repairParts !== 0) {
+            alert('You received ' + repairParts + ' repair parts.');
+            DataService.stats.repairParts += repairParts;
+        } else {
+            alert('You were unable to recover any repair parts.');
+        }
         InventoryService.inventory.splice(i, 1);
     };
 
     this.fitToShip = function (i) {
         var newPart = InventoryService.inventory[i];
-        var installCost = newPart.level * 10;
+        var installCost = newPart.fullEffectiveness;
         if (DataService.stats.credits < installCost) {
             alert("You need " + installCost + "Ᵽ to pay for installation.");
         } else {
@@ -139,6 +141,11 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
             if (newPart.type==='armor') {
                 var difference = newPart.fullEffectiveness - oldPart.fullEffectiveness;
                 DataService.stats.currentHull += difference;
+            }
+            if (newPart.type==='shieldCell') {
+                var difference = newPart.fullEffectiveness - oldPart.fullEffectiveness;
+                console.log(difference);
+                DataService.stats.currentShield += difference;
             }
 
             // old ship part into inventory

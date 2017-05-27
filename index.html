@@ -54,14 +54,14 @@
         </div>
         <div class="row">
             <div id="actions" class="span-12 partial" ng-controller="ActionController">
-                <button class="btn btn-default col" ng-click="action.travel()" ng-hide="currentState === 'combat'" ng-disabled="starfield">Travel</button>
-                <button class="btn btn-default col" ng-click="action.buy()" ng-if="currentState==='merchant'||currentState==='station'">Buy</button>
-                <button class="btn btn-default col" ng-click="action.sell()" ng-if="currentState==='merchant'||currentState==='station'">Sell</button>
-                <button class="btn btn-default col" ng-click="action.hangar()" ng-if="currentState==='station'">Hangar</button>
-                <button class="btn btn-default col" ng-click="action.repair()" ng-if="currentState==='station' && stats.currentHull < stats.hull">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</button>
-                <button class="btn btn-default col" ng-click="action.investigate()" ng-if="investigated === false">Investigate</button>
-                <button class="btn btn-default col" ng-click="action.attack()" ng-if="currentState === 'combat'">Attack</button>
-                <button class="btn btn-default col" ng-click="action.escape()" ng-if="currentState === 'combat'">Escape</button>
+                <button class="btn col" ng-click="action.travel()" ng-hide="currentState === 'combat'" ng-disabled="starfield">Travel</button>
+                <button class="btn col" ng-click="action.amenities()" ng-if="currentState==='station'" ng-disabled="starfield">Amenities</button>
+                <button class="btn col" ng-click="state.go('buy')" ng-if="currentState==='merchant'" ng-disabled="starfield">Buy</button>
+                <button class="btn col" ng-click="state.go('sell')" ng-if="currentState==='merchant'" ng-disabled="starfield">Sell</button>
+                <button class="btn col" ng-click="action.repair()" ng-if="currentState==='station' && stats.currentHull < stats.hull" ng-disabled="starfield">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</button>
+                <button class="btn col" ng-click="action.investigate()" ng-if="investigated === false" ng-disabled="starfield">Investigate</button>
+                <button class="btn col" ng-click="action.attack()" ng-if="currentState === 'combat'" ng-disabled="starfield">Attack</button>
+                <button class="btn col" ng-click="action.escape()" ng-if="currentState === 'combat'" ng-disabled="starfield">Escape</button>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
         <div ng-controller="ConsoleController">
             <div class="row">
                 <div class="span-12 info partial">
-                    <i class="fa fa-heartbeat danger"></i> Hull: {{ stats.currentHull }} | <i class="fa fa-shield shield"></i> Shields: {{ stats.currentShield }} | <span class="gold">&#11363;</span> {{ stats.credits }}
+                    <i class="fa fa-heartbeat danger"></i> Hull: <span ng-class="stats.currentHull < stats.hull * .25 ? 'danger': ''">{{ stats.currentHull }}</span> | <i class="fa fa-shield shield"></i> Shield: <span ng-class="stats.currentShield < stats.shield * .25 ? 'danger': ''">{{ stats.currentShield }}</span> | <span class="gold">&#11363;</span> {{ stats.credits | currency:" " }}
                 </div>
             </div>
         </div>

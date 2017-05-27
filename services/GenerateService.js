@@ -30,12 +30,11 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
     };
 
-    this.generateItem = function (type, perfect) {
-        // Object.keys(DataService.items.shipParts)
+    this.generateItem = function (type, percentChanceBroken) {
 
         var o = {};
 
-        if (type) {
+        if (type && type !== 'any') {
             var thisType = type;
         } else {
             var thisType = (function () {
@@ -49,50 +48,64 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             })();
         }
 
-        var getQuality = function() {
-
-            var actual = o.fullEffectiveness;
-            var max = o.maxEffectiveness;
-            var percent = actual / max;
-
-            if (percent > .99) {
-                return "legendary";
-            } else if (percent > .95) {
-                return "epic";
-            } else if (percent > .90) {
-                return "rare";
-            } else if (percent > .75) {
-                return "uncommon";
-            } else if (percent > .50) {
-                return "common";
-            } else {
-                return "trash";
-            }
-
-        };
-
         o.level = DataService.stats.level > 1 ? UtilService.random((DataService.stats.level -1), (DataService.stats.level + 1)) : DataService.stats.level;
         var tempType = DataService.items.shipPart[thisType];
         o.name = thisType;
         o.type = thisType;
         o.enhancement = tempType.enhancement;
-        const effectivenessMax = 3;
-        o.fullEffectiveness = UtilService.random(o.level, effectivenessMax * o.level) + UtilService.random(1,effectivenessMax);
-        o.maxEffectiveness = effectivenessMax * o.level + effectivenessMax;
-        o.quality = getQuality();
+
+        // quality
+
+        o.maxEffectiveness = o.level+3;
+        var getQuality = function() {
+
+            var percent = Math.random();
+
+            if (percent > .99 && o.level > 15) {
+                return {
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness*1.2),
+                    quality: 'legendary'
+                };
+            } else if (percent > .95 && o.level > 10) {
+                return {
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness*1.1),
+                    quality: 'epic'
+                };
+            } else if (percent > .85 && o.level > 7) {
+                return {
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness),
+                    quality: 'rare'
+                };
+            } else if (percent > .70 && o.level > 4) {
+                return {
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness*.9),
+                    quality: 'uncommon'
+                };
+            } else if (percent > .50) {
+                return {
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness*.8),
+                    quality: 'common'
+                };
+            } else {
+                return {
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness*.7),
+                    quality: 'trash'
+                }
+            }
+
+        };
+        var quality = getQuality();
+        o.fullEffectiveness = quality.fullEffectiveness;
+        o.quality = quality.quality;
+
         o.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.components[thisType]));
         o.repaired = [];
-        o.fullValue = Math.pow(o.fullEffectiveness, 2);
-        if (!perfect) {
-            var damage = ItemService.damageItem(o.level);
+        o.fullValue = o.fullEffectiveness * 5;
+        if (Math.random() < percentChanceBroken) {
+            var damage = ItemService.damageItem(1,3,1,3);
             o.componentsNeeded = damage.componentsNeeded;
-            o.penalty = damage.penalty;
-            if (o.fullValue - o.penalty*o.level < 0) {
-                o.currentValue = 0;
-            } else {
-                o.currentValue = Math.floor(o.fullValue - o.penalty*o.level);
-            }
-            o.currentEffectiveness = Math.floor(o.fullEffectiveness - o.penalty)
+            o.currentEffectiveness = o.fullEffectiveness / 2;
+            o.currentValue = o.fullValue / 2;
         } else {
             o.componentsNeeded = [];
             o.penalty = 0;
@@ -100,6 +113,8 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             o.currentEffectiveness = o.fullEffectiveness;
         }
 
+
+        console.log(o);
         return o;
 
     };
@@ -130,21 +145,69 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
         var roll = UtilService.random(1,15);
 
         if (roll <= 7) {
-            var credits = self.gainCredits(1,5);
-            var item = self.generateItem();
-            InventoryService.inventory.unshift(item);
-            console.log(item.name);
-            DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span> and <span class='" + item.quality + "'>" + item.name + "</span>.");
-        } else if (roll <= 9) {
-            var credits = self.gainCredits(1,5);
-            DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span>.");
-        } else if (roll <= 11) {
-            var item = self.generateItem();
-            InventoryService.inventory.unshift(item);
-            DataService.log.unshift("You manage to find <span class='" + item.quality + "'>" + item.name + "</span>.");
+            if (InventoryService.inventory.length > DataService.stats.capacity) {
+                alert('Your inventory is too full.');
+            } else {
+                if (roll <= 3) {
+                    //money + item
+                    var credits = self.gainCredits(1,5);
+                    var item = self.generateItem();
+                    InventoryService.inventory.unshift(item);
+                    DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span> and <span class='" + item.quality + "'>" + item.name + "</span>.");
+                } else {
+                    //item
+                    var item = self.generateItem();
+                    InventoryService.inventory.unshift(item);
+                    DataService.log.unshift("You manage to find <span class='" + item.quality + "'>" + item.name + "</span>.");
+                }
+            }
         } else {
-            DataService.log.unshift("You don't find anything interesting.");
+            if (roll <= 10) {
+                //money
+                var credits = self.gainCredits(1,5);
+                DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span>.");
+            } else {
+                //nothing
+                DataService.log.unshift("You don't find anything interesting.");
+            }
         }
+    };
+
+    this.getInsuranceRates = function () {
+
+        o = {};
+        playerLevel = DataService.stats.level;
+
+        o.platinum = playerLevel * 800;
+        o.gold = playerLevel * 400;
+        o.silver = playerLevel * 200;
+        o.bronze = playerLevel * 100;
+
+        return o;
+
+    };
+
+    this.generateInsurancePolicy = function (policyType) {
+
+        if (DataService.policy) {
+            alert('You already have a policy. Would you like to extend it?');
+        } else {
+
+            o = {};
+            var rate = self.getInsuranceRates()[policyType];
+            o.coverage = rate;
+            o.policyType = policyType;
+            o.cost = Math.floor(rate * 0.5);
+            if (o.cost > DataService.stats.credits) {
+                alert('You cannot afford this policy.');
+            } else {
+                o.daysCovered = 100;
+                o.daysLeft = o.daysCovered;
+                DataService.stats.credits -= o.cost;
+                DataService.policy = o;
+            }
+        }
+
     }
 
 });

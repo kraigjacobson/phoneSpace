@@ -3,7 +3,7 @@
         <div class="row top-stats">
             <div class="col-xs-4">{{ stats.name | camelCaseToHuman }}</div>
             <div class="col-xs-4">Level: {{ stats.level }}</div>
-            <div class="col-sm-4">{{ stats.credits }}&#11363;</div>
+            <div class="col-sm-4">{{ stats.credits | currency:"Ᵽ" }}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">
@@ -11,14 +11,17 @@
                 <p>Days Traveled: {{ stats.daysTraveled }}</p>
                 <p>Ship: {{ stats.ship }}</p>
                 <p>Exp: {{ stats.experience }}</p>
+                <p>Repair Parts: {{ stats.repairParts }}</p>
+                <p ng-if="policy">Insurance: {{policy.policyType | titlecase}}<br/>Days Left: <span ng-class="policy.daysLeft < policy.daysCovered * 0.1 ? 'danger' : ''">{{policy.daysLeft}}</span></p>
             </div>
             <div class="col-xs-6">
                 <p><i class="fa fa-angle-double-up"></i> Attack: {{ stats.attack }}</p>
                 <p><i class="fa fa-crosshairs"></i> Accuracy: {{ stats.accuracy }}</p>
-                <p><i class="fa fa-arrows"></i> Maneuverability: {{ stats.maneuverability }}</p>
+                <p><i class="fa fa-arrows"></i> Piloting: {{ stats.piloting }}</p>
                 <p><i class="fa fa-tachometer"></i> Speed: {{ stats.speed }}</p>
-                <p><i class="fa fa-shield"></i> Shield: {{ stats.shield }}</p>
-                <p><i class="fa fa-heartbeat"></i> Hull: {{ stats.hull }}</p>
+                <p><i class="fa fa-shield"></i> Shield: {{ stats.currentShield }}/{{ stats.shield }}</p>
+                <p><i class="fa fa-heartbeat"></i> Hull: {{ stats.currentHull }}/{{ stats.hull }}</p>
+                <p><i class="fa fa-heartbeat"></i> Capacity: {{ inventory.length }}/{{ stats.capacity }}</p>
             </div>
         </div>
 

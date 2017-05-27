@@ -4,41 +4,37 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     $rootScope.currentState = "station";
 
-    this.event = function (forcedRoll) {
+    this.event = function (forcedEvent) {
 
-        if (forcedRoll) {
-            var roll = forcedRoll;
-        } else {
-            var roll = UtilService.random(1,13);
-            // var roll = 8;
+        if (!forcedEvent) {
+            var roll = UtilService.random(1,55);
+            // var roll = 28;
         }
 
-        if (roll <= 2) {
+        if (roll <= 5 || forcedEvent === 'wierd') {
             $rootScope.currentState = "weird";
             self.weird();
-        } else if (roll <= 4) {
+        } else if (roll <= 15 || forcedEvent === 'opportunity') {
             $rootScope.currentState = "opportunity";
-            $rootScope.investigated = false;
             self.opportunity();
-        } else if (roll <= 6) {
+        } else if (roll <= 20 || forcedEvent === 'merchant') {
             $rootScope.currentState = "merchant";
             self.merchant();
-        } else if (roll <= 7) {
+        } else if (roll <= 22 || forcedEvent === 'ship issue') {
             var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
-            console.log(InventoryService.myShip[randomShipPart].componentsNeeded.length);
             if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
                 self.event();
             } else {
                 $rootScope.currentState = "ship issue";
                 self.shipIssue(randomShipPart);
             }
-        } else if (roll <= 8) {
+        } else if (roll <= 30 || forcedEvent === 'station') {
             $rootScope.currentState = "station";
             self.station();
-        } else if (roll <= 10) {
+        } else if (roll <= 40 || forcedEvent === 'planet') {
             $rootScope.currentState = "planet";
             self.planet();
-        } else if (roll <= 12) {
+        } else if (roll <= 50 || forcedEvent === 'combat') {
             $rootScope.currentState = "combat";
             self.combat();
         } else {
@@ -62,7 +58,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         var roll = UtilService.random(3,10);
         var tempArray = [];
         for (k = 0; k < roll; k++) {
-            var item = GenerateService.generateItem();
+            var item = GenerateService.generateItem('any',.6);
             tempArray.unshift(item);
         }
         InventoryService.merchantInventory = tempArray;
@@ -85,8 +81,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.shipIssue = function(randomShipPart) {
 
         var partItemLevel = InventoryService.myShip[randomShipPart].level;
-        var damage = ItemService.damageItem(partItemLevel);
-        console.log(damage);
+        var damage = ItemService.damageItem(1,partItemLevel,1,3);
         InventoryService.myShip[randomShipPart].componentsNeeded = damage.componentsNeeded; // bug here, will replace whole components needed object, even if there are already damaged items in it
         InventoryService.myShip[randomShipPart].penalty = damage.penalty; // bug here, will replace penalty even if there already is one
         InventoryService.myShip[randomShipPart].currentEffectiveness -= damage.penalty;
@@ -95,7 +90,6 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(DataService.images.blank) });
         $rootScope.label = "Deep Space";
-        console.log(InventoryService.myShip[randomShipPart]);
     };
 
     this.station = function() {
@@ -103,7 +97,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         var roll = UtilService.random(5,15);
         var tempArray = [];
         for (k = 0; k < roll; k++) {
-            var item = GenerateService.generateItem();
+            var item = GenerateService.generateItem('any',.3);
             tempArray.unshift(item);
         }
 
