@@ -113,8 +113,6 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             o.currentEffectiveness = o.fullEffectiveness;
         }
 
-
-        console.log(o);
         return o;
 
     };

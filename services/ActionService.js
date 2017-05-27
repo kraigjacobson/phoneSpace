@@ -15,8 +15,7 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
             }
         }
 
-        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath(DataService.images.black);
         // for testing inventory screen
         // var item = GenerateService.generateItem();
         // InventoryService.inventory.unshift(item);

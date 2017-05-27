@@ -162,7 +162,8 @@ app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, 
     $scope.itemIndex = ItemService.currentItemIndex;
     $scope.Math = window.Math;
     $scope.amenities = DataService.amenities;
-    $scope.state = $state.current.name;
+    $scope.currentState = $state.current.name;
+    $scope.state = $state;
     $scope.action = ActionService;
     $scope.policies = GenerateService.getInsuranceRates();
     $scope.getPolicy = GenerateService.generateInsurancePolicy;

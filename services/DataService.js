@@ -125,7 +125,8 @@ app.service('DataService', function() {
             armor: ['armor.png'],
             cargoHold: ['shield.png']
         },
-        blank: 'blank.png'
+        blank: 'blank.png',
+        black: 'black.png'
 
     };
 
