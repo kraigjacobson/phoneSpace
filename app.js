@@ -66,6 +66,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/casino.html'
         })
 
+        .state('blackjack', {
+            url: '/blackjack',
+            templateUrl: 'partials/blackjack.html'
+        })
+
         .state('bounty-office', {
             url: '/bounty-office',
             templateUrl: 'partials/bounty-office.html'
@@ -103,14 +108,13 @@ app.run(function($transitions, $location, $window, GenerateService, InventorySer
 app.controller('MainController', function( $scope, $rootScope ){
 
     $rootScope.starfield = false;
-    $rootScope.label = "Station";
 
 });
 
 app.controller('ViewscreenController', function( $scope, $rootScope, UtilService, DataService ){
     $("#starfield").hide();
-    if(!$rootScope.foreground) {
-        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
+    if(!$rootScope.background) {
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
     }
 
     $scope.$on('getBackground', function (event, args) {
@@ -128,20 +132,15 @@ app.controller('ActionController', function( $scope, $rootScope, $state, ActionS
     $rootScope.investigated = true;
     $scope.stats = DataService.stats;
     $scope.state = $state;
-
+    $rootScope.station = true;
     $scope.action = ActionService;
-
-    $scope.merchant = function () {
-
-    };
-
     $scope.investigate = function () {
         UniverseService.investigation();
     };
 
 });
 
-app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, ModalService, DataService, ActionService, ItemService, InventoryService, GenerateService ){
+app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, BlackjackService, ModalService, DataService, ActionService, ItemService, InventoryService, GenerateService ){
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
@@ -169,6 +168,8 @@ app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, 
     $scope.getPolicy = GenerateService.generateInsurancePolicy;
     $scope.policy = DataService.policy;
     $scope.station = DataService.station;
+    $scope.bounties = InventoryService.bounties;
+    $scope.blackjack = BlackjackService;
 
 });
 

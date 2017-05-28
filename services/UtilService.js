@@ -32,6 +32,17 @@ app.service('UtilService', function ($rootScope, DataService){
 
     };
 
+    this.timeNow = function () {
+        var d = new Date();
+        var year = (d.getFullYear() + 1256);
+        var month = d.getMonth();
+        var day = d.getDate();
+        var hour = d.getHours();
+        var minute = d.getMinutes();
+        var seconds = d.getSeconds();
+        return day + "-" + month + "-" + year + " " + hour + ":" + minute + ":" + seconds;
+    };
+
     this.getExperience = function (amt) {
 
         DataService.stats.experience += amt;

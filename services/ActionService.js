@@ -3,7 +3,7 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     var self = this;
 
     this.travel = function () {
-        // DataService.station = false;
+        $rootScope.station = false;
         $rootScope.label = "Warping";
         if (DataService.policy) {
             DataService.policy.daysLeft --;
@@ -103,12 +103,21 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
                 // damage hull
                 if ($rootScope.enemy.currentHull - damageRoll <= 0) {
                     $rootScope.enemy.currentHull = 0;
-                    var bounty = UtilService.random(1*DataService.stats.level,10*DataService.stats.level);
-                    DataService.stats.credits += bounty;
+                    var bounty = {
+                        target: $rootScope.enemy.name,
+                        bounty: UtilService.random(1*DataService.stats.level,10*DataService.stats.level),
+                        time: UtilService.timeNow()
+                    };
+                    if (InventoryService.bounties === null) {
+                        InventoryService.bounties = [bounty];
+                    } else {
+                        InventoryService.bounties.unshift(bounty);
+                    }
+                    DataService.stats.credits += bounty.bounty;
                     GenerateService.loot();
                     $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
                     DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for <span class='success'>" + damageRoll + "</span> and destroy them!");
-                    DataService.log.unshift("A bounty of <span class='gold'>" + bounty + "Ᵽ" + "</span> has been transferred to your account.");
+                    DataService.log.unshift("You have been awarded a bounty voucher. See a bounty office to claim.");
                     UtilService.getExperience($rootScope.enemy.experience);
                     $rootScope.currentState = "nothing";
                 } else {
@@ -169,8 +178,6 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     this.escape = function () {
         enemyRoll = UtilService.random(1,($rootScope.enemy.ship.accuracy + $rootScope.enemy.ship.speed) / 2);
         playerRoll = UtilService.random(1,(DataService.stats.piloting + DataService.stats.speed) / 2);
-        console.log('enemyRoll',enemyRoll);
-        console.log('playerRoll',playerRoll);
 
         if (playerRoll > enemyRoll) {
             DataService.log.unshift("You escape with your life!");
@@ -218,9 +225,18 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     };
 
     this.casino = function () {
-        $state.go('casino');
-        $rootScope.label = "Casino";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino)) });
+        if (DataService.stats.credits > 30) {
+            $state.go('casino');
+            $rootScope.label = "Casino";
+            $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino)) });
+        } else {
+            $rootScope.label = "Casino";
+            $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino)) });
+            setTimeout(function () {
+                self.amenities();
+                alert("Get lost space rat, come back when you've got some creds!");
+            }, 500)
+        }
     };
 
     this.partInstallation = function () {
@@ -245,6 +261,20 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
         $state.go('amenities');
         $rootScope.label = "Station";
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.amenities)) });
+    };
+
+    this.collectBounties = function () {
+        var totalBounties = 0;
+        console.log('totalBounties',totalBounties);
+        angular.forEach(InventoryService.bounties, function(value, key) {
+            console.log('key',key);
+            console.log('value',value);
+            totalBounties += value.bounty;
+        });
+        DataService.stats.credits += totalBounties;
+        InventoryService.bounties = null;
+        alert('you collected ' + totalBounties + '.');
+        $state.reload();
     };
 
 });

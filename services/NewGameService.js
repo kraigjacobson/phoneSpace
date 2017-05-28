@@ -1,4 +1,4 @@
-app.service('NewGameService', function( $rootScope, DataService, GenerateService, InventoryService, UniverseService, UtilService ){
+app.service('NewGameService', function( $rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService ){
     
     this.init = function () {
 
@@ -32,11 +32,10 @@ app.service('NewGameService', function( $rootScope, DataService, GenerateService
         stats.currentHull += stats.hull;
         stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
-        DataService.station = true;
-
         DataService.policy = null;
-
         UniverseService.event('station');
+
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
 
     };
 

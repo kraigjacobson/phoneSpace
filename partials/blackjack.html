@@ -1,0 +1,24 @@
+<div ng-controller="ConsoleController">
+    <h5>Blackjack</h5>
+    <div class="span-12">
+        <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.raise()">Raise Bet</button>
+        <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.lower()">Lower Bet</button>
+        <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.deal()">Deal</button>
+        <button class="btn" ng-if="blackjack.dealt" ng-click="blackjack.stay()">Stay</button>
+        <button class="btn" ng-if="blackjack.dealt" ng-click="blackjack.hit('me')">Hit</button>
+        <button class="btn" ng-if="blackjack.dealt&&blackjack.myTotal===11&&blackjack.me.length===2" ng-click="blackjack.doubleDown()">Double Down</button>
+    </div>
+    <p>Bet: {{blackjack.bet}}</p>
+    <div class="col-xs-6">
+        <p>Dealer's Cards</p>
+        <p ng-if="blackjack.stayed||!blackjack.dealt">Total: {{ blackjack.dealerTotal }}</p>
+        <span style="margin-right:3px;" ng-if="!blackjack.stayed&&blackjack.dealt">{{blackjack.dealer[0][0]}}<span ng-bind-html="blackjack.dealer[0][2]"></span></span>
+        <span style="margin-right:3px;" ng-if="!blackjack.stayed&&blackjack.dealt">?</span>
+        <span style="margin-right:3px;" ng-if="blackjack.stayed||!blackjack.dealt" ng-repeat="card in blackjack.dealer">{{card[0]}}<span ng-bind-html="card[2]"></span></span>
+    </div>
+    <div class="col-xs-6">
+        <p>My Cards</p>
+        <p>Total: {{ blackjack.myTotal }}</p>
+        <span style="margin-right:3px;" ng-repeat="card in blackjack.me">{{card[0]}}<span ng-bind-html="card[2]"></span></span>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 <div ng-controller="ConsoleController">
-    <h3>Bounty Office</h3>
-    <p>
-        <button class="btn" ng-click="action.amenities()">Leave</button>
-    </p>
+    <p ng-if="!bounties" class="text-center">You have no bounty vouchers.</p>
+    <p ng-if="bounties" ng-repeat="bounty in bounties">Target: {{bounty.target}} | Bounty: {{bounty.bounty | currency:"Ᵽ"}} | Time: {{bounty.time}}</p>
+    <button class="btn" ng-if="bounties" ng-click="action.collectBounties()">Collect Bounties</button>
+    <button class="btn" ng-click="action.amenities()">Leave</button>
 </div>

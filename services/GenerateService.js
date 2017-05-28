@@ -121,6 +121,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
         var o = {};
         var randomShip = UtilService.randomFromArray(Object.keys(DataService.ships));
+        o.name = self.generateFullName();
         o.ship = DataService.ships[randomShip];
         o.currentShield = o.ship.shield;
         o.currentHull = o.ship.hull;

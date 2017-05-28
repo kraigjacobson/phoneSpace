@@ -8,6 +8,8 @@ app.service("InventoryService", function(  ) {
 
     this.myShip = {};
 
+    this.bounties = null;
+
     this.componentInventory = {
 
         wiringHarness: 20,

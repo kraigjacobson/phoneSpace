@@ -15,6 +15,7 @@
     <script src="app.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="services/ActionService.js"></script>
+    <script src="services/CasinoService.js"></script>
     <script src="services/DataService.js"></script>
     <script src="services/GenerateService.js"></script>
     <script src="services/InventoryService.js"></script>
@@ -55,7 +56,7 @@
         <div class="row">
             <div id="actions" class="span-12 partial" ng-controller="ActionController">
                 <button class="btn col" ng-click="action.travel()" ng-hide="currentState === 'combat'" ng-disabled="starfield">Travel</button>
-                <button class="btn col" ng-click="action.amenities()" ng-if="currentState==='station'" ng-disabled="starfield">Amenities</button>
+                <button class="btn col" ng-click="action.amenities()" ng-if="station" ng-disabled="starfield">Amenities</button>
                 <button class="btn col" ng-click="state.go('buy')" ng-if="currentState==='merchant'" ng-disabled="starfield">Buy</button>
                 <button class="btn col" ng-click="state.go('sell')" ng-if="currentState==='merchant'" ng-disabled="starfield">Sell</button>
                 <button class="btn col" ng-click="action.repair()" ng-if="currentState==='station' && stats.currentHull < stats.hull" ng-disabled="starfield">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</button>

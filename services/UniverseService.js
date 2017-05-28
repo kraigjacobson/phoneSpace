@@ -2,12 +2,11 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
 
     var self = this;
 
-    $rootScope.currentState = "station";
-
     this.event = function (forcedEvent) {
 
         if (!forcedEvent) {
             var roll = UtilService.random(1,55);
+            // var roll = UtilService.random(1,10);
             // var roll = 28;
         }
 
@@ -17,9 +16,9 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         } else if (roll <= 15 || forcedEvent === 'opportunity') {
             $rootScope.currentState = "opportunity";
             self.opportunity();
-        // } else if (roll <= 20 || forcedEvent === 'merchant') {
-        //     $rootScope.currentState = "merchant";
-        //     self.merchant();
+        } else if (roll <= 20 || forcedEvent === 'merchant') {
+            $rootScope.currentState = "merchant";
+            self.merchant();
         } else if (roll <= 22 || forcedEvent === 'ship issue') {
             var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
             if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
@@ -29,7 +28,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
                 self.shipIssue(randomShipPart);
             }
         } else if (roll <= 30 || forcedEvent === 'station') {
-            $rootScope.currentState = "station";
+            $rootScope.station = true;
             self.station();
         } else if (roll <= 40 || forcedEvent === 'planet') {
             $rootScope.currentState = "planet";
@@ -101,12 +100,12 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             var item = GenerateService.generateItem('any',.3);
             tempArray.unshift(item);
         }
-
         InventoryService.merchantInventory = tempArray;
         DataService.log.unshift('You arrive at a station.');
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.label = "Station";
+        $state.go('station');
     };
 
     this.planet = function() {
@@ -117,12 +116,11 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     };
 
     this.combat = function() {
-        var enemyName = GenerateService.generateFullName();
         $rootScope.enemy = GenerateService.generateEnemy();
-        DataService.log.unshift("You are attacked by " + enemyName + ".");
+        DataService.log.unshift("You are attacked by " + $rootScope.enemy.name + ".");
         $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
         $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath($rootScope.enemy.ship.img) });
-        $rootScope.label = "Pirate: " + enemyName;
+        $rootScope.label = "Pirate: " + $rootScope.enemy.name;
 
     };
 
