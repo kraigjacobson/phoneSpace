@@ -229,7 +229,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
     };
 
     this.casino = function () {
-        if (DataService.stats.credits > 30) {
+        if (DataService.stats.credits >= 5) {
             $state.go('casino');
             $rootScope.label = "Casino";
             $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));

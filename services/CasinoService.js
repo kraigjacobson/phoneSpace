@@ -32,10 +32,14 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
     };
 
     this.deal = function () {
-        if (self.bet > DataService.stats.credits) {
+        if (5 > DataService.stats.credits) {
             alert("You don't have enough credits. Get out of here until you do!");
             ActionService.amenities();
             $state.go('amenities');
+            return;
+        }
+        if (self.bet > DataService.stats.credits) {
+            alert("You don't have enough credits. Reduce your bet.");
             return;
         }
 
