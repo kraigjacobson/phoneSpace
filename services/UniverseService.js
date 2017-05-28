@@ -99,7 +99,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         }
         InventoryService.merchantInventory = tempArray;
         $rootScope.stationName = GenerateService.generateStationName();
-        DataService.log.unshift('You arrive at a station.');
+        DataService.log.unshift('You arrive at '+$rootScope.stationName+'.');
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.label = $rootScope.stationName;

@@ -70,16 +70,15 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
         $state.go('log').then(function () {
 
             $rootScope.label = "scanning...";
+            $rootScope.investigated = true;
             $timeout(function () {
                 var roll = UtilService.random(1,5);
 
                 if (roll === 5) {
                     DataService.log.unshift("<span class='danger'>It's a trap!</span>");
                     UniverseService.event('combat');
-                    $rootScope.investigated = true;
                 } else {
                     GenerateService.loot();
-                    $rootScope.investigated = true;
                     $rootScope.label = "wrecked ship...";
                 }
             }, 2000);

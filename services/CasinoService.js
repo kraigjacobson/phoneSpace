@@ -34,6 +34,7 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
     this.deal = function () {
         if (self.bet > DataService.stats.credits) {
             alert("You don't have enough credits. Get out of here until you do!");
+            ActionService.amenities();
             $state.go('amenities');
             return;
         }
@@ -77,7 +78,7 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
                 DataService.stats.credits -= self.bet;
                 self.dealt = false;
             } else if (self.myTotal === 21) {
-                self.stay();
+                alert('21! You should probably stay.');
             }
         }
 
@@ -127,7 +128,11 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
 
     this.raise = function () {
         var amt = 5;
-        self.bet += amt;
+        if (self.bet + amt > DataService.stats.credits) {
+            alert("You don't have that much.");
+        } else {
+            self.bet += amt;
+        }
     };
 
     this.lower = function () {
