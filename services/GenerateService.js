@@ -4,6 +4,12 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
     this.generateFullName = function() {
 
+        return self.generateName() + " " + self.generateName();
+
+    };
+
+    this.generateName = function() {
+
         var buildName = function () {
             var number = UtilService.random(2,5);
             var name = "";
@@ -20,13 +26,26 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             return name;
         };
 
-        var fullName = capitalizeFirstLetter(buildName())  + " " + capitalizeFirstLetter(buildName());
-
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-        return (fullName);
+        return capitalizeFirstLetter(buildName());
+
+    };
+
+    this.generateStationName = function () {
+
+        var roll = UtilService.random(1,3);
+        if (roll===1) {
+            var type = 'Station';
+        } else if (roll===2) {
+            var type = 'Outpost';
+        } else {
+            var type = 'Orbital';
+        }
+
+        return self.generateName() + " " + type;
 
     };
 

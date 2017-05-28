@@ -38,8 +38,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             self.combat();
         } else {
             $rootScope.currentState = "nothing";
-            $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
-            $rootScope.$broadcast('getForeground', { image: '' });
+            $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+            $rootScope.foreground = '';
             $rootScope.label = "Deep Space";
         }
 
@@ -48,7 +48,7 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.weird = function() {
 
         DataService.log.unshift(UtilService.randomFromArray(DataService.text.weird));
-        $rootScope.$broadcast('getBackground', { image: null });
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.label = "Deep Space";
 
     };
@@ -63,8 +63,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         InventoryService.merchantInventory = tempArray;
         var merchantName = GenerateService.generateFullName();
         DataService.log.unshift("You come across a merchant named " + merchantName + ".");
-        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("merchant.png") });
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath("merchant.png");
         $rootScope.label = "Merchant: " + merchantName;
 
     };
@@ -72,8 +72,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.opportunity = function() {
         $rootScope.investigated = false;
         DataService.log.unshift("You come across a wrecked ship floating in space.");
-        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.wrecks)) });
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.wrecks));
         $rootScope.label = "Wrecked Ship";
     };
 
@@ -86,8 +86,8 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
         InventoryService.myShip[randomShipPart].currentEffectiveness -= damage.penalty;
         InventoryService.myShip[randomShipPart].currentValue - damage.penalty*partItemLevel < 0 ? InventoryService.myShip[randomShipPart].currentValue = 0 : Math.floor(InventoryService.myShip[randomShipPart].currentValue -= damage.penalty*partItemLevel);
         DataService.log.unshift('Your ' + randomShipPart + ' has malfunctioned and needs new parts!');
-        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(DataService.images.blank) });
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath(DataService.images.blank);
         $rootScope.label = "Deep Space";
     };
 
@@ -101,25 +101,26 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
             tempArray.unshift(item);
         }
         InventoryService.merchantInventory = tempArray;
+        $rootScope.stationName = GenerateService.generateStationName();
         DataService.log.unshift('You arrive at a station.');
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
-        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
-        $rootScope.label = "Station";
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.label = $rootScope.stationName;
         $state.go('station');
     };
 
     this.planet = function() {
         DataService.log.unshift('You arrive at a planet.');
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.planets)) });
-        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.planets));
         $rootScope.label = "Planet";
     };
 
     this.combat = function() {
         $rootScope.enemy = GenerateService.generateEnemy();
         DataService.log.unshift("You are attacked by " + $rootScope.enemy.name + ".");
-        $rootScope.$broadcast('getBackground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space)) });
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath($rootScope.enemy.ship.img) });
+        $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
+        $rootScope.foreground = UtilService.getImagePath($rootScope.enemy.ship.img);
         $rootScope.label = "Pirate: " + $rootScope.enemy.name;
 
     };

@@ -1,4 +1,4 @@
-app.service('ActionService', function($rootScope, $state, NewGameService, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, $timeout){
+app.service('ActionService', function($rootScope, $timeout, $state, NewGameService, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService){
 
     var self = this;
 
@@ -16,7 +16,7 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
             }
         }
 
-        $rootScope.foreground = UtilService.getImagePath(DataService.images.black);
+        $rootScope.foreground = UtilService.getImagePath(DataService.images.blank);
         // for testing inventory screen
         // var item = GenerateService.generateItem();
         // InventoryService.inventory.unshift(item);
@@ -68,16 +68,21 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     this.investigate = function () {
 
         $state.go('log').then(function () {
-            var roll = UtilService.random(1,5);
 
-            if (roll === 5) {
-                DataService.log.unshift("<span class='danger'>It's a trap!</span>");
-                UniverseService.event('combat');
-                $rootScope.investigated = true;
-            } else {
-                GenerateService.loot();
-                $rootScope.investigated = true;
-            }
+            $rootScope.label = "scanning...";
+            $timeout(function () {
+                var roll = UtilService.random(1,5);
+
+                if (roll === 5) {
+                    DataService.log.unshift("<span class='danger'>It's a trap!</span>");
+                    UniverseService.event('combat');
+                    $rootScope.investigated = true;
+                } else {
+                    GenerateService.loot();
+                    $rootScope.investigated = true;
+                    $rootScope.label = "wrecked ship...";
+                }
+            }, 2000);
 
         });
 
@@ -115,7 +120,7 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
                     }
                     DataService.stats.credits += bounty.bounty;
                     GenerateService.loot();
-                    $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
+                    $rootScope.foreground = UtilService.getImagePath("explosion.jpg");
                     DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for <span class='success'>" + damageRoll + "</span> and destroy them!");
                     DataService.log.unshift("You have been awarded a bounty voucher. See a bounty office to claim.");
                     UtilService.getExperience($rootScope.enemy.experience);
@@ -154,7 +159,7 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
                 } else {
                     // damage hull
                     if (DataService.stats.currentHull - damageRoll <= 0) {
-                        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath("explosion.jpg") });
+                        $rootScope.foreground = UtilService.getImagePath("explosion.jpg");
                         DataService.log.unshift("<span class='danger'>You were killed by " + $rootScope.enemy.ship.name + "</span>!");
                         if (DataService.policy) {
                             alert('Ᵽ' + DataService.policy.coverage + ' is transferred to your account from your insurance policy.');
@@ -203,35 +208,35 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     this.insurance = function () {
         $state.go('insurance');
         $rootScope.label = "Insurance";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.insurance)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.insurance));
     };
 
     this.stockBrokerage = function () {
         $state.go('stock-brokerage');
         $rootScope.label = "Stock Brokerage";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stockBrokerage)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stockBrokerage));
     };
 
     this.bountyOffice = function () {
         $state.go('bounty-office');
         $rootScope.label = "Bounty Office";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.bountyOffice)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.bountyOffice));
     };
 
     this.nightClub = function () {
         $state.go('night-club');
         $rootScope.label = "Night Club";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.nightClub)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.nightClub));
     };
 
     this.casino = function () {
         if (DataService.stats.credits > 30) {
             $state.go('casino');
             $rootScope.label = "Casino";
-            $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino)) });
+            $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
         } else {
             $rootScope.label = "Casino";
-            $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino)) });
+            $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
             setTimeout(function () {
                 self.amenities();
                 alert("Get lost space rat, come back when you've got some creds!");
@@ -242,25 +247,25 @@ app.service('ActionService', function($rootScope, $state, NewGameService, ModalS
     this.partInstallation = function () {
         $state.go('installation');
         $rootScope.label = "Hangar";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket));
     };
 
     this.reprocessing = function () {
         $state.go('reprocessing');
         $rootScope.label = "Reprocessing";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket));
     };
 
     this.market = function () {
         $state.go('buy');
         $rootScope.label = "Market";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.usedMarket)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.usedMarket));
     };
 
     this.amenities = function () {
         $state.go('amenities');
         $rootScope.label = "Station";
-        $rootScope.$broadcast('getForeground', { image: UtilService.getImagePath(UtilService.randomFromArray(DataService.images.amenities)) });
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.amenities));
     };
 
     this.collectBounties = function () {

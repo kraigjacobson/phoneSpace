@@ -60,7 +60,7 @@
                 <button class="btn col" ng-click="state.go('buy')" ng-if="currentState==='merchant'" ng-disabled="starfield">Buy</button>
                 <button class="btn col" ng-click="state.go('sell')" ng-if="currentState==='merchant'" ng-disabled="starfield">Sell</button>
                 <button class="btn col" ng-click="action.repair()" ng-if="currentState==='station' && stats.currentHull < stats.hull" ng-disabled="starfield">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</button>
-                <button class="btn col" ng-click="action.investigate()" ng-if="investigated === false" ng-disabled="starfield">Investigate</button>
+                <button class="btn col" ng-click="action.investigate()" ng-if="investigated === false" ng-disabled="starfield">Scan</button>
                 <button class="btn col" ng-click="action.attack()" ng-if="currentState === 'combat'" ng-disabled="starfield">Attack</button>
                 <button class="btn col" ng-click="action.escape()" ng-if="currentState === 'combat'" ng-disabled="starfield">Escape</button>
             </div>
