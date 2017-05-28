@@ -5,21 +5,18 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
     this.event = function (forcedEvent) {
 
         if (!forcedEvent) {
-            var roll = UtilService.random(1,55);
+            var roll = UtilService.random(1,33);
             // var roll = UtilService.random(1,10);
             // var roll = 28;
         }
 
-        if (roll <= 5 || forcedEvent === 'wierd') {
+        if (roll <= 2 || forcedEvent === 'wierd') {
             $rootScope.currentState = "weird";
             self.weird();
-        } else if (roll <= 15 || forcedEvent === 'opportunity') {
+        } else if (roll <= 12 || forcedEvent === 'opportunity') {
             $rootScope.currentState = "opportunity";
             self.opportunity();
-        } else if (roll <= 20 || forcedEvent === 'merchant') {
-            $rootScope.currentState = "merchant";
-            self.merchant();
-        } else if (roll <= 22 || forcedEvent === 'ship issue') {
+        } else if (roll <= 14 || forcedEvent === 'ship issue') {
             var randomShipPart = UtilService.randomFromArray(Object.keys(InventoryService.myShip));
             if (InventoryService.myShip[randomShipPart].componentsNeeded.length !== 0) {
                 self.event();
@@ -27,13 +24,13 @@ app.service('UniverseService', function($rootScope, $state, UtilService, DataSer
                 $rootScope.currentState = "ship issue";
                 self.shipIssue(randomShipPart);
             }
-        } else if (roll <= 30 || forcedEvent === 'station') {
+        } else if (roll <= 22 || forcedEvent === 'station') {
             $rootScope.station = true;
             self.station();
-        } else if (roll <= 40 || forcedEvent === 'planet') {
+        } else if (roll <= 24 || forcedEvent === 'planet') {
             $rootScope.currentState = "planet";
             self.planet();
-        } else if (roll <= 50 || forcedEvent === 'combat') {
+        } else if (roll <= 30 || forcedEvent === 'combat') {
             $rootScope.currentState = "combat";
             self.combat();
         } else {
