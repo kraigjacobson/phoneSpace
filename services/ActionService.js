@@ -263,7 +263,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.amenities = function () {
         $state.go('amenities');
-        $rootScope.label = "Station";
+        $rootScope.label = $rootScope.stationName;
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.amenities));
     };
 
