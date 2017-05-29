@@ -74,7 +74,7 @@ body {
 }
 #console-inner {
     border-top:1px solid #595959;
-    height:163px;
+    height:200px;
     padding:5px 15px 5px;
     border-radius:0 0 6px 6px;
     overflow-y: auto;

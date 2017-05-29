@@ -12,6 +12,7 @@
                 <p>Ship: {{ stats.ship }}</p>
                 <p>Exp: {{ stats.experience }}</p>
                 <p>Repair Parts: {{ stats.repairParts }}</p>
+                <p ng-if="bounties">Open Bounties: {{ bounties.length }}</p>
                 <p ng-if="policy">Insurance: {{policy.policyType | titlecase}}<br/>Days Left: <span ng-class="policy.daysLeft < policy.daysCovered * 0.1 ? 'danger' : ''">{{policy.daysLeft}}</span></p>
             </div>
             <div class="col-xs-6">

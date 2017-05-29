@@ -67,7 +67,6 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
         $state.go('log').then(function () {
 
-            $rootScope.label = "Scanning...";
             $rootScope.status.two = 'scanning';
             $rootScope.investigated = true;
             $timeout(function () {

@@ -74,12 +74,12 @@
                         <li ui-sref="inventory-selection" ui-sref-active="active">Inventory</li>
                         <li ui-sref="" ui-sref-active="active">Map?</li>
                     </ul>
-                    <!--{{status}}-->
+                    {{status}}
                     <ul id="station-sub-menu" class="sub-menu">
                         <li ng-hide="status.one==='warping' || status.two==='scanning' || status.two==='fighting' || status.two==='amenity' || status.two==='amenities'" ng-click="action.travel()">Travel</li>
                         <li ng-if="status.one==='station' && status.two==='orbit'" ng-click="action.dockingBay()">Dock</li>
                         <li ng-if="investigated === false && status.one==='opportunity' || investigated === false && (status.one==='combat' && status.two==='win')" ng-click="action.investigate()">Scan</li>
-                        <li ng-if="status.one==='station'&&status.two!=='orbit'&&status.two!=='amenities'" ng-click="action.amenities()">Amenities</li>
+                        <li ng-if="status.one==='station'&&status.two!=='orbit'&&status.two!=='amenities'" ng-click="action.amenities()">{{status.two==='amenity'?'Leave':'Services'}}</li>
                         <li ng-if="status.two==='amenities'" ng-click="action.dockingBay()">Docking Bay</li>
                         <li ng-if="status.two==='scanning'">Scanning...</li>
                         <li ng-if="status.one==='warping'">Warping...</li>
