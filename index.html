@@ -71,10 +71,11 @@
                     <ul>
                         <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
                         <li ui-sref="stats" ui-sref-active="active">Stats</li>
-                        <li ui-sref="inventory-selection" ui-sref-active="active">Inventory</li>
+                        <li ng-click="action.cargoInventory()">Cargo</li>
+                        <li ng-click="action.shipInventory()">Ship</li>
                         <li ui-sref="" ui-sref-active="active">Map?</li>
                     </ul>
-                    {{status}}
+                    <!--{{status}}-->
                     <ul id="station-sub-menu" class="sub-menu">
                         <li ng-hide="status.one==='warping' || status.two==='scanning' || status.two==='fighting' || status.two==='amenity' || status.two==='amenities'" ng-click="action.travel()">Travel</li>
                         <li ng-if="status.one==='station' && status.two==='orbit'" ng-click="action.dockingBay()">Dock</li>
@@ -85,7 +86,7 @@
                         <li ng-if="status.one==='warping'">Warping...</li>
                         <li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.attack()">Attack</li>
                         <li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.escape()">Escape</li>
-                        <li ng-if="status.two==='repair'" ng-click="action.repair()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>
+                        <li ng-if="status.three==='repair'&&stats.hull - stats.currentHull > 0" ng-click="action.repairShip()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>
 
                         <!--market-->
                         <li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>
@@ -93,7 +94,16 @@
 
                         <!--bounties-->
                         <li ng-if="bounties && status.three==='bounty-office'" ng-click="action.collectBounties()">Collect</li>
+
+                        <!--inventory-->
+                        <li ng-if="status.three === 'inventory'" ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory">Cargo</li>
+                        <li ng-if="status.three === 'inventory'" ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory">Ship</li>
                     </ul>
+                    <!--<ul id="inventory-sub-menu" class="sub-menu">-->
+                        <!--&lt;!&ndash;inventory&ndash;&gt;-->
+                        <!--<li ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory()">Cargo</li>-->
+                        <!--<li ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory()">Ship</li>-->
+                    <!--</ul>-->
                 </div>
                 <div id="console-inner" class="console col-sm-12">
                     <ui-view></ui-view>

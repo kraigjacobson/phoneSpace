@@ -192,7 +192,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     };
 
-    this.repair = function () {
+    this.repairShip = function () {
     var cost = (DataService.stats.hull - DataService.stats.currentHull) * 5;
         if (DataService.stats.credits < cost) {
             alert('You need ' + cost + 'Ᵽ to repair your ship.');
@@ -294,6 +294,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.dockingBay = function () {
         $rootScope.status.two = 'docked';
+        $rootScope.status.three = null;
         $state.go('docking-bay');
         $rootScope.label = $rootScope.stationName + " | Docking Bay";
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.dockingBay));
@@ -311,6 +312,25 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
         $rootScope.bounties = null;
         alert('you collected ' + totalBounties + '.');
         $state.reload();
+    };
+
+    this.repair = function () {
+        $rootScope.status.three = 'repair';
+        $state.go('repair');
+        $rootScope.label = $rootScope.stationName + " | Ship Repairs";
+        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.repair));
+    };
+
+    this.inventory = function () {
+        $state.go('inventory');
+    };
+
+    this.cargoInventory = function () {
+        $state.go('inventory');
+    };
+
+    this.shipInventory = function () {
+        $state.go('ship');
     };
 
 });

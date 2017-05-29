@@ -27,7 +27,7 @@ app.service('DataService', function() {
     };
 
     this.amenities = [
-        'market', 'insurance', 'stockBrokerage', 'partInstallation', 'casino', 'nightClub', 'bountyOffice', 'reprocessing'
+        'market', 'insurance', 'stockBrokerage', 'partInstallation', 'casino', 'nightClub', 'bountyOffice', 'reprocessing', 'repair'
     ];
 
     this.policy = {};
@@ -108,6 +108,9 @@ app.service('DataService', function() {
         ],
         amenities: [
             'amenities.jpg'
+        ],
+        repair: [
+            'repair.jpg'
         ],
         characters: [
             'alien1.png'

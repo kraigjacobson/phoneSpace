@@ -91,6 +91,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/stock-brokerage.html'
         })
 
+        .state('repair', {
+            url: '/repair',
+            templateUrl: 'partials/repair.html'
+        })
+
         .state('insurance', {
             url: '/insurance',
             templateUrl: 'partials/insurance.html'
@@ -134,7 +139,7 @@ app.controller('ActionController', function( $scope, $rootScope, $state, Invento
     $scope.investigate = function () {
         UniverseService.investigation();
     };
-    $scope.currentState = $state.current.name;
+    $scope.currentState = $state.current;
 
 });
 
@@ -159,7 +164,7 @@ app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, 
     $scope.itemIndex = ItemService.currentItemIndex;
     $scope.Math = window.Math;
     $scope.amenities = DataService.amenities;
-    $scope.currentState = $state.current;
+    $scope.currentState = $state.current.name;
     $scope.state = $state;
     $scope.action = ActionService;
     $scope.policies = GenerateService.getInsuranceRates();
