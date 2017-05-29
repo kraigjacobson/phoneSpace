@@ -1,5 +1,5 @@
 <div ng-controller="ConsoleController">
-    <h5>Blackjack</h5>
+    <p class="text-center">{{ blackjack.message }}</p>
     <div class="span-12">
         <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.raise()">Raise Bet</button>
         <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.lower()">Lower Bet</button>

@@ -103,6 +103,9 @@ app.service('DataService', function() {
         insurance: [
             'insurance.jpg'
         ],
+        dockingBay: [
+            'docking-bay.jpg'
+        ],
         amenities: [
             'amenities.jpg'
         ],
@@ -119,7 +122,7 @@ app.service('DataService', function() {
         components: {
             weapon: ['weapon.jpg'],
             targetingChip: ['targeting.png'],
-            hyperdrive: ['drive.png'],
+            hyperdrive: ['drive.PNG'],
             thrusters: ['thruster.png'],
             shieldCell: ['shield.png'],
             armor: ['armor.png'],
@@ -182,7 +185,5 @@ app.service('DataService', function() {
         resonanceIsolator: new self.component('scarce',200),
         tachyonFilament: new self.component('scarce',200)
     };
-
-    this.station = true;
 
 });

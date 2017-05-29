@@ -39,10 +39,11 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
             return;
         }
         if (self.bet > DataService.stats.credits) {
-            alert("You don't have enough credits. Reduce your bet.");
+            self.message = "You don't have enough credits. Reduce your bet.";
             return;
         }
 
+        self.message = "Your turn";
         self.dealt = true;
         this.stayed = false;
         self.currentDeck = self.deck.slice();
@@ -56,9 +57,9 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
         self.getTotals('me');
 
         if (self.dealerTotal===21 && self.myTotal===21) {
-            alert('You push.');
+            self.message = 'You push.';
         } else if (self.myTotal===21) {
-            alert('Blackjack!!!');
+            self.message = 'Blackjack!!!';
             DataService.stats.credits += self.bet*1.5;
             this.dealt = false;
         }
@@ -71,18 +72,18 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
         if (hand==='dealer') {
             self.dealerTotal = self.getTotals(hand);
             if (self.dealerTotal > 21) {
-                alert('Dealer busted!');
+                self.message = 'Dealer busts. You win!';
                 DataService.stats.credits += self.bet;
                 self.dealt = false;
             }
         } else {
             self.myTotal = self.getTotals(hand);
             if (self.myTotal > 21) {
-                alert('You busted!');
+                self.message = 'You busted!';
                 DataService.stats.credits -= self.bet;
                 self.dealt = false;
             } else if (self.myTotal === 21) {
-                alert('21! You should probably stay.');
+                self.message = '21! You should probably stay.';
             }
         }
 
@@ -95,14 +96,14 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
             self.hit('dealer');
         }
         if (self.dealerTotal > 21 || self.dealerTotal < self.myTotal) {
-            alert('You win!!!');
+            self.message = 'You win!';
             DataService.stats.credits += self.bet;
             self.dealt = false;
         } else if (self.dealerTotal === self.myTotal) {
-            alert('You push.');
+            self.message = 'You push.';
             self.dealt = false;
         } else {
-            alert('You lose!');
+            self.message = 'You lose!';
             DataService.stats.credits -= self.bet;
             self.dealt = false;
         }
@@ -133,7 +134,7 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
     this.raise = function () {
         var amt = 5;
         if (self.bet + amt > DataService.stats.credits) {
-            alert("You don't have that much.");
+            self.message = "You don't have enough credits.";
         } else {
             self.bet += amt;
         }
@@ -142,18 +143,22 @@ app.service('BlackjackService', function($state, ActionService, DataService, Uti
     this.lower = function () {
         var amt = 5;
         if (self.bet - amt < 5) {
-            alert('Minimum bet is 5');
+            self.message = 'Minimum bet is 5';
         } else {
             self.bet -= amt;
         }
-    }
+    };
 
     this.doubleDown = function () {
-        self.bet += self.bet;
-        self.hit('me');
-        if (self.myTotal < 21) {
+        if (self.bet * 2 > DataService.stats.credits) {
+            self.message = "You don't have enough credits for that.";
+        } else {
+            self.bet += self.bet;
+            self.hit('me');
             self.stay();
-        };
-    }
+        }
+    };
+
+    this.message = 'Blackjack!';
 
 });

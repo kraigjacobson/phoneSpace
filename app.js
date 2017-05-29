@@ -51,6 +51,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/amenities.html'
         })
 
+        .state('docking-bay', {
+            url: '/docking-bay',
+            templateUrl: 'partials/docking-bay.html'
+        })
+
         .state('buy', {
             url: '/buy',
             templateUrl: 'partials/buy.html'
@@ -117,17 +122,9 @@ app.controller('ViewscreenController', function( $scope, $rootScope, UtilService
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
     }
 
-    $scope.$on('getBackground', function (event, args) {
-        $rootScope.background = args.image;
-    });
-
-    $scope.$on('getForeground', function (event, args) {
-        $rootScope.foreground = args.image;
-    });
-
 });
 
-app.controller('ActionController', function( $scope, $rootScope, $state, ActionService, UniverseService, DataService ){
+app.controller('ActionController', function( $scope, $rootScope, $state, InventoryService, ActionService, UniverseService, DataService ){
 
     $rootScope.investigated = true;
     $scope.stats = DataService.stats;
@@ -137,6 +134,7 @@ app.controller('ActionController', function( $scope, $rootScope, $state, ActionS
     $scope.investigate = function () {
         UniverseService.investigation();
     };
+    $scope.currentState = $state.current.name;
 
 });
 
@@ -161,14 +159,12 @@ app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, 
     $scope.itemIndex = ItemService.currentItemIndex;
     $scope.Math = window.Math;
     $scope.amenities = DataService.amenities;
-    $scope.currentState = $state.current.name;
+    $scope.currentState = $state.current;
     $scope.state = $state;
     $scope.action = ActionService;
     $scope.policies = GenerateService.getInsuranceRates();
     $scope.getPolicy = GenerateService.generateInsurancePolicy;
     $scope.policy = DataService.policy;
-    $scope.station = DataService.station;
-    $scope.bounties = InventoryService.bounties;
     $scope.blackjack = BlackjackService;
 
 });

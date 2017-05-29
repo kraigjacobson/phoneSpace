@@ -10,5 +10,6 @@
             <button class="btn btn-danger pull-right delete" ng-if="currentState==='reprocessing'" ng-click="recycle($index)">Recycle {{item.fullEffectiveness | currency: 'Ᵽ'}}</button>
             <button class="btn btn-danger pull-right delete" ng-if="currentState==='installation'" ng-click="fitToShip($index)">Install {{item.fullEffectiveness | currency: 'Ᵽ'}}</button>
         </p>
+        <button class="btn" ng-click="action.amenities()">Leave</button>
     </div>
 </div>

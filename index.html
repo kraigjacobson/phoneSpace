@@ -53,20 +53,6 @@
                 <div id="label" class="info partial">{{ label | titlecase }}</div>
             </div>
         </div>
-        <div class="row">
-            <div id="actions" class="span-12 partial" ng-controller="ActionController">
-                <button class="btn col" ng-click="action.travel()" ng-hide="currentState === 'combat'" ng-disabled="starfield">Travel</button>
-                <button class="btn col" ng-click="action.amenities()" ng-if="station" ng-disabled="starfield">Amenities</button>
-                <button class="btn col" ng-click="state.go('buy')" ng-if="currentState==='merchant'" ng-disabled="starfield">Buy</button>
-                <button class="btn col" ng-click="state.go('sell')" ng-if="currentState==='merchant'" ng-disabled="starfield">Sell</button>
-                <button class="btn col" ng-click="action.repair()" ng-if="currentState==='station' && stats.currentHull < stats.hull" ng-disabled="starfield">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</button>
-                <button class="btn col" ng-click="action.investigate()" ng-if="investigated === false" ng-disabled="starfield">Scan</button>
-                <button class="btn col" ng-click="action.attack()" ng-if="currentState === 'combat'" ng-disabled="starfield">Attack</button>
-                <button class="btn col" ng-click="action.escape()" ng-if="currentState === 'combat'" ng-disabled="starfield">Escape</button>
-            </div>
-        </div>
-
-
         <div ng-controller="ConsoleController">
             <div class="row">
                 <div class="span-12 info partial">
@@ -88,11 +74,26 @@
                         <li ui-sref="inventory-selection" ui-sref-active="active">Inventory</li>
                         <li ui-sref="" ui-sref-active="active">Map?</li>
                     </ul>
-                    <!--<ul id="console-buttons-2">-->
-                        <!--<li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>-->
-                        <!--<li ui-sref="stats" ui-sref-active="active">Stats</li>-->
-                        <!--<li ui-sref="inventory-selection" ui-sref-active="active">Inventory</li>-->
-                    <!--</ul>-->
+                    <!--{{status}}-->
+                    <ul id="station-sub-menu" class="sub-menu">
+                        <li ng-hide="status.one==='warping' || status.two==='scanning' || status.two==='fighting' || status.two==='amenity' || status.two==='amenities'" ng-click="action.travel()">Travel</li>
+                        <li ng-if="status.one==='station' && status.two==='orbit'" ng-click="action.dockingBay()">Dock</li>
+                        <li ng-if="investigated === false && status.one==='opportunity' || investigated === false && (status.one==='combat' && status.two==='win')" ng-click="action.investigate()">Scan</li>
+                        <li ng-if="status.one==='station'&&status.two!=='orbit'&&status.two!=='amenities'" ng-click="action.amenities()">Amenities</li>
+                        <li ng-if="status.two==='amenities'" ng-click="action.dockingBay()">Docking Bay</li>
+                        <li ng-if="status.two==='scanning'">Scanning...</li>
+                        <li ng-if="status.one==='warping'">Warping...</li>
+                        <li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.attack()">Attack</li>
+                        <li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.escape()">Escape</li>
+                        <li ng-if="status.two==='repair'" ng-click="action.repair()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>
+
+                        <!--market-->
+                        <li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>
+                        <li ng-if="status.three === 'market'" ng-class="status.four === 'sell'?'active':''" ng-click="action.sell()">Sell</li>
+
+                        <!--bounties-->
+                        <li ng-if="bounties && status.three==='bounty-office'" ng-click="action.collectBounties()">Collect</li>
+                    </ul>
                 </div>
                 <div id="console-inner" class="console col-sm-12">
                     <ui-view></ui-view>
@@ -100,7 +101,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 </body>

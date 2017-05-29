@@ -1,6 +1,5 @@
 <div ng-controller="ConsoleController">
     <div class="modal-inner">
-        <button class="btn btn-success fullwidth" ng-click="state.go('buy')" ng-if="currentState === 'sell'||currentState === 'merchant'">Switch to Buy</button>
         <p style="text-align: center;">Capacity: {{inventory.length}}/{{stats.capacity}}</p>
         <p ng-repeat="item in inventory track by $index">
             <i class="fa fa-arrow-up" ng-if="item.fullEffectiveness > myShip[item.type].fullEffectiveness"></i>

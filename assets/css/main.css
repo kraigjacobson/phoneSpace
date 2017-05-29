@@ -110,12 +110,15 @@ body {
     text-align:center;
     color: white;
 }
-#console-buttons-2 {
+.sub-menu {
     border-top:1px solid #595959;
 }
-#console-buttons-2 li {
+.sub-menu li {
     padding:5px !important;
     background-color: rgba(0,0,0,.5);
+}
+.sub-menu .active {
+    background-color: rgba(0,0,0,.9);
 }
 #console-buttons ul li:first-child:hover {
     border-radius:6px 0 0 0;

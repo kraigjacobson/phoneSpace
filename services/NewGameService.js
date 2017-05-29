@@ -2,6 +2,15 @@ app.service('NewGameService', function( $rootScope, $state, DataService, Generat
     
     this.init = function () {
 
+        $rootScope.status = {
+            one: 'station',
+            two: 'orbit',
+            three: null,
+            four: null
+        };
+
+        $rootScope.bounties = null;
+
         var ship = InventoryService.myShip;
         var stats = DataService.stats;
 
