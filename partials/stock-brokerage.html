@@ -1,3 +1,16 @@
 <div ng-controller="ConsoleController">
     <h3 class="text-center">Stock Brokerage</h3>
+    <p style="margin-bottom:8px;" ng-repeat="stock in stockMarket | orderBy : 'name'">
+        {{stock.ticker}}: {{stock.name | titlecase}}
+        <button class="btn btn-sm btn-success pull-right" ui-sref="stock-detail({ticker: stock.ticker})">Trade</button>
+        <br/>
+        <span class="gold">{{stock.value[stock.value.length - 1] | currency:"Ᵽ"}}</span>
+        <span ng-class="stock.change > 0 ? 'success' : 'danger'">
+            <span ng-if="stock.change > 0">+</span>{{(stock.value[stock.value.length-1]-stock.value[stock.value.length-2]) | number : 2 | currency:"Ᵽ"}}
+            <span ng-if="stock.change > 0">+</span>{{((stock.value[stock.value.length-1]-stock.value[stock.value.length-2])/stock.value[stock.value.length-2]) | number : 2}}%
+        </span>
+        <i class="fa fa-arrow-up" ng-if="stock.change > 0"></i>
+        <i class="fa fa-minus" ng-if="stock.change === 0"></i>
+        <i class="fa fa-arrow-down" ng-if="stock.change < 0"></i>
+    </p>
 </div>

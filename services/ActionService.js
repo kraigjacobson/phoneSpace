@@ -1,8 +1,10 @@
-app.service('ActionService', function($rootScope, $timeout, $state, NewGameService, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService){
+app.service('ActionService', function($rootScope, $timeout, $state, NewGameService, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService){
 
     var self = this;
 
     this.travel = function () {
+        UtilService.newDay();
+        StockService.change();
         $rootScope.investigated = false;
         $rootScope.status.one = 'warping';
         $rootScope.status.two = '';
@@ -331,6 +333,10 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.shipInventory = function () {
         $state.go('ship');
+    };
+
+    this.stockDetail = function (stock) {
+        $state.go('stock-detail');
     };
 
 });

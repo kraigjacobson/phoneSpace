@@ -91,6 +91,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/stock-brokerage.html'
         })
 
+        .state('stock-detail', {
+            url: "/stock-detail/{ticker}",
+            templateUrl: 'partials/stock-detail.html',
+            controller: 'StockDetailController'
+        })
+
+        .state('portfolio', {
+            url: "/portfolio",
+            templateUrl: 'partials/portfolio.html',
+            controller: 'PortfolioController'
+        })
+
         .state('repair', {
             url: '/repair',
             templateUrl: 'partials/repair.html'
@@ -115,9 +127,71 @@ app.run(function($transitions, $location, $window, GenerateService, InventorySer
     });
 });
 
-app.controller('MainController', function( $scope, $rootScope ){
+app.controller('MainController', function( $scope, $rootScope){
 
     $rootScope.starfield = false;
+    $rootScope.doneLoading = true;
+
+});
+
+app.controller('PortfolioController', function( $scope, DataService){
+
+    $scope.stockMarket = DataService.stockMarket;
+
+});
+
+app.controller('StockDetailController', function( $scope, $rootScope, $stateParams, StockService, UtilService, DataService){
+    $scope.stock = (StockService.getStock($stateParams.ticker));
+    $scope.dateBefore = UtilService.dateBefore;
+    $scope.dateNow = UtilService.dateNow;
+    console.log($scope.stock);
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                DataService.currentWeek[6].format('MMM d'),
+                DataService.currentWeek[5].format('MMM d'),
+                DataService.currentWeek[4].format('MMM d'),
+                DataService.currentWeek[3].format('MMM d'),
+                DataService.currentWeek[2].format('MMM d'),
+                DataService.currentWeek[1].format('MMM d'),
+                DataService.currentWeek[0].format('MMM d')
+                ],
+            datasets: [{
+                label: 'Value',
+                data: $scope.stock.value.slice($scope.stock.value.length-6,$scope.stock.value.length),
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:false,
+                        callback: function(value, index, values) {
+                            return 'Ᵽ' + value;
+                        }
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 8
+                    }
+                }]
+            }
+        }
+    });
 
 });
 
@@ -143,7 +217,7 @@ app.controller('ActionController', function( $scope, $rootScope, $state, Invento
 
 });
 
-app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, BlackjackService, ModalService, DataService, ActionService, ItemService, InventoryService, GenerateService ){
+app.controller('ConsoleController', function( $scope, $rootScope, $state, $stateParams, $sce, BlackjackService, ModalService, DataService, ActionService, ItemService, InventoryService, GenerateService, StockService ){
 
     $scope.ships = DataService.ships;
     $scope.log = DataService.log;
@@ -166,11 +240,14 @@ app.controller('ConsoleController', function( $scope, $rootScope, $state, $sce, 
     $scope.amenities = DataService.amenities;
     $scope.currentState = $state.current.name;
     $scope.state = $state;
+    $scope.params = $stateParams;
     $scope.action = ActionService;
     $scope.policies = GenerateService.getInsuranceRates();
     $scope.getPolicy = GenerateService.generateInsurancePolicy;
     $scope.policy = DataService.policy;
     $scope.blackjack = BlackjackService;
+    $scope.stockMarket = DataService.stockMarket;
+    $scope.currentWeek = DataService.currentWeek;
 
 });
 

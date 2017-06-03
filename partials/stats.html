@@ -5,6 +5,9 @@
             <div class="col-xs-4">Level: {{ stats.level }}</div>
             <div class="col-sm-4">{{ stats.credits | currency:"Ᵽ" }}</div>
         </div>
+        <div class="row top-stats">
+            <div class="col-xs-12">{{ currentWeek[0].format("dddd, MMMM Do, YYYY") }}</div>
+        </div>
         <div class="row">
             <div class="col-xs-6">
                 <p>Dist: {{ stats.distanceTraveled }}/{{ stats.totalDistance }} ly</p>

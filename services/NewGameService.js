@@ -1,6 +1,16 @@
-app.service('NewGameService', function( $rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService ){
+app.service('NewGameService', function( $rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService ){
     
     this.init = function () {
+
+        for (coIndex = 0; coIndex < 12; coIndex++) {
+                var co = StockService.generateCompany();
+                DataService.stockMarket.push(co);
+        }
+
+        for (d=0;d<8;d++) {
+            StockService.change();
+            UtilService.newDay();
+        }
 
         $rootScope.status = {
             one: 'station',

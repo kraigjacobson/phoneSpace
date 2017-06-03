@@ -2,7 +2,7 @@ app.service('UtilService', function ($rootScope, DataService){
 
     var self = this;
 
-    this.random = function (min,max) {
+    this.random = function (min,max,decimal) {
 
         if (!max) {
             var range = min;
@@ -10,7 +10,11 @@ app.service('UtilService', function ($rootScope, DataService){
             var range = max-min;
         }
 
-        return Math.floor(Math.random()*(range+1)+min);
+        if(decimal) {
+            return Math.random()*(range)+min;
+        } else {
+            return Math.floor(Math.random()*(range+1)+min);
+        }
 
     };
 
@@ -41,6 +45,36 @@ app.service('UtilService', function ($rootScope, DataService){
         var minute = d.getMinutes();
         var seconds = d.getSeconds();
         return day + "-" + month + "-" + year + " " + hour + ":" + minute + ":" + seconds;
+    };
+
+    this.dateNow = function () {
+        var d = new Date();
+        var year = (d.getFullYear() + 1256);
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+        return day + "-" + month + "-" + year;
+    };
+
+    this.dateBefore = function (howMany) {
+        var d = new Date();
+        // var year = (d.getFullYear() + 1256);
+        // var month = d.getMonth() + 1;
+        // var day = d.getDate() - howMany;
+        return d.setDate(d.getDate() - howMany);
+        // return day + "-" + month + "-" + year;
+    };
+
+    this.newDay = function () {
+        // console.log(DataService.currentWeek[0]);
+        var newDay = DataService.currentWeek[0].add(1, 'd');
+        DataService.currentWeek.unshift(newDay);
+        if(DataService.currentWeek.length > 7) {
+            DataService.currentWeek.pop();
+        }
+        console.log(DataService.currentWeek[0]);
+        // console.log('newDay', newDay);
+        // console.log(DataService.currentWeek);
+
     };
 
     this.getExperience = function (amt) {

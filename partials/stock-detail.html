@@ -1,0 +1,22 @@
+<div ng-controller="ConsoleController">
+    <h4 class="text-center">{{stock.name}}</h4>
+    <div class="col-sm-6">
+        <h5>{{stock.ticker}}</h5>
+        <p>Industry: {{stock.industry | titlecase}}</p>
+        <p>Change:
+            <span ng-class="stock.change > 0 ? 'success':'danger'">
+            <span ng-if="stock.change > 0">+</span>{{stock.change | number : 2 | currency:"Ᵽ"}}
+            <span ng-if="stock.change > 0">+</span>{{stock.changePercent | number : 2}}%
+            <i class="fa fa-arrow-up" ng-if="stock.change > 0"></i>
+            <i class="fa fa-minus" ng-if="stock.change === 0"></i>
+            <i class="fa fa-arrow-down" ng-if="stock.change < 0"></i></span>
+        </p>
+        <p>Price: <span class="gold">{{stock.value[stock.value.length - 1] | currency:"Ᵽ"}}</span></p>
+        <p ng-if="stock.myShares!==0">Your Shares: {{stock.myShares}}</p>
+    </div>
+    <div class="col-sm-6">
+        <canvas id="myChart"></canvas>
+        <button class="btn btn-sm btn-success pull-right" ui-sref="stock-detail({ticker: stock.ticker})">Buy</button>
+        <button class="btn btn-sm btn-success pull-right" ui-sref="stock-detail({ticker: stock.ticker})">Sell</button>
+    </div>
+</div>

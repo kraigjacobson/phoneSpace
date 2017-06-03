@@ -3,39 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Space</title>
-
-    <script src="assets/js/analytics.js"></script>
-    <script src="assets/js/jquery-3.2.1.js"></script>
-    <script src="assets/js/angular.min.js"></script>
-    <script src="assets/js/angular-ui-router.js"></script>
-    <script src="assets/js/bootstrap-modal.min.js"></script>
-    <script src="assets/js/angular-foundation-6.js"></script>
-    <script src="assets/js/angular-modal-service.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
-    <script src="app.js"></script>
+    <style>
+        .ng-cloak {
+            display: none;
+        }
+        .loading {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+    <link href="assets/css/loading.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <script src="services/ActionService.js"></script>
-    <script src="services/CasinoService.js"></script>
-    <script src="services/DataService.js"></script>
-    <script src="services/GenerateService.js"></script>
-    <script src="services/InventoryService.js"></script>
-    <script src="services/ItemService.js"></script>
-    <script src="services/NewGameService.js"></script>
-    <script src="services/ShipService.js"></script>
-    <script src="services/UniverseService.js"></script>
-    <script src="services/UtilService.js"></script>
-    <script src="filters/filters.js"></script>
     <link rel="stylesheet" href="assets/css/foundation.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <script src="assets/js/main.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 
 <body ng-controller="MainController">
 
-<div class="container" style="padding:0;">
+<div class="loading" ng-if="!doneLoading">
+    Loading<br/>
+    <img class="ld ld-shadow" src="assets/img/planetload.png" alt="">
+</div>
+<div class="container ng-cloak" ng-cloak style="padding:0;" ng-if="doneLoading">
     <div class="col-sm-6">
         <div class="row">
             <div id="view" class="span-12 partial" ng-controller="ViewscreenController">
@@ -113,6 +108,30 @@
     </div>
 </div>
 
+<script src="assets/js/analytics.js"></script>
+<script src="assets/js/jquery-3.2.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script src="assets/js/angular.min.js"></script>
+<script src="assets/js/angular-ui-router.js"></script>
+<script src="assets/js/bootstrap-modal.min.js"></script>
+<script src="assets/js/angular-foundation-6.js"></script>
+<script src="assets/js/angular-modal-service.js"></script>
+<script src="assets/js/moment.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
+<script src="app.js"></script>
+<script src="services/ActionService.js"></script>
+<script src="services/CasinoService.js"></script>
+<script src="services/DataService.js"></script>
+<script src="services/GenerateService.js"></script>
+<script src="services/InventoryService.js"></script>
+<script src="services/ItemService.js"></script>
+<script src="services/NewGameService.js"></script>
+<script src="services/ShipService.js"></script>
+<script src="services/StockService.js"></script>
+<script src="services/UniverseService.js"></script>
+<script src="services/UtilService.js"></script>
+<script src="filters/filters.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 
 

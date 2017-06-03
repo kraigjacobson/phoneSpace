@@ -1,6 +1,10 @@
-app.service('DataService', function() {
+app.service('DataService', function($rootScope) {
 
     var self = this;
+
+    this.currentWeek = [moment().add(1234, 'y').add(4, 'M').add(12, 'd')];
+
+    this.stockMarket = [];
 
     this.log = ['Your journey begins!'];
 
