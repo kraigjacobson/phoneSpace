@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.filter('sentencecase', function()
 {
     return function(word)

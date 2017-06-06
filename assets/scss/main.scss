@@ -1,0 +1,279 @@
+$light-blue: #2ff0fe;
+$dark-blue: #111b25;
+$gold: #feec11;
+$green: #5cb85c;
+$red: #d9534f;
+$orange: #ffae05;
+$purple: #cd2fff;
+$blue: #454dff;
+$primary: #1E90FF;
+$white: #ffffff; 
+$grey: #b4b4b4;
+
+.danger {
+  color: $red;
+}
+.success {
+  color: #5cb85c;
+}
+.gold {
+  color: $gold;
+}
+.shield {
+  color: $light-blue;
+}
+.legendary {
+  color: $orange;
+}
+.epic {
+  color: $purple;
+}
+.rare {
+  color: $blue;
+}
+.uncommon {
+  color: $green;
+}
+.common {
+  color: $white;
+}
+.trash {
+  color: $grey
+}
+
+body {
+
+  color: $primary;
+  background-color: $dark-blue;
+  background-repeat: repeat;
+  font-family: Consolas;
+
+  h1 {
+    text-transform: uppercase;
+  }
+}
+
+.modal {
+  .modal-content {
+    background-color: rgba(0,0,0,.7);
+    color: $primary;
+    background-repeat: repeat;
+
+    .modal-header {
+      .modal-title {
+        text-align: center;
+        font-weight: 600;
+        border-radius: 6px;
+      }
+    }
+    .modal-body {
+      padding: 10px 0;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .modal-footer {
+      .btn {
+        opacity:.8;
+      }
+    }
+  }
+  img {
+    margin: 15px auto 5px;
+    width:50%;
+    opacity: .8;
+    display: block;
+    border-radius: 6px;
+  }
+}
+.modal-inner {
+  ul {
+    margin:0;
+    list-style:none;
+    font-size:.8em;
+    li {
+      .btn {
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 1px rgba(23, 131, 122, 0.5) solid;
+      }
+    }
+  }
+  p {
+    margin-bottom:5px;
+  }
+}
+
+
+
+//redo all garbage below
+#stats {
+  font-size:0.9em;
+}
+.top-stats {
+  div {
+    text-align: center;
+    border-right:1px solid $primary;
+    margin-bottom:2px;
+    :last-child {
+      border-right:none;
+    }
+  }
+}
+#inventory {
+  font-size:0.8em;
+}
+.partial {
+  margin-top:8px;
+}
+.console {
+  border-width: 0 2px 2px 2px;
+  .btn {
+    background-color: rgba(0,0,0,.7);
+  }
+}
+#console-inner {
+  border-top:1px solid #595959;
+  height:300px;
+  padding:10px;
+  border-radius:0 0 6px 6px;
+  overflow-y: auto;
+  p {
+    margin-bottom:0;
+  }
+  ul {
+    list-style: none;
+  }
+  .btn {
+    margin-bottom:5px;
+  }
+}
+#console-buttons {
+  border-width: 2px 2px 0 2px;
+  border-radius:6px 6px 0 0;
+  ul {
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+      -moz-box-flex: 1;
+      -webkit-box-flex: 1;
+      box-flex: 1;
+      border-right:1px solid #595959;
+      padding:5px;
+      cursor: pointer;
+      text-align:center;
+      color: white;
+      :first-child {
+        :hover {
+          border-radius:6px 0 0 0;
+        }
+      }
+      :last-child {
+        border:none;
+        :hover {
+          border-radius:0 6px 0 0 ;
+        }
+      }
+      :active{
+        background-color: black;
+        color: $primary;
+      }
+    }
+  }
+  .sub-menu {
+    border-top:1px solid #595959;
+    li {
+      padding:2px;
+      background-color: rgba(0,0,0,.5);
+    }
+    .active {
+      background-color: rgba(0,0,0,.9);
+    }
+  }
+}
+#view {
+  img {
+    width:100%;
+    height:200px;
+  }
+}
+#view-inner {
+  -webkit-background-size:cover;
+  background-size:cover;
+  border-radius:6px;
+}
+#foreground {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#starfield {
+  border-radius:6px;
+  z-index:10;
+}
+.info {
+  padding:5px;
+  text-align: center;
+  border:2px solid #595959;
+  background-color: rgba(0,0,0,.7);
+  color: $primary;
+}
+
+.btn {
+  border: 1px white solid;
+  padding: 5px 10px;
+  color: $primary;
+}
+.insurance.btn {
+  border:none;
+}
+#actions {
+  .btn {
+    background-color: rgba(0,0,0,.7);
+    color: $primary;
+    padding:10px;
+  }
+}
+.fa-arrow-up {
+  color: $green !important;
+
+}
+.fa-arrow-down {
+  color: $red !important;
+}
+.fa-minus {
+  color: $grey !important;
+}
+.fullwidth {
+  width:100%;
+}
+.log-text {
+  font-size:.9em;
+}
+img {
+  image-rendering: pixelated;
+}
+.inventory-select {
+  .btn {
+    padding-top:40px;
+    padding-bottom:40px;
+  }
+}
+#myChart {
+  height:75px;
+  width:100%;
+}
+#quick-info {
+  #label{
+    display: block;
+  }
+  #quick-stats {
+    font-size:.8em;
+  }
+}
+
+.button {
+  padding:5px 10px;
+  margin-bottom: 10px;
+}

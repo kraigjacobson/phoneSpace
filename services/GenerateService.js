@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.service('GenerateService', function ($rootScope, DataService, InventoryService, ItemService, UtilService){
 
     var self = this;

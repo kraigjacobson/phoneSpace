@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.service('BlackjackService', function($state, ActionService, DataService, UtilService){
 
     var self = this;

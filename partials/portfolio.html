@@ -2,8 +2,8 @@
     <h3 class="text-center">Your Portfolio</h3>
     <p style="margin-bottom:8px;" ng-repeat="stock in stockMarket | orderBy : 'name'">
         <span ng-if="stock.myShares > 0">
-            {{stock.ticker}}: {{stock.name | titlecase}} | Your Shares: {{stock.myShares}}
-            <button class="btn btn-sm btn-success pull-right" ui-sref="stock-detail({ticker: stock.ticker})">Trade</button>
+            {{stock.ticker}}: {{stock.name}} | Your Shares: {{stock.myShares}}
+            <button class="button button-sm button-success pull-right" ui-sref="stock-detail({ticker: stock.ticker})">Trade</button>
             <br/>
             <span class="gold">{{stock.value[stock.value.length - 1] | currency:"Ᵽ"}}</span>
             <span ng-class="stock.change > 0 ? 'success' : 'danger'">

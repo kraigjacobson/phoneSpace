@@ -17,6 +17,12 @@
                 <p>Repair Parts: {{ stats.repairParts }}</p>
                 <p ng-if="bounties">Open Bounties: {{ bounties.length }}</p>
                 <p ng-if="policy">Insurance: {{policy.policyType | titlecase}}<br/>Days Left: <span ng-class="policy.daysLeft < policy.daysCovered * 0.1 ? 'danger' : ''">{{policy.daysLeft}}</span></p>
+
+                <p>Stock Purchases: {{ stats.stockPurchases  | currency:"Ᵽ" }}</p>
+                <p>Stock Sales: {{ stats.stockSales*-1  | currency:"Ᵽ" }}</p>
+                <p>Stock Profits: <span ng-class="stats.stockPurchases + stats.stockSales > 0 ? 'success' : 'danger'">{{ stats.stockPurchases + stats.stockSales | currency:"Ᵽ" }}</span></p>
+                <p>Shares Purchased: {{ stats.sharesPurchased }}</p>
+                <p>Shares Sold: {{ stats.sharesSold*-1 }}</p>
             </div>
             <div class="col-xs-6">
                 <p><i class="fa fa-angle-double-up"></i> Attack: {{ stats.attack }}</p>

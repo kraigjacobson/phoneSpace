@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.service("InventoryService", function(  ) {
 
     var self = this;

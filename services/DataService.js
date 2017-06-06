@@ -1,3 +1,5 @@
+var app = angular.module('spaceApp');
+
 app.service('DataService', function($rootScope) {
 
     var self = this;
@@ -6,7 +8,9 @@ app.service('DataService', function($rootScope) {
 
     this.stockMarket = [];
 
-    this.log = ['Your journey begins!'];
+    var distance = 50000;
+
+    this.log = ['Your journey begins! You have to travel ' + distance + ' to beat the game because my brother Kyle said there needs to be a clear objective.'];
 
     this.classA = function (name, attack, accuracy, piloting, speed, capacity, cost, img) {
 
@@ -30,8 +34,8 @@ app.service('DataService', function($rootScope) {
 
     };
 
-    this.amenities = [
-        'market', 'insurance', 'stockBrokerage', 'partInstallation', 'casino', 'nightClub', 'bountyOffice', 'reprocessing', 'repair'
+    this.services = [
+        'bountyOffice', 'casino', 'insurance', 'market', 'nightClub', 'partInstallation', 'repair', 'reprocessing', 'stockBrokerage'
     ];
 
     this.policy = {};
@@ -50,12 +54,16 @@ app.service('DataService', function($rootScope) {
         currentHull: 0,
         capacity: 0,
         hull: 0,
-        credits: 100,
+        credits: 10000,
         repairParts: 10,
-        totalDistance: 50000,
-        distanceLeft: 50000,
+        totalDistance: distance,
+        distanceLeft: distance,
         distanceTraveled: 0,
-        daysTraveled: 0
+        daysTraveled: 0,
+        stockPurchases: 0,
+        stockSales: 0,
+        sharesPurchased: 0,
+        sharesSold: 0
     };
 
     this.text = {
@@ -110,8 +118,8 @@ app.service('DataService', function($rootScope) {
         dockingBay: [
             'docking-bay.jpg'
         ],
-        amenities: [
-            'amenities.jpg'
+        services: [
+            'services.jpg'
         ],
         repair: [
             'repair.jpg'

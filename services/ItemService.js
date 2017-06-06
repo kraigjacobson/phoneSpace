@@ -1,4 +1,5 @@
-app.service('ItemService', function ($rootScope, DataService, InventoryService, UtilService, ModalService){
+var app = angular.module('spaceApp');
+app.service('ItemService', function ($rootScope, DataService, InventoryService, UtilService){
 
     var self = this;
 

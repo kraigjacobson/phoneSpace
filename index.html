@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Space</title>
+
     <style>
         .ng-cloak {
             display: none;
@@ -15,14 +16,14 @@
             color: #fff;
         }
     </style>
-    <link href="assets/css/loading.css" rel="stylesheet">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/loading.css">
     <link rel="stylesheet" href="assets/css/foundation.css">
-    <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="dist/main.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
-
 
 <body ng-controller="MainController">
 
@@ -31,28 +32,24 @@
     <img class="ld ld-shadow" src="assets/img/planetload.png" alt="">
 </div>
 <div class="container ng-cloak" ng-cloak style="padding:0;" ng-if="doneLoading">
-    <div class="col-sm-6">
+    <div class="col-sm-6 row">
         <div class="row">
-            <div id="view" class="span-12 partial" ng-controller="ViewscreenController">
+            <div id="view" class="span-12 row" ng-controller="ViewscreenController">
                 <div id="view-inner">
                     <div style="position:relative">
                         <canvas id="starfield" ng-show="starfield"></canvas>
-                        <img id="background" class="img-responsive img-rounded" ng-src="{{ background }}">
-                        <img id="foreground" class="img-responsive img-rounded" ng-src="{{ foreground }}">
+                        <img id="background" class="img-responsive" ng-src="{{ background }}">
+                        <img id="foreground" class="img-responsive" ng-src="{{ foreground }}">
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="span-12">
-                <div id="label" class="info partial">{{ label | titlecase }}</div>
-            </div>
-        </div>
-        <div ng-controller="ConsoleController">
-            <div class="row">
-                <div class="span-12 info partial">
+            <div id="quick-info" class="span-12 info" ng-controller="ConsoleController">
+                <span id="label">{{ label }}</span>
+                <span id="quick-stats">
                     <i class="fa fa-heartbeat danger"></i> Hull: <span ng-class="stats.currentHull < stats.hull * .25 ? 'danger': ''">{{ stats.currentHull }}</span> | <i class="fa fa-shield shield"></i> Shield: <span ng-class="stats.currentShield < stats.shield * .25 ? 'danger': ''">{{ stats.currentShield }}</span> | <span class="gold">&#11363;</span> {{ stats.credits | currency:" " }}
-                </div>
+                </span>
             </div>
         </div>
     </div>
@@ -62,7 +59,7 @@
 
         <div class="row">
             <div id="console" class="col-sm">
-                <div id="console-buttons" class="partial console" ng-controller="ConsoleController">
+                <div id="console-buttons" class="console" ng-controller="ConsoleController">
                     <ul>
                         <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
                         <li ui-sref="stats" ui-sref-active="active">Stats</li>
@@ -70,29 +67,33 @@
                         <li ng-click="action.shipInventory()">Ship</li>
                         <li ui-sref="" ui-sref-active="active">Map?</li>
                     </ul>
-                    <!--{{status}}-->
+                    <!--{{state.current|json}}-->
                     <ul id="station-sub-menu" class="sub-menu">
-                        <li ng-hide="status.one==='warping' || status.two==='scanning' || status.two==='fighting' || status.two==='amenity' || status.two==='amenities'" ng-click="action.travel()">Travel</li>
-                        <li ng-if="status.one==='station' && status.two==='orbit'" ng-click="action.dockingBay()">Dock</li>
-                        <li ng-if="investigated === false && status.one==='opportunity' || investigated === false && (status.one==='combat' && status.two==='win')" ng-click="action.investigate()">Scan</li>
-                        <li ng-if="status.one==='station'&&status.two!=='orbit'&&status.two!=='amenities'" ng-click="action.amenities()">{{status.two==='amenity'?'Leave':'Services'}}</li>
-                        <li ng-if="status.two==='amenities'" ng-click="action.dockingBay()">Docking Bay</li>
-                        <li ng-if="status.two==='scanning'">Scanning...</li>
-                        <li ng-if="status.one==='warping'">Warping...</li>
-                        <li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.attack()">Attack</li>
-                        <li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.escape()">Escape</li>
-                        <li ng-if="status.three==='repair'&&stats.hull - stats.currentHull > 0" ng-click="action.repairShip()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>
+                        <li ng-if="!state.current.url.includes('station/')" ng-click="action.travel()">Travel</li>
+                        <li ng-if="state.current.name==='docking-bay'" ui-sref="station">Undock</li>
+                        <li ui-sref="docking-bay" ng-if="state.current.name==='services'||state.current.url==='/station'">{{state.current.name==='station'?'Dock':'Docking Bay'}}</li>
+                        <!--<li ng-if="investigated === false && status.one==='opportunity' || investigated === false && (status.one==='combat' && status.two==='win')" ng-click="action.investigate()">Scan</li>-->
+                        <li ui-sref="services" ng-if="state.current.name==='docking-bay'">Services</li>
+                        <li onclick="window.history.back()" ng-if="state.current.url.includes('services/')">Leave</li>
+                        <!--<li ng-if="status.two==='scanning'">Scanning...</li>-->
+                        <!--<li ng-if="status.one==='warping'">Warping...</li>-->
+                        <!--<li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.attack()">Attack</li>-->
+                        <!--<li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.escape()">Escape</li>-->
+                        <!--<li ng-if="status.three==='repair'&&stats.hull - stats.currentHull > 0" ng-click="action.repairShip()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>-->
 
+                        <!--stocks-->
+                        <li ui-sref="portfolio" ng-if="state.current.name==='stockBrokerage'">Portfolio</li>
+                        <li ui-sref="stockBrokerage" ng-if="state.current.name==='portfolio'">Stock Brokerage</li>
                         <!--market-->
-                        <li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>
-                        <li ng-if="status.three === 'market'" ng-class="status.four === 'sell'?'active':''" ng-click="action.sell()">Sell</li>
+                        <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>-->
+                        <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'sell'?'active':''" ng-click="action.sell()">Sell</li>-->
 
                         <!--bounties-->
-                        <li ng-if="bounties && status.three==='bounty-office'" ng-click="action.collectBounties()">Collect</li>
+                        <!--<li ng-if="bounties && status.three==='bounty-office'" ng-click="action.collectBounties()">Collect</li>-->
 
                         <!--inventory-->
-                        <li ng-if="status.three === 'inventory'" ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory">Cargo</li>
-                        <li ng-if="status.three === 'inventory'" ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory">Ship</li>
+                        <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory">Cargo</li>-->
+                        <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory">Ship</li>-->
                     </ul>
                     <!--<ul id="inventory-sub-menu" class="sub-menu">-->
                         <!--&lt;!&ndash;inventory&ndash;&gt;-->
@@ -107,29 +108,9 @@
         </div>
     </div>
 </div>
-
+<script src="dist/bundle.js"></script>
 <script src="assets/js/analytics.js"></script>
-<script src="assets/js/jquery-3.2.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<script src="assets/js/angular.min.js"></script>
-<script src="assets/js/angular-ui-router.js"></script>
-<script src="assets/js/bootstrap-modal.min.js"></script>
-<script src="assets/js/angular-foundation-6.js"></script>
-<script src="assets/js/angular-modal-service.js"></script>
 <script src="assets/js/moment.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
-<script src="app.js"></script>
-<script src="services/ActionService.js"></script>
-<script src="services/CasinoService.js"></script>
-<script src="services/DataService.js"></script>
-<script src="services/GenerateService.js"></script>
-<script src="services/InventoryService.js"></script>
-<script src="services/ItemService.js"></script>
-<script src="services/NewGameService.js"></script>
-<script src="services/ShipService.js"></script>
-<script src="services/StockService.js"></script>
-<script src="services/UniverseService.js"></script>
-<script src="services/UtilService.js"></script>
 <script src="filters/filters.js"></script>
 <script src="assets/js/main.js"></script>
 </body>

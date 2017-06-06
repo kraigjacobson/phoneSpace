@@ -31,8 +31,8 @@ function $c(code) { return String.fromCharCode(code); }
 
 function get_screen_size()
 {
-    var w=$('#background').width();
-    var h=$('#background').height();
+    var w=document.getElementById('background').style.width;
+    var h=document.getElementById('background').style.height;
     return Array(w,h);
 }
 
@@ -52,7 +52,7 @@ var fps=0;
 var running = false;
 
 function init() {
-    $("#starfield").show();
+    document.getElementById('starfield').style.display = 'block';
     var a=0;
     for(var i=0;i<n;i++) {
         star[i]=new Array(5);

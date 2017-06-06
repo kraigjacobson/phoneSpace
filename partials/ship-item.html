@@ -22,7 +22,7 @@
                             <p>Repair Parts Available: {{ stats.repairParts }}</p>
                             <ul>
                                 <li ng-repeat="component in myShip[itemIndex].componentsNeeded">
-                                    <div class="btn btn-default btn-xs" ng-click="repairItem($index, true)" data-toggle="tooltip" title="Click to Repair">
+                                    <div class="button button-default button-xs" ng-click="repairItem($index, true)" data-toggle="tooltip" title="Click to Repair">
                                         <i class="fa fa-square-o"></i>
                                         {{ component.name | camelCaseToHuman }}<span>: {{ component.need }}
                                             <i class="fa fa-wrench"></i>
@@ -53,7 +53,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="close(true)" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="close(true)" class="button button-sm button-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

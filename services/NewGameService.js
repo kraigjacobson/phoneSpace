@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.service('NewGameService', function( $rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService ){
     
     this.init = function () {
@@ -7,19 +8,13 @@ app.service('NewGameService', function( $rootScope, $state, DataService, Generat
                 DataService.stockMarket.push(co);
         }
 
-        for (d=0;d<8;d++) {
+        for (d=0;d<30;d++) {
             StockService.change();
             UtilService.newDay();
         }
 
-        $rootScope.status = {
-            one: 'station',
-            two: 'orbit',
-            three: null,
-            four: null
-        };
-
         $rootScope.bounties = null;
+        $rootScope.stationTemps = {};
 
         var ship = InventoryService.myShip;
         var stats = DataService.stats;
@@ -52,9 +47,10 @@ app.service('NewGameService', function( $rootScope, $state, DataService, Generat
         stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
         DataService.policy = null;
-        UniverseService.event('station');
 
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
+        $state.go('station');
+
+        // $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
 
     };
 

@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.service('ShipService', function(UtilService, InventoryService, DataService){
 
     var self = this;

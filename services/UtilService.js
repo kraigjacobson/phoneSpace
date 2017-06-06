@@ -1,3 +1,4 @@
+var app = angular.module('spaceApp');
 app.service('UtilService', function ($rootScope, DataService){
 
     var self = this;
@@ -26,7 +27,7 @@ app.service('UtilService', function ($rootScope, DataService){
 
     this.getImagePath = function (imageFileName) {
 
-        return window.location.origin + '/space/www/assets/img/' + imageFileName;
+        return window.location.origin + '/assets/img/' + imageFileName;
 
     };
 
@@ -71,7 +72,7 @@ app.service('UtilService', function ($rootScope, DataService){
         if(DataService.currentWeek.length > 7) {
             DataService.currentWeek.pop();
         }
-        console.log(DataService.currentWeek[0]);
+        // console.log(DataService.currentWeek[0]);
         // console.log('newDay', newDay);
         // console.log(DataService.currentWeek);
 

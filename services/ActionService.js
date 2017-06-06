@@ -1,23 +1,16 @@
-app.service('ActionService', function($rootScope, $timeout, $state, NewGameService, ModalService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService){
+var app = angular.module('spaceApp');
+app.service('ActionService', function($rootScope, $timeout, $state, NewGameService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService){
 
     var self = this;
+    // var test = 'test';
+    // var test = 'test';
 
     this.travel = function () {
+        $rootScope.stationTemps = {};
         UtilService.newDay();
         StockService.change();
         $rootScope.investigated = false;
-        $rootScope.status.one = 'warping';
-        $rootScope.status.two = '';
-        if (DataService.policy) {
-            DataService.policy.daysLeft --;
-            if (DataService.policy.daysLeft === 10) {
-                alert('Your insurance policy is expiring soon. Please see your nearest agent.');
-            }
-            if (DataService.policy.daysLeft === 0) {
-                alert('Your insurance policy has expired. Please see your nearest agent.');
-                DataService.policy = null;
-            }
-        }
+        self.checkInsurance();
 
         $rootScope.foreground = UtilService.getImagePath(DataService.images.blank);
         // for testing inventory screen
@@ -65,24 +58,34 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     };
 
+    this.checkInsurance = function () {
+        if (DataService.policy) {
+            DataService.policy.daysLeft --;
+            if (DataService.policy.daysLeft === 10) {
+                alert('Your insurance policy is expiring soon. Please see your nearest agent.');
+            }
+            if (DataService.policy.daysLeft === 0) {
+                alert('Your insurance policy has expired. Please see your nearest agent.');
+                DataService.policy = null;
+            }
+        }
+    };
+
     this.investigate = function () {
 
         $state.go('log').then(function () {
 
-            $rootScope.status.two = 'scanning';
             $rootScope.investigated = true;
             $timeout(function () {
                 var roll = UtilService.random(1,5);
 
                 if (roll === 5) {
                     DataService.log.unshift("<span class='danger'>It's a trap!</span>");
-                    $rootScope.status.two = 'fighting';
                     UniverseService.event('combat');
                 } else {
                     GenerateService.loot();
                     $rootScope.label = "wrecked ship";
                 }
-                $rootScope.status.two = 'scanned';
             }, 2000);
 
         });
@@ -124,7 +127,6 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
                     DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for <span class='success'>" + damageRoll + "</span> and destroy them!");
                     DataService.log.unshift("You have been awarded a bounty voucher. See a bounty office to claim.");
                     UtilService.getExperience($rootScope.enemy.experience);
-                    $rootScope.status.two = 'win';
                 } else {
                     $rootScope.enemy.currentHull -= damageRoll;
                     DataService.log.unshift("You damage " + $rootScope.enemy.ship.name + "'s hull for <span class='success'>" + damageRoll + "</span>!");
@@ -194,113 +196,63 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     };
 
-    this.repairShip = function () {
-    var cost = (DataService.stats.hull - DataService.stats.currentHull) * 5;
-        if (DataService.stats.credits < cost) {
-            alert('You need ' + cost + 'Ᵽ to repair your ship.');
-        } else {
-            DataService.stats.currentHull = DataService.stats.hull;
-            DataService.stats.credits -= cost;
-        }
+    // this.repairShip = function () {
+    // var cost = (DataService.stats.hull - DataService.stats.currentHull) * 5;
+    //     if (DataService.stats.credits < cost) {
+    //         alert('You need ' + cost + 'Ᵽ to repair your ship.');
+    //     } else {
+    //         DataService.stats.currentHull = DataService.stats.hull;
+    //         DataService.stats.credits -= cost;
+    //     }
+    //
+    // };
+    //
+    // this.insurance = function () {
+    //     $state.go('insurance');
+    //     $rootScope.label = "Insurance";
+    //     $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.insurance));
+    // };
+    //
+    // this.stockBrokerage = function () {
+    //     $state.go('stock-brokerage');
+    //     $rootScope.label = "Stock Brokerage";
+    //     $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stockBrokerage));
+    // };
+    //
+    // this.bountyOffice = function () {
+    //     $state.go('bounty-office');
+    //     $rootScope.label = "Bounty Office";
+    //     $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.bountyOffice));
+    // };
+    //
+    // this.nightClub = function () {
+    //     $state.go('night-club');
+    //     $rootScope.label = "Night Club";
+    //     $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.nightClub));
+    // };
+    //
+    // this.casino = function () {
+    //     if (DataService.stats.credits >= 5) {
+    //         $state.go('casino');
+    //         $rootScope.label = "Casino";
+    //         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
+    //     } else {
+    //         $rootScope.label = "Casino";
+    //         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
+    //         setTimeout(function () {
+    //             state.go('services');
+    //             alert("Get lost space rat, come back when you've got some creds!");
+    //         }, 500)
+    //     }
+    // };
 
-    };
-
-    this.insurance = function () {
-        $rootScope.status.two = 'amenity';
-        $state.go('insurance');
-        $rootScope.label = "Insurance";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.insurance));
-    };
-
-    this.stockBrokerage = function () {
-        $rootScope.status.two = 'amenity';
-        $state.go('stock-brokerage');
-        $rootScope.label = "Stock Brokerage";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stockBrokerage));
-    };
-
-    this.bountyOffice = function () {
-        $rootScope.status.two = 'amenity';
-        $rootScope.status.three = 'bounty-office';
-        $state.go('bounty-office');
-        $rootScope.label = "Bounty Office";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.bountyOffice));
-    };
-
-    this.nightClub = function () {
-        $rootScope.status.two = 'amenity';
-        $state.go('night-club');
-        $rootScope.label = "Night Club";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.nightClub));
-    };
-
-    this.casino = function () {
-        $rootScope.status.two = 'amenity';
-        $rootScope.status.three = 'casino';
-        $rootScope.status.four = 'lobby';
-        if (DataService.stats.credits >= 5) {
-            $state.go('casino');
-            $rootScope.label = "Casino";
-            $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
-        } else {
-            $rootScope.label = "Casino";
-            $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
-            setTimeout(function () {
-                self.amenities();
-                alert("Get lost space rat, come back when you've got some creds!");
-            }, 500)
-        }
-    };
-
-    this.partInstallation = function () {
-        $rootScope.status.two = 'amenity';
-        $state.go('installation');
-        $rootScope.label = "Hangar";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket));
-    };
-
-    this.reprocessing = function () {
-        $rootScope.status.two = 'amenity';
-        $state.go('reprocessing');
-        $rootScope.label = "Reprocessing";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.newMarket));
-    };
-
-    this.market = function () {
-        $rootScope.status.two = 'amenity';
-        $rootScope.status.three = 'market';
-        $rootScope.status.four = 'buy';
-        $state.go('buy');
-        $rootScope.label = "Market";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.usedMarket));
-    };
-
-    this.buy = function () {
-        $rootScope.status.four = 'buy';
-        $state.go('buy');
-    };
-
-    this.sell = function () {
-        $rootScope.status.four = 'sell';
-        $state.go('sell');
-    };
-
-    this.amenities = function () {
-        $rootScope.status.two = 'amenities';
-        $rootScope.status.three = null;
-        $rootScope.status.four = null;
-        $state.go('amenities');
-        $rootScope.label = $rootScope.stationName;
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.amenities));
-    };
-
-    this.dockingBay = function () {
-        $rootScope.status.two = 'docked';
-        $rootScope.status.three = null;
-        $state.go('docking-bay');
-        $rootScope.label = $rootScope.stationName + " | Docking Bay";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.dockingBay));
-    };
+    // this.buy = function () {
+    //     $state.go('buy');
+    // };
+    //
+    // this.sell = function () {
+    //     $state.go('sell');
+    // };
 
     this.collectBounties = function () {
         var totalBounties = 0;
@@ -316,12 +268,11 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
         $state.reload();
     };
 
-    this.repair = function () {
-        $rootScope.status.three = 'repair';
-        $state.go('repair');
-        $rootScope.label = $rootScope.stationName + " | Ship Repairs";
-        $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.repair));
-    };
+    // this.repair = function () {
+    //     $state.go('repair');
+    //     $rootScope.label = $rootScope.stationTemps.name + " | Ship Repairs";
+    //     $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.repair));
+    // };
 
     this.inventory = function () {
         $state.go('inventory');
@@ -333,10 +284,6 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.shipInventory = function () {
         $state.go('ship');
-    };
-
-    this.stockDetail = function (stock) {
-        $state.go('stock-detail');
     };
 
 });

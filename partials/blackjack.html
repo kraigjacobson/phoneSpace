@@ -1,12 +1,12 @@
 <div ng-controller="ConsoleController">
     <p class="text-center">{{ blackjack.message }}</p>
     <div class="span-12">
-        <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.raise()">Raise Bet</button>
-        <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.lower()">Lower Bet</button>
-        <button class="btn" ng-if="!blackjack.dealt" ng-click="blackjack.deal()">Deal</button>
-        <button class="btn" ng-if="blackjack.dealt" ng-click="blackjack.stay()">Stay</button>
-        <button class="btn" ng-if="blackjack.dealt" ng-click="blackjack.hit('me')">Hit</button>
-        <button class="btn" ng-if="blackjack.dealt&&blackjack.myTotal===11&&blackjack.me.length===2" ng-click="blackjack.doubleDown()">Double Down</button>
+        <button class="button" ng-if="!blackjack.dealt" ng-click="blackjack.raise()">Raise Bet</button>
+        <button class="button" ng-if="!blackjack.dealt" ng-click="blackjack.lower()">Lower Bet</button>
+        <button class="button" ng-if="!blackjack.dealt" ng-click="blackjack.deal()">Deal</button>
+        <button class="button" ng-if="blackjack.dealt" ng-click="blackjack.stay()">Stay</button>
+        <button class="button" ng-if="blackjack.dealt" ng-click="blackjack.hit('me')">Hit</button>
+        <button class="button" ng-if="blackjack.dealt&&blackjack.myTotal===11&&blackjack.me.length===2" ng-click="blackjack.doubleDown()">Double Down</button>
     </div>
     <p>Bet: {{blackjack.bet}}</p>
     <div class="col-xs-6">
