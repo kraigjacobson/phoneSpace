@@ -1,27 +1,27 @@
 var app = angular.module('spaceApp');
-app.service('UtilService', function ($rootScope, DataService){
+app.service('UtilService', function ($rootScope, DataService) {
 
     var self = this;
 
-    this.random = function (min,max,decimal) {
+    this.random = function (min, max, decimal) {
 
         if (!max) {
             var range = min;
         } else {
-            var range = max-min;
+            var range = max - min;
         }
 
-        if(decimal) {
-            return Math.random()*(range)+min;
+        if (decimal) {
+            return Math.random() * (range) + min;
         } else {
-            return Math.floor(Math.random()*(range+1)+min);
+            return Math.floor(Math.random() * (range + 1) + min);
         }
 
     };
 
     this.randomFromArray = function (array) {
 
-        return array[Math.floor(Math.random()*array.length)];
+        return array[Math.floor(Math.random() * array.length)];
 
     };
 
@@ -69,7 +69,7 @@ app.service('UtilService', function ($rootScope, DataService){
         // console.log(DataService.currentWeek[0]);
         var newDay = DataService.currentWeek[0].add(1, 'd');
         DataService.currentWeek.unshift(newDay);
-        if(DataService.currentWeek.length > 7) {
+        if (DataService.currentWeek.length > 7) {
             DataService.currentWeek.pop();
         }
         // console.log(DataService.currentWeek[0]);
@@ -85,10 +85,10 @@ app.service('UtilService', function ($rootScope, DataService){
         var getNextLevelXp = function () {
             var init = 50, exp = 50;
             for (i = 1; i < currentLevel; i++) {
-                if (i%2===0) {
-                    exp = exp + init + init/2;
+                if (i % 2 === 0) {
+                    exp = exp + init + init / 2;
                 } else {
-                    exp = exp + init + init/4;
+                    exp = exp + init + init / 4;
                 }
 
             }
@@ -98,7 +98,7 @@ app.service('UtilService', function ($rootScope, DataService){
         if (DataService.stats.experience > getNextLevelXp()) {
             var nextLevel = DataService.stats.level + 1;
             DataService.log.unshift("<span class='gold'>You achieved level " + nextLevel + "!</span>");
-            DataService.stats.level ++;
+            DataService.stats.level++;
         }
 
     };

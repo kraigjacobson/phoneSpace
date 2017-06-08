@@ -8,6 +8,7 @@
         .ng-cloak {
             display: none;
         }
+
         .loading {
             position: absolute;
             top: 40%;
@@ -32,7 +33,7 @@
     <img class="ld ld-shadow" src="assets/img/planetload.png" alt="">
 </div>
 <div class="container ng-cloak" ng-cloak style="padding:0;" ng-if="doneLoading">
-    <div class="col-sm-6 row">
+    <div class="col-sm-6">
         <div class="row">
             <div id="view" class="span-12 row" ng-controller="ViewscreenController">
                 <div id="view-inner">
@@ -45,10 +46,14 @@
             </div>
         </div>
         <div class="row">
-            <div id="quick-info" class="span-12 info" ng-controller="ConsoleController">
+            <div id="quick-info" class="span-12 info" ng-controller="QuickStatsController">
                 <span id="label">{{ label }}</span>
                 <span id="quick-stats">
-                    <i class="fa fa-heartbeat danger"></i> Hull: <span ng-class="stats.currentHull < stats.hull * .25 ? 'danger': ''">{{ stats.currentHull }}</span> | <i class="fa fa-shield shield"></i> Shield: <span ng-class="stats.currentShield < stats.shield * .25 ? 'danger': ''">{{ stats.currentShield }}</span> | <span class="gold">&#11363;</span> {{ stats.credits | currency:" " }}
+                    <i class="fa fa-heartbeat danger"></i> Hull: <span
+                        ng-class="stats.currentHull < stats.hull * .25 ? 'danger': ''">{{ stats.currentHull }}</span> | <i
+                        class="fa fa-shield shield"></i> Shield: <span
+                        ng-class="stats.currentShield < stats.shield * .25 ? 'danger': ''">{{ stats.currentShield }}</span> | <span
+                        class="gold">&#11363;</span> {{ stats.credits | currency:" " }}
                 </span>
             </div>
         </div>
@@ -65,13 +70,16 @@
                         <li ui-sref="stats" ui-sref-active="active">Stats</li>
                         <li ng-click="action.cargoInventory()">Cargo</li>
                         <li ng-click="action.shipInventory()">Ship</li>
-                        <li ui-sref="" ui-sref-active="active">Map?</li>
+                        <li ui-sref="map" ui-sref-active="active">Map</li>
                     </ul>
                     <!--{{state.current|json}}-->
                     <ul id="station-sub-menu" class="sub-menu">
                         <li ng-if="!state.current.url.includes('station/')" ng-click="action.travel()">Travel</li>
                         <li ng-if="state.current.name==='docking-bay'" ui-sref="station">Undock</li>
-                        <li ui-sref="docking-bay" ng-if="state.current.name==='services'||state.current.url==='/station'">{{state.current.name==='station'?'Dock':'Docking Bay'}}</li>
+                        <li ui-sref="docking-bay"
+                            ng-if="state.current.name==='services'||state.current.url==='/station'">
+                            {{state.current.name==='station'?'Dock':'Docking Bay'}}
+                        </li>
                         <!--<li ng-if="investigated === false && status.one==='opportunity' || investigated === false && (status.one==='combat' && status.two==='win')" ng-click="action.investigate()">Scan</li>-->
                         <li ui-sref="services" ng-if="state.current.name==='docking-bay'">Services</li>
                         <li onclick="window.history.back()" ng-if="state.current.url.includes('services/')">Leave</li>
@@ -96,9 +104,9 @@
                         <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory">Ship</li>-->
                     </ul>
                     <!--<ul id="inventory-sub-menu" class="sub-menu">-->
-                        <!--&lt;!&ndash;inventory&ndash;&gt;-->
-                        <!--<li ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory()">Cargo</li>-->
-                        <!--<li ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory()">Ship</li>-->
+                    <!--&lt;!&ndash;inventory&ndash;&gt;-->
+                    <!--<li ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory()">Cargo</li>-->
+                    <!--<li ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory()">Ship</li>-->
                     <!--</ul>-->
                 </div>
                 <div id="console-inner" class="console col-sm-12">
@@ -111,8 +119,8 @@
 <script src="dist/bundle.js"></script>
 <script src="assets/js/analytics.js"></script>
 <script src="assets/js/moment.min.js"></script>
-<script src="filters/filters.js"></script>
 <script src="assets/js/main.js"></script>
+
 </body>
 
 

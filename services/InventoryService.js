@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service("InventoryService", function(  ) {
+app.service("InventoryService", function () {
 
     var self = this;
 
@@ -38,7 +38,7 @@ app.service("InventoryService", function(  ) {
 
     };
 
-    this.updateComponentInventoryValue = function ( component, value) {
+    this.updateComponentInventoryValue = function (component, value) {
 
         if (self.componentInventory[component] + value <= 0) {
             console.log("You don't have enough components");
@@ -49,13 +49,12 @@ app.service("InventoryService", function(  ) {
 
     };
 
-    this.removeComponentNeeded = function ( index, component) {
+    this.removeComponentNeeded = function (index, component) {
 
         self.inventory.mats.splice(i);
         console.log('removed component from needs list');
 
     }
-
 
 
 });

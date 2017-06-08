@@ -9,9 +9,11 @@
                     <div class="modal-inner">
                         <p>Level: {{ myShip[itemIndex].level }}</p>
                         <p>Type: {{ myShip[itemIndex].type | camelCaseToHuman }}</p>
-                        <p>Enhancement: <span ng-if="myShip[itemIndex].currentEffectiveness > 0">+</span>{{ myShip[itemIndex].currentEffectiveness }}/{{ myShip[itemIndex].fullEffectiveness }} {{ myShip[itemIndex].enhancement | titlecase }}</p>
-                        <p>Value: {{  myShip[itemIndex].currentValue | currency:"Ᵽ" }}</p>
-                        <p>Quality: {{  myShip[itemIndex].quality | titlecase }}</p>
+                        <p>Enhancement: <span ng-if="myShip[itemIndex].currentEffectiveness > 0">+</span>{{
+                            myShip[itemIndex].currentEffectiveness }}/{{ myShip[itemIndex].fullEffectiveness }} {{
+                            myShip[itemIndex].enhancement | titlecase }}</p>
+                        <p>Value: {{ myShip[itemIndex].currentValue | currency:"Ᵽ" }}</p>
+                        <p>Quality: {{ myShip[itemIndex].quality | titlecase }}</p>
                         <div ng-if="!myShip[itemIndex].componentsNeeded.length">
                             <p>Status: Good</p>
                             <div class="clearfix"></div>
@@ -22,7 +24,8 @@
                             <p>Repair Parts Available: {{ stats.repairParts }}</p>
                             <ul>
                                 <li ng-repeat="component in myShip[itemIndex].componentsNeeded">
-                                    <div class="button button-default button-xs" ng-click="repairItem($index, true)" data-toggle="tooltip" title="Click to Repair">
+                                    <div class="button button-default button-xs" ng-click="repairItem($index, true)"
+                                         data-toggle="tooltip" title="Click to Repair">
                                         <i class="fa fa-square-o"></i>
                                         {{ component.name | camelCaseToHuman }}<span>: {{ component.need }}
                                             <i class="fa fa-wrench"></i>
@@ -32,7 +35,6 @@
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-
 
 
                         <div ng-if="myShip[itemIndex].repaired.length > 0">
@@ -53,7 +55,9 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="close(true)" class="button button-sm button-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="close(true)" class="button button-sm button-default"
+                        data-dismiss="modal">Close
+                </button>
             </div>
         </div>
     </div>

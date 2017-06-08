@@ -1,24 +1,24 @@
 var app = angular.module('spaceApp');
-app.service('GenerateService', function ($rootScope, DataService, InventoryService, ItemService, UtilService){
+app.service('GenerateService', function ($rootScope, DataService, InventoryService, ItemService, UtilService) {
 
     var self = this;
 
-    this.generateFullName = function() {
+    this.generateFullName = function () {
 
         return self.generateName() + " " + self.generateName();
 
     };
 
-    this.generateName = function() {
+    this.generateName = function () {
 
         var buildName = function () {
-            var number = UtilService.random(2,5);
+            var number = UtilService.random(2, 5);
             var name = "";
-            if(UtilService.random(1,3)===1){
+            if (UtilService.random(1, 3) === 1) {
                 name += UtilService.randomFromArray(DataService.text.names.vowels);
             }
-            for (i=0;i<number;i++) {
-                if (i%2===0) {
+            for (i = 0; i < number; i++) {
+                if (i % 2 === 0) {
                     name += UtilService.randomFromArray(DataService.text.names.parts);
                 } else {
                     name += UtilService.randomFromArray(DataService.text.names.vowels);
@@ -37,10 +37,10 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
     this.generateStationName = function () {
 
-        var roll = UtilService.random(1,3);
-        if (roll===1) {
+        var roll = UtilService.random(1, 3);
+        if (roll === 1) {
             var type = 'Station';
-        } else if (roll===2) {
+        } else if (roll === 2) {
             var type = 'Outpost';
         } else {
             var type = 'Orbital';
@@ -59,7 +59,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
         } else {
             var thisType = (function () {
 
-                var roll = UtilService.random(1,1);
+                var roll = UtilService.random(1, 1);
 
                 if (roll <= 1) {
                     return UtilService.randomFromArray(Object.keys(DataService.items.shipPart));
@@ -68,7 +68,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             })();
         }
 
-        o.level = DataService.stats.level > 1 ? UtilService.random((DataService.stats.level -1), (DataService.stats.level + 1)) : DataService.stats.level;
+        o.level = DataService.stats.level > 1 ? UtilService.random((DataService.stats.level - 1), (DataService.stats.level + 1)) : DataService.stats.level;
         var tempType = DataService.items.shipPart[thisType];
         o.name = thisType;
         o.type = thisType;
@@ -76,19 +76,19 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
         // quality
 
-        o.maxEffectiveness = o.level+3;
-        var getQuality = function() {
+        o.maxEffectiveness = o.level + 3;
+        var getQuality = function () {
 
             var percent = Math.random();
 
             if (percent > .99 && o.level > 15) {
                 return {
-                    fullEffectiveness: Math.ceil(o.maxEffectiveness*1.2),
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness * 1.2),
                     quality: 'legendary'
                 };
             } else if (percent > .95 && o.level > 10) {
                 return {
-                    fullEffectiveness: Math.ceil(o.maxEffectiveness*1.1),
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness * 1.1),
                     quality: 'epic'
                 };
             } else if (percent > .85 && o.level > 7) {
@@ -98,17 +98,17 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
                 };
             } else if (percent > .70 && o.level > 4) {
                 return {
-                    fullEffectiveness: Math.ceil(o.maxEffectiveness*.9),
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness * .9),
                     quality: 'uncommon'
                 };
             } else if (percent > .50) {
                 return {
-                    fullEffectiveness: Math.ceil(o.maxEffectiveness*.8),
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness * .8),
                     quality: 'common'
                 };
             } else {
                 return {
-                    fullEffectiveness: Math.ceil(o.maxEffectiveness*.7),
+                    fullEffectiveness: Math.ceil(o.maxEffectiveness * .7),
                     quality: 'trash'
                 }
             }
@@ -122,7 +122,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
         o.repaired = [];
         o.fullValue = o.fullEffectiveness * 5;
         if (Math.random() < percentChanceBroken) {
-            var damage = ItemService.damageItem(1,3,1,3);
+            var damage = ItemService.damageItem(1, 3, 1, 3);
             o.componentsNeeded = damage.componentsNeeded;
             o.currentEffectiveness = o.fullEffectiveness / 2;
             o.currentValue = o.fullValue / 2;
@@ -152,7 +152,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
     this.gainCredits = function (minBase, maxBase) {
 
-        var credits = UtilService.random(minBase*DataService.stats.level, maxBase*DataService.stats.level);
+        var credits = UtilService.random(minBase * DataService.stats.level, maxBase * DataService.stats.level);
         DataService.stats.credits += credits;
         $rootScope.$broadcast('updateStats');
         return credits;
@@ -161,7 +161,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
 
     this.loot = function () {
 
-        var roll = UtilService.random(1,15);
+        var roll = UtilService.random(1, 15);
 
         if (roll <= 7) {
             if (InventoryService.inventory.length > DataService.stats.capacity) {
@@ -169,7 +169,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
             } else {
                 if (roll <= 3) {
                     //money + item
-                    var credits = self.gainCredits(1,5);
+                    var credits = self.gainCredits(1, 5);
                     var item = self.generateItem();
                     InventoryService.inventory.unshift(item);
                     DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span> and <span class='" + item.quality + "'>" + item.name + "</span>.");
@@ -183,7 +183,7 @@ app.service('GenerateService', function ($rootScope, DataService, InventoryServi
         } else {
             if (roll <= 10) {
                 //money
-                var credits = self.gainCredits(1,5);
+                var credits = self.gainCredits(1, 5);
                 DataService.log.unshift("You manage to find <span class='gold'>" + credits + "&#11363;</span>.");
             } else {
                 //nothing

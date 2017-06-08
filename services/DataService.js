@@ -1,6 +1,6 @@
 var app = angular.module('spaceApp');
 
-app.service('DataService', function($rootScope) {
+app.service('DataService', function ($rootScope) {
 
     var self = this;
 
@@ -29,8 +29,8 @@ app.service('DataService', function($rootScope) {
 
     this.ships = {
 
-        scamp: new self.classA("Scamp",20,10,10,10,20,0,"scamp.png"),
-        scout: new self.classA("Scout",15,10,15,20,10,0,"scout.png")
+        scamp: new self.classA("Scamp", 20, 10, 10, 10, 20, 0, "scamp.png"),
+        scout: new self.classA("Scout", 15, 10, 15, 20, 10, 0, "scout.png")
 
     };
 
@@ -77,7 +77,7 @@ app.service('DataService', function($rootScope) {
         ],
         names: {
             vowels: ['a', 'e', 'i', 'o', 'u'],
-            parts: ['b','c','d','f','g','h','j','k','l','m','n','p','q','qu','r','s','t','v','w','x','z','st','rh','sr','dh','th','tr','sh','gh','vr','ck']
+            parts: ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'qu', 'r', 's', 't', 'v', 'w', 'x', 'z', 'st', 'rh', 'sr', 'dh', 'th', 'tr', 'sh', 'gh', 'vr', 'ck']
         }
 
     };
@@ -127,7 +127,7 @@ app.service('DataService', function($rootScope) {
         characters: [
             'alien1.png'
         ],
-        wrecks:[
+        wrecks: [
             'wreck.jpg',
             'wreck2.jpg'
         ],
@@ -157,9 +157,9 @@ app.service('DataService', function($rootScope) {
     this.items = {
 
         junk: [
-            { name: "hammer", value: 3 },
-            { name: "wrench", value: 3 },
-            { name: "thermal inverter", value: 5 }
+            {name: "hammer", value: 3},
+            {name: "wrench", value: 3},
+            {name: "thermal inverter", value: 5}
         ],
         shipPart: {
             weapon: new self.shipPart('attack'),
@@ -179,26 +179,26 @@ app.service('DataService', function($rootScope) {
     };
 
     this.components = {
-        wiringHarness: new self.component('common',10),
-        powerConverter: new self.component('common',10),
-        microController: new self.component('common',10),
-        polarityReducer: new self.component('common',10),
-        heatSync: new self.component('uncommon',20),
-        particleEmitter: new self.component('uncommon',20),
-        matterTransverter: new self.component('uncommon',20),
-        voltageDiode: new self.component('uncommon',20),
-        gammaRayDeflector: new self.component('rare',40),
-        plasmaCapacitor: new self.component('rare',40),
-        grapheneManifold: new self.component('rare',40),
-        quantumAccelerator: new self.component('rare',40),
-        trionicCoil: new self.component('very rare',80),
-        gravitronAssembly: new self.component('very rare',80),
-        pulseInhibitor: new self.component('very rare',80),
-        singularityArray: new self.component('very rare',80),
-        chargeLimiter: new self.component('scarce',200),
-        fuseConduit: new self.component('scarce',200),
-        resonanceIsolator: new self.component('scarce',200),
-        tachyonFilament: new self.component('scarce',200)
+        wiringHarness: new self.component('common', 10),
+        powerConverter: new self.component('common', 10),
+        microController: new self.component('common', 10),
+        polarityReducer: new self.component('common', 10),
+        heatSync: new self.component('uncommon', 20),
+        particleEmitter: new self.component('uncommon', 20),
+        matterTransverter: new self.component('uncommon', 20),
+        voltageDiode: new self.component('uncommon', 20),
+        gammaRayDeflector: new self.component('rare', 40),
+        plasmaCapacitor: new self.component('rare', 40),
+        grapheneManifold: new self.component('rare', 40),
+        quantumAccelerator: new self.component('rare', 40),
+        trionicCoil: new self.component('very rare', 80),
+        gravitronAssembly: new self.component('very rare', 80),
+        pulseInhibitor: new self.component('very rare', 80),
+        singularityArray: new self.component('very rare', 80),
+        chargeLimiter: new self.component('scarce', 200),
+        fuseConduit: new self.component('scarce', 200),
+        resonanceIsolator: new self.component('scarce', 200),
+        tachyonFilament: new self.component('scarce', 200)
     };
 
 });

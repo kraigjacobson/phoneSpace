@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('ActionService', function($rootScope, $timeout, $state, NewGameService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService){
+app.service('ActionService', function ($rootScope, $timeout, $state, NewGameService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService) {
 
     var self = this;
     // var test = 'test';
@@ -21,10 +21,10 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
         $state.go('log').then(function () {
             start();
-            $timeout(function() {
+            $timeout(function () {
                 $rootScope.starfield = false;
                 var distance = ShipService.getDistance();
-                DataService.stats.daysTraveled ++;
+                DataService.stats.daysTraveled++;
                 if (DataService.stats.distanceLeft - distance >= 0) {
                     DataService.stats.distanceLeft -= distance;
                     DataService.stats.distanceTraveled += distance;
@@ -60,7 +60,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.checkInsurance = function () {
         if (DataService.policy) {
-            DataService.policy.daysLeft --;
+            DataService.policy.daysLeft--;
             if (DataService.policy.daysLeft === 10) {
                 alert('Your insurance policy is expiring soon. Please see your nearest agent.');
             }
@@ -77,7 +77,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
             $rootScope.investigated = true;
             $timeout(function () {
-                var roll = UtilService.random(1,5);
+                var roll = UtilService.random(1, 5);
 
                 if (roll === 5) {
                     DataService.log.unshift("<span class='danger'>It's a trap!</span>");
@@ -94,10 +94,10 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.attack = function () {
 
-        var attackRoll = UtilService.random(1,20);
+        var attackRoll = UtilService.random(1, 20);
         if (attackRoll + DataService.stats.accuracy >= $rootScope.enemy.ship.piloting) {
             // hit
-            var damageRoll = UtilService.random(1,DataService.stats.attack);
+            var damageRoll = UtilService.random(1, DataService.stats.attack);
             if ($rootScope.enemy.currentShield > 0) {
                 // damage shield
                 if ($rootScope.enemy.currentShield - damageRoll <= 0) {
@@ -113,7 +113,7 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
                     $rootScope.enemy.currentHull = 0;
                     var bounty = {
                         target: $rootScope.enemy.name,
-                        bounty: UtilService.random(1*DataService.stats.level,10*DataService.stats.level),
+                        bounty: UtilService.random(1 * DataService.stats.level, 10 * DataService.stats.level),
                         time: UtilService.timeNow()
                     };
                     if ($rootScope.bounties === null) {
@@ -146,9 +146,9 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
         // enemy attack
 
         if ($rootScope.enemy.currentHull > 0) {
-            var enemyAttackRoll = UtilService.random(1,20);
+            var enemyAttackRoll = UtilService.random(1, 20);
             if (enemyAttackRoll + $rootScope.enemy.ship.accuracy >= DataService.stats.piloting) {
-                var damageRoll = UtilService.random(1,Math.floor($rootScope.enemy.ship.attack * .5));
+                var damageRoll = UtilService.random(1, Math.floor($rootScope.enemy.ship.attack * .5));
                 if (DataService.stats.currentShield > 0) {
                     // damage shield
                     if (DataService.stats.currentShield - damageRoll <= 0) {
@@ -183,8 +183,8 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
     };
 
     this.escape = function () {
-        enemyRoll = UtilService.random(1,($rootScope.enemy.ship.accuracy + $rootScope.enemy.ship.speed) / 2);
-        playerRoll = UtilService.random(1,(DataService.stats.piloting + DataService.stats.speed) / 2);
+        enemyRoll = UtilService.random(1, ($rootScope.enemy.ship.accuracy + $rootScope.enemy.ship.speed) / 2);
+        playerRoll = UtilService.random(1, (DataService.stats.piloting + DataService.stats.speed) / 2);
 
         if (playerRoll > enemyRoll) {
             DataService.log.unshift("You escape with your life!");
@@ -256,10 +256,10 @@ app.service('ActionService', function($rootScope, $timeout, $state, NewGameServi
 
     this.collectBounties = function () {
         var totalBounties = 0;
-        console.log('totalBounties',totalBounties);
-        angular.forEach($rootScope.bounties, function(value, key) {
-            console.log('key',key);
-            console.log('value',value);
+        console.log('totalBounties', totalBounties);
+        angular.forEach($rootScope.bounties, function (value, key) {
+            console.log('key', key);
+            console.log('value', value);
             totalBounties += value.bounty;
         });
         DataService.stats.credits += totalBounties;

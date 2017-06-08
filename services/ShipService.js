@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('ShipService', function(UtilService, InventoryService, DataService){
+app.service('ShipService', function (UtilService, InventoryService, DataService) {
 
     var self = this;
 
@@ -9,7 +9,7 @@ app.service('ShipService', function(UtilService, InventoryService, DataService){
         var maxDistance = .5;
         var speed = DataService.stats.speed;
         var distance = UtilService.random(minDistance * speed, maxDistance * speed);
-        UtilService.getExperience(Math.floor(distance/4));
+        UtilService.getExperience(Math.floor(distance / 4));
         return distance;
 
     };

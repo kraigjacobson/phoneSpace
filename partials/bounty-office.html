@@ -1,4 +1,5 @@
 <div ng-controller="ConsoleController">
     <p ng-if="!bounties" class="text-center">You have no bounty vouchers.</p>
-    <p ng-if="bounties" ng-repeat="bounty in bounties">Target: {{bounty.target}} | Bounty: {{bounty.bounty | currency:"Ᵽ"}} | Time: {{bounty.time}}</p>
+    <p ng-if="bounties" ng-repeat="bounty in bounties">Target: {{bounty.target}} | Bounty: {{bounty.bounty |
+        currency:"Ᵽ"}} | Time: {{bounty.time}}</p>
 </div>

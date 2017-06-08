@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/station');
 
@@ -46,7 +46,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/station/services/bounty-office',
             templateUrl: 'partials/bounty-office.html',
             controller: function ($rootScope, UtilService, DataService) {
-                $rootScope.label =  $rootScope.stationTemps.name + " | Bounty Office";
+                $rootScope.label = $rootScope.stationTemps.name + " | Bounty Office";
                 $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.bountyOffice));
             }
         })
@@ -60,7 +60,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     $rootScope.stationTemps.casino.name = GenerateService.generateName();
                     $rootScope.stationTemps.casino.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.casino));
                 }
-                $rootScope.label =  $rootScope.stationTemps.name + " | " + $rootScope.stationTemps.casino.name + " Casino";
+                $rootScope.label = $rootScope.stationTemps.name + " | " + $rootScope.stationTemps.casino.name + " Casino";
                 $rootScope.foreground = $rootScope.stationTemps.casino.image;
             }
         })
@@ -76,10 +76,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller: function ($rootScope, UtilService, DataService, GenerateService) {
                 if (!$rootScope.stationTemps.insurance) {
                     $rootScope.stationTemps.insurance = {};
-                    $rootScope.stationTemps.insurance.name = GenerateService.generateName()+ ' Insurance';
+                    $rootScope.stationTemps.insurance.name = GenerateService.generateName() + ' Insurance';
                     $rootScope.stationTemps.insurance.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.insurance));
                 }
-                $rootScope.label =  $rootScope.stationTemps.name + " | " + $rootScope.stationTemps.insurance.name;
+                $rootScope.label = $rootScope.stationTemps.name + " | " + $rootScope.stationTemps.insurance.name;
                 $rootScope.foreground = $rootScope.stationTemps.insurance.image;
             }
         })
@@ -98,7 +98,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     $rootScope.stationTemps.nightclub.name = GenerateService.generateName();
                     $rootScope.stationTemps.nightclub.image = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.nightClub));
                 }
-                $rootScope.label =  $rootScope.stationTemps.name + " | " + $rootScope.stationTemps.nightclub.name;
+                $rootScope.label = $rootScope.stationTemps.name + " | " + $rootScope.stationTemps.nightclub.name;
                 $rootScope.foreground = $rootScope.stationTemps.nightclub.image;
             }
         })
@@ -112,7 +112,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/station/services/repair',
             templateUrl: 'partials/repair.html',
             controller: function ($rootScope, UtilService, DataService) {
-                $rootScope.label =  $rootScope.stationTemps.name + " | " + "Ship Repair";
+                $rootScope.label = $rootScope.stationTemps.name + " | " + "Ship Repair";
                 $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.repair));
             }
         })
@@ -121,7 +121,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/station/services/reprocessing',
             templateUrl: 'partials/inventory.html',
             controller: function ($rootScope, UtilService, DataService) {
-                $rootScope.label =  $rootScope.stationTemps.name + " | " + "Reprocessing";
+                $rootScope.label = $rootScope.stationTemps.name + " | " + "Reprocessing";
                 $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.repair));
             }
         })
@@ -130,7 +130,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/station/services/stock-brokerage',
             templateUrl: 'partials/stock-brokerage.html',
             controller: function ($rootScope, UtilService, DataService) {
-                $rootScope.label =  $rootScope.stationTemps.name + " | " + "Stock Brokerage";
+                $rootScope.label = $rootScope.stationTemps.name + " | " + "Stock Brokerage";
                 $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stockBrokerage));
             }
         })
@@ -153,7 +153,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/station/docking-bay',
             templateUrl: 'partials/docking-bay.html',
             controller: function ($rootScope, UtilService, DataService) {
-                $rootScope.label =  $rootScope.stationTemps.name + " | Docking Bay";
+                $rootScope.label = $rootScope.stationTemps.name + " | Docking Bay";
                 $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.dockingBay));
             }
         })
@@ -166,6 +166,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('sell', {
             url: '/sell',
             templateUrl: 'partials/sell.html'
+        })
+
+        .state('map', {
+            url: '/map',
+            templateUrl: 'partials/map.html'
         });
 
 });

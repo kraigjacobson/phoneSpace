@@ -1,14 +1,14 @@
 var app = angular.module('spaceApp');
-app.service('NewGameService', function( $rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService ){
-    
+app.service('NewGameService', function ($rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService) {
+
     this.init = function () {
 
         for (coIndex = 0; coIndex < 12; coIndex++) {
-                var co = StockService.generateCompany();
-                DataService.stockMarket.push(co);
+            var co = StockService.generateCompany();
+            DataService.stockMarket.push(co);
         }
 
-        for (d=0;d<30;d++) {
+        for (d = 0; d < 30; d++) {
             StockService.change();
             UtilService.newDay();
         }
@@ -48,7 +48,7 @@ app.service('NewGameService', function( $rootScope, $state, DataService, Generat
 
         DataService.policy = null;
 
-        $state.go('station');
+        // $state.go('station');
 
         // $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
 

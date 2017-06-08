@@ -5,9 +5,12 @@
             <i class="fa fa-arrow-up" ng-if="item.fullEffectiveness > myShip[item.type].fullEffectiveness"></i>
             <i class="fa fa-minus" ng-if="item.fullEffectiveness === myShip[item.type].fullEffectiveness"></i>
             <i class="fa fa-arrow-down" ng-if="item.fullEffectiveness < myShip[item.type].fullEffectiveness"></i>
-            <button class="button deets {{item.quality}}" ng-click="details($index, 'inventory')">{{ item.name | camelCaseToHuman}} <i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
+            <button class="button deets {{item.quality}}" ng-click="details($index, 'inventory')">{{ item.name |
+                camelCaseToHuman}} <i class="fa fa-wrench" ng-if="item.componentsNeeded.length > 0"></i></button>
             <span ng-if="status.one === 'station'">{{ Math.floor(item.currentValue / 2) | currency:"Ᵽ" }}</span>
-            <button class="button button-success pull-right delete" ng-click="sellItem($index)" ng-if="currentState === 'sell'||currentState === 'merchant'">Sell</button>
+            <button class="button button-success pull-right delete" ng-click="sellItem($index)"
+                    ng-if="currentState === 'sell'||currentState === 'merchant'">Sell
+            </button>
         </p>
     </div>
 </div>

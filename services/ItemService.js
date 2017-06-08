@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('ItemService', function ($rootScope, DataService, InventoryService, UtilService){
+app.service('ItemService', function ($rootScope, DataService, InventoryService, UtilService) {
 
     var self = this;
 
@@ -15,19 +15,19 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
         self.show(template);
     };
 
-    this.show = function(template) {
+    this.show = function (template) {
         ModalService.showModal({
             templateUrl: template,
             controller: "ModalController"
-        }).then(function(modal) {
+        }).then(function (modal) {
             modal.element.modal();
-            modal.close.then(function(result) {
+            modal.close.then(function (result) {
             });
         });
     };
 
     this.repairItem = function (i, isShip) {
-        if(isShip) {
+        if (isShip) {
             var itemLocation = "myShip";
         } else {
             var itemLocation = "inventory";
@@ -43,7 +43,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
             var amt = itemComponent[i].need;
             DataService.stats.repairParts -= amt;
             item.penalty -= amt;
-            itemComponent.splice(i,1);
+            itemComponent.splice(i, 1);
             item.repaired.push(self.componentName);
             if (!itemComponent.length) {
                 InventoryService[itemLocation][self.currentItemIndex].repaired = [];
@@ -61,14 +61,14 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
             penalty: 0
         };
 
-        var numberNeeded = UtilService.random(minComponents,maxComponents);
+        var numberNeeded = UtilService.random(minComponents, maxComponents);
         if (numberNeeded !== 0) {
 
             var tempArray = Object.keys(DataService.components);
-            for (i=0;i<numberNeeded;i++) {
-                var randomIndex = UtilService.random(-1,tempArray.length-1);
+            for (i = 0; i < numberNeeded; i++) {
+                var randomIndex = UtilService.random(-1, tempArray.length - 1);
                 var randomComponent = tempArray.splice(randomIndex, 1);
-                var amt = UtilService.random(minQty,maxQty);
+                var amt = UtilService.random(minQty, maxQty);
                 damage.penalty += amt;
                 damage.componentsNeeded.push({
                     name: randomComponent[0],
@@ -82,7 +82,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
     };
 
     this.deleteItem = function (i) {
-        console.log('index',i);
+        console.log('index', i);
         InventoryService.inventory.splice(i, 1);
     };
 
@@ -115,7 +115,7 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
     };
 
     this.recycle = function (i) {
-        var repairParts = Math.floor(UtilService.random(1,4) * InventoryService.inventory[i].level *.5);
+        var repairParts = Math.floor(UtilService.random(1, 4) * InventoryService.inventory[i].level * .5);
         if (repairParts !== 0) {
             alert('You received ' + repairParts + ' repair parts.');
             DataService.stats.repairParts += repairParts;
@@ -139,11 +139,11 @@ app.service('ItemService', function ($rootScope, DataService, InventoryService, 
             DataService.stats[oldPart.enhancement] -= oldPart.currentEffectiveness;
             // add new part stat
             DataService.stats[oldPart.enhancement] += newPart.currentEffectiveness;
-            if (newPart.type==='armor') {
+            if (newPart.type === 'armor') {
                 var difference = newPart.fullEffectiveness - oldPart.fullEffectiveness;
                 DataService.stats.currentHull += difference;
             }
-            if (newPart.type==='shieldCell') {
+            if (newPart.type === 'shieldCell') {
                 var difference = newPart.fullEffectiveness - oldPart.fullEffectiveness;
                 console.log(difference);
                 DataService.stats.currentShield += difference;

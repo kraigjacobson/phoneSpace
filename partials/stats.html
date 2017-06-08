@@ -1,30 +1,33 @@
 <div ng-controller="ConsoleController">
     <div id="stats" class="modal-inner">
         <div class="row top-stats">
-            <div class="col-xs-4">{{ stats.name | camelCaseToHuman }}</div>
-            <div class="col-xs-4">Level: {{ stats.level }}</div>
-            <div class="col-sm-4">{{ stats.credits | currency:"Ᵽ" }}</div>
+            <div class="small-4 columns">{{ stats.name | camelCaseToHuman }}</div>
+            <div class="small-4 columns">Level: {{ stats.level }}</div>
+            <div class="small-4 columns">{{ stats.credits | currency:"Ᵽ" }}</div>
         </div>
         <div class="row top-stats">
             <div class="col-xs-12">{{ currentWeek[0].format("dddd, MMMM Do, YYYY") }}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="small-6 columns">
                 <p>Dist: {{ stats.distanceTraveled }}/{{ stats.totalDistance }} ly</p>
                 <p>Days Traveled: {{ stats.daysTraveled }}</p>
                 <p>Ship: {{ stats.ship }}</p>
                 <p>Exp: {{ stats.experience }}</p>
                 <p>Repair Parts: {{ stats.repairParts }}</p>
                 <p ng-if="bounties">Open Bounties: {{ bounties.length }}</p>
-                <p ng-if="policy">Insurance: {{policy.policyType | titlecase}}<br/>Days Left: <span ng-class="policy.daysLeft < policy.daysCovered * 0.1 ? 'danger' : ''">{{policy.daysLeft}}</span></p>
+                <p ng-if="policy">Insurance: {{policy.policyType | titlecase}}<br/>Days Left: <span
+                        ng-class="policy.daysLeft < policy.daysCovered * 0.1 ? 'danger' : ''">{{policy.daysLeft}}</span>
+                </p>
 
-                <p>Stock Purchases: {{ stats.stockPurchases  | currency:"Ᵽ" }}</p>
-                <p>Stock Sales: {{ stats.stockSales*-1  | currency:"Ᵽ" }}</p>
-                <p>Stock Profits: <span ng-class="stats.stockPurchases + stats.stockSales > 0 ? 'success' : 'danger'">{{ stats.stockPurchases + stats.stockSales | currency:"Ᵽ" }}</span></p>
+                <p>Stock Purchases: {{ stats.stockPurchases | currency:"Ᵽ" }}</p>
+                <p>Stock Sales: {{ stats.stockSales*-1 | currency:"Ᵽ" }}</p>
+                <p>Stock Profits: <span ng-class="stats.stockPurchases + stats.stockSales > 0 ? 'success' : 'danger'">{{ stats.stockPurchases + stats.stockSales | currency:"Ᵽ" }}</span>
+                </p>
                 <p>Shares Purchased: {{ stats.sharesPurchased }}</p>
                 <p>Shares Sold: {{ stats.sharesSold*-1 }}</p>
             </div>
-            <div class="col-xs-6">
+            <div class="small-6 columns">
                 <p><i class="fa fa-angle-double-up"></i> Attack: {{ stats.attack }}</p>
                 <p><i class="fa fa-crosshairs"></i> Accuracy: {{ stats.accuracy }}</p>
                 <p><i class="fa fa-arrows"></i> Piloting: {{ stats.piloting }}</p>

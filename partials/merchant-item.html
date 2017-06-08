@@ -9,13 +9,19 @@
                     <div class="modal-inner">
                         <p>Level: {{ merchantInventory[itemIndex].level }}</p>
                         <p>Type: {{ merchantInventory[itemIndex].type | camelCaseToHuman }}</p>
-                        <p ng-if="inventory[itemIndex].penalty">Damaged Penalty: {{ merchantInventory[itemIndex].penalty }}</p>
-                        <p>Enhancement: <span ng-if="merchantInventory[itemIndex].currentEffectiveness > 0">+</span>{{ merchantInventory[itemIndex].currentEffectiveness }}/{{ merchantInventory[itemIndex].fullEffectiveness }} {{ merchantInventory[itemIndex].enhancement | titlecase }}
-                            <i class="fa fa-arrow-up" ng-if="merchantInventory[itemIndex].fullEffectiveness > myShip[inventory[itemIndex].type].fullEffectiveness"></i>
-                            <i class="fa fa-arrow-down" ng-if="merchantInventory[itemIndex].fullEffectiveness < myShip[inventory[itemIndex].type].fullEffectiveness"></i>
+                        <p ng-if="inventory[itemIndex].penalty">Damaged Penalty: {{ merchantInventory[itemIndex].penalty
+                            }}</p>
+                        <p>Enhancement: <span ng-if="merchantInventory[itemIndex].currentEffectiveness > 0">+</span>{{
+                            merchantInventory[itemIndex].currentEffectiveness }}/{{
+                            merchantInventory[itemIndex].fullEffectiveness }} {{
+                            merchantInventory[itemIndex].enhancement | titlecase }}
+                            <i class="fa fa-arrow-up"
+                               ng-if="merchantInventory[itemIndex].fullEffectiveness > myShip[inventory[itemIndex].type].fullEffectiveness"></i>
+                            <i class="fa fa-arrow-down"
+                               ng-if="merchantInventory[itemIndex].fullEffectiveness < myShip[inventory[itemIndex].type].fullEffectiveness"></i>
                         </p>
-                        <p>Value: {{  merchantInventory[itemIndex].currentValue | currency:"Ᵽ"  }}</p>
-                        <p>Quality: {{  merchantInventory[itemIndex].quality | titlecase }}</p>
+                        <p>Value: {{ merchantInventory[itemIndex].currentValue | currency:"Ᵽ" }}</p>
+                        <p>Quality: {{ merchantInventory[itemIndex].quality | titlecase }}</p>
                         <div ng-if="!merchantInventory[itemIndex].componentsNeeded.length">
                             <p>Status: Good</p>
                             <div class="clearfix"></div>
@@ -25,15 +31,14 @@
                             <p>Status: Repairs Needed <i class="fa fa-warning"></i></p>
                             <ul>
                                 <li ng-repeat="component in merchantInventory[itemIndex].componentsNeeded">
-                                        <i class="fa fa-square-o"></i>
-                                        {{ component.name | camelCaseToHuman }}<span>: {{ componentInventory[component.name] }}/{{ component.need }}
+                                    <i class="fa fa-square-o"></i>
+                                    {{ component.name | camelCaseToHuman }}<span>: {{ componentInventory[component.name] }}/{{ component.need }}
                                             <i class="fa fa-wrench"></i>
                                     </span>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-
 
 
                         <div ng-if="merchantInventory[itemIndex].repaired.length > 0">
@@ -54,7 +59,9 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="close(true)" class="button button-sm button-default" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="close(true)" class="button button-sm button-default"
+                        data-dismiss="modal">Close
+                </button>
             </div>
         </div>
     </div>
