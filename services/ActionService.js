@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('ActionService', function ($rootScope, $timeout, $state, NewGameService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService) {
+app.service('ActionService', ['$rootScope', '$timeout', '$state', 'NewGameService', 'ShipService', 'UniverseService', 'DataService', 'UtilService', 'InventoryService', 'GenerateService', 'StockService', function ($rootScope, $timeout, $state, NewGameService, ShipService, UniverseService, DataService, UtilService, InventoryService, GenerateService, StockService) {
 
     var self = this;
     // var test = 'test';
@@ -286,4 +286,4 @@ app.service('ActionService', function ($rootScope, $timeout, $state, NewGameServ
         $state.go('ship');
     };
 
-});
+}]);

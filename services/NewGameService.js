@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('NewGameService', function ($rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService) {
+app.service('NewGameService', ['$rootScope', '$state', 'DataService', 'GenerateService', 'InventoryService', 'UniverseService', 'UtilService', 'StockService', function ($rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService) {
 
     this.init = function () {
 
@@ -54,4 +54,4 @@ app.service('NewGameService', function ($rootScope, $state, DataService, Generat
 
     };
 
-});
+}]);

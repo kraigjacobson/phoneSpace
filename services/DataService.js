@@ -1,6 +1,8 @@
 var app = angular.module('spaceApp');
 
-app.service('DataService', function ($rootScope) {
+app.service('DataService', ['$rootScope', function ($rootScope) {
+
+    var moment = require('moment');
 
     var self = this;
 
@@ -201,4 +203,4 @@ app.service('DataService', function ($rootScope) {
         tachyonFilament: new self.component('scarce', 200)
     };
 
-});
+}]);

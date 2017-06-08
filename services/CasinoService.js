@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('BlackjackService', function ($state, ActionService, DataService, UtilService) {
+app.service('BlackjackService', ['$state', 'ActionService', 'DataService', 'UtilService', function ($state, ActionService, DataService, UtilService) {
 
     var self = this;
 
@@ -161,4 +161,4 @@ app.service('BlackjackService', function ($state, ActionService, DataService, Ut
 
     this.message = 'Blackjack!';
 
-});
+}]);

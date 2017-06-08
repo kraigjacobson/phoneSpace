@@ -1,17 +1,17 @@
 var app = angular.module('spaceApp');
-app.filter('sentencecase', function () {
+app.filter('sentencecase', [function () {
     return function (word) {
         return word.substring(0, 1).toUpperCase() + word.slice(1);
     }
-});
+}]);
 
-app.filter('camelCaseToHuman', function () {
+app.filter('camelCaseToHuman', [function () {
     return function (input) {
         return input.charAt(0).toUpperCase() + input.substr(1).replace(/[A-Z]/g, ' $&');
     }
-});
+}]);
 
-app.filter('titlecase', function () {
+app.filter('titlecase', [function () {
     return function (input) {
         var smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
 
@@ -31,4 +31,4 @@ app.filter('titlecase', function () {
             return match.charAt(0).toUpperCase() + match.substr(1);
         });
     }
-});
+}]);

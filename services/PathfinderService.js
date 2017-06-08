@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('PathfinderService', function () {
+app.service('PathfinderService', [function () {
 
     var self = this;
 
@@ -13,7 +13,7 @@ app.service('PathfinderService', function () {
 
         var PF = require('../assets/js/pathfinding.js');
 
-        if(!localStorage.map) {
+        if (!localStorage.map) {
             console.log('no map? Let\'s build one!');
             var entities = [];
 
@@ -74,7 +74,7 @@ app.service('PathfinderService', function () {
 
         var plotPoint = function (x, y, color) {
             var randomColor = function () {
-                return Math.floor(Math.random() * 255);
+                return Math.floor(Math.random() * 155 +100);
             };
             color = "rgba(" + randomColor() + "," + randomColor() + "," + randomColor() + ",1)";
             ctx.fillStyle = color;
@@ -91,7 +91,7 @@ app.service('PathfinderService', function () {
 
         entities.forEach(function (star, i) {
             star.neighbors.forEach(function (star2) {
-                drawLine(star.x, star.y, star2.x, star2.y, 'rgba(255, 255, 255, 0.3');
+                drawLine(star.x, star.y, star2.x, star2.y, 'rgba(255, 255, 255, 0.1');
             });
             plotPoint(star.x, star.y, 'white');
 
@@ -99,4 +99,4 @@ app.service('PathfinderService', function () {
 
     };
 
-});
+}]);

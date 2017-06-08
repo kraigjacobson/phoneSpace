@@ -1,6 +1,6 @@
 var app = angular.module('spaceApp', ['ui.router', 'ngSanitize']);
 
-app.run(function ($state, $stateParams, $rootScope, $transitions, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
+app.run(['$state', '$stateParams', '$rootScope', '$transitions', '$location', '$window', 'GenerateService', 'InventoryService', 'DataService', 'NewGameService', function ($state, $stateParams, $rootScope, $transitions, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
 
     NewGameService.init();
 
@@ -15,7 +15,7 @@ app.run(function ($state, $stateParams, $rootScope, $transitions, $location, $wi
         $window.ga('send', 'pageview', {page: $location.path()});
     });
 
-});
+}]);
 
 app.controller('MainController', ['$scope', '$rootScope',
     function ($scope, $rootScope) {
@@ -183,11 +183,11 @@ app.controller('ConsoleController', ['$scope', '$rootScope', '$state', '$transit
 //
 // }]);
 
-app.directive('backgroundImg', function () {
+app.directive('backgroundImg', [function () {
     return function (scope, element, attrs) {
         element.css({
             'background-image': 'url(' + attrs.backgroundImageDirective + ')',
             'background-repeat': 'no-repeat'
         });
     };
-});
+}]);

@@ -1,5 +1,6 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require('webpack');
 
 module.exports = {
     entry: './index.js',
@@ -21,6 +22,9 @@ module.exports = {
         }]
     },
     plugins: [
-        new ExtractTextPlugin("main.css")
+        new ExtractTextPlugin("main.css"),
+        new webpack.ProvidePlugin({
+            "moment": "moment"
+        })
     ]
 };

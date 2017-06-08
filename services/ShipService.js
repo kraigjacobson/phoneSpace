@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('ShipService', function (UtilService, InventoryService, DataService) {
+app.service('ShipService', ['UtilService', 'InventoryService', 'DataService', function (UtilService, InventoryService, DataService) {
 
     var self = this;
 
@@ -14,4 +14,4 @@ app.service('ShipService', function (UtilService, InventoryService, DataService)
 
     };
 
-});
+}]);
