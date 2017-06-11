@@ -46,6 +46,7 @@ app.service('UniverseService', ['$rootScope', '$state', 'UtilService', 'DataServ
         DataService.log.unshift(UtilService.randomFromArray(DataService.text.weird));
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.label = "Deep Space";
+        $state.go('weird');
 
     };
 
@@ -54,6 +55,7 @@ app.service('UniverseService', ['$rootScope', '$state', 'UtilService', 'DataServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.wrecks));
         $rootScope.label = "Wrecked Ship";
+        $state.go('wreck');
     };
 
     this.shipIssue = function (randomShipPart) {
@@ -67,6 +69,7 @@ app.service('UniverseService', ['$rootScope', '$state', 'UtilService', 'DataServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(DataService.images.blank);
         $rootScope.label = "Deep Space";
+        $state.go('ship-issue');
     };
 
     this.planet = function () {
@@ -74,6 +77,7 @@ app.service('UniverseService', ['$rootScope', '$state', 'UtilService', 'DataServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.planets));
         $rootScope.label = "Planet";
+        $state.go('planet');
     };
 
     this.combat = function () {
@@ -83,6 +87,7 @@ app.service('UniverseService', ['$rootScope', '$state', 'UtilService', 'DataServ
         $rootScope.background = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.space));
         $rootScope.foreground = UtilService.getImagePath($rootScope.enemy.ship.img);
         $rootScope.label = "Pirate: " + $rootScope.enemy.name;
+        $state.go('combat');
 
     };
 

@@ -3,9 +3,10 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
     var self = this;
 
-    // localStorage.clear();
+    localStorage.clear();
 
     this.myLocation;
+    this.map;
 
     this.generateSystems = function () {
 
@@ -16,6 +17,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         var PF = require('../assets/js/pathfinding.js');
 
         if (!localStorage.map) {
+
             var entities = [];
 
             for (i = 0; i < 200; i++) {
@@ -38,7 +40,12 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 });
             }
 
-            self.myLocation = UtilService.randomFromArray(entities);
+            self.myLocation = UtilService.randomFromArray(entities, true);
+            if (!self.myLocation.item.name) {
+                var name = GenerateService.generateName();
+                entities[self.myLocation.index].name = name;
+            }
+            DataService.stats.currentLocation = self.myLocation;
             localStorage.map = JSON.stringify(entities);
             localStorage.myLocation = JSON.stringify(self.myLocation);
         } else {
@@ -47,6 +54,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
             var entities = JSON.parse(localStorage.map);
 
         }
+        this.map = entities;
         return entities;
     };
 
@@ -71,10 +79,10 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
     };
     this.drawMap = function () {
 
-        var app = new PIXI.Application(340, 260);
+        var app = new PIXI.Application(350, 285);
         document.getElementById('map').appendChild(app.view);
 
-        app.stage.position.set(340, 260);
+        app.stage.position.set(340, 275, {backgroundColor: 0xFFFFFF});
 
         var outlineFilterWhite = new PIXI.filters.GlowFilter(5, 5, 5, 0xFFFFFF, 5);
         var outlineFilterGreen = new PIXI.filters.GlowFilter(5, 5, 5, 0x3ee238, 5);
@@ -83,6 +91,9 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
         function onButtonDown() {
 
+            // for (i=0;i<app.stage.children.length;i++) {
+            //     app.stage.children[i]._filters = null;
+            // }
             this.filters = [outlineFilterGreen];
             if (!this.name) {
                 var entities = JSON.parse(localStorage.map);
@@ -90,16 +101,16 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 entities[this.index].name = this.name;
                 localStorage.map = JSON.stringify(entities);
             }
-            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop*1000) + " \nSecurity: " + this.sec + " \nIndex: " + this.index);
+            console.log("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop*1000) + " \nSecurity: " + this.sec + " \nIndex: " + this.index);
         }
 
-        function filterOn() {
-            this.filters = [outlineFilterGreen]
-        }
+        var filterOn = function () {
+            this.filters = [outlineFilterWhite];
+        };
 
-        function filterOff() {
+        var filterOff = function () {
             this.filters = null;
-        }
+        };
 
         var entities = self.addNeighbors(self.generateSystems());
 
@@ -107,7 +118,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
                 var randomColor = function () {
                     var letters = ['A','B','C','D','E','F'];
-                    var numbers = ['0','1','2','3','4','5','6','7','8','9'];
+                    var numbers = ['5','6','7','8','9'];
                     var hex = '';
                     var order = [];
                     for (i=0;i<3;i++) {
@@ -116,7 +127,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                         } else {
                             order.push(UtilService.random(0,1));
                         }
-                    };
+                    }
                     for (j=0;j<order.length;j++) {
                         if (order[j]===0) {
                             var char = UtilService.randomFromArray(numbers);
@@ -124,7 +135,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                             var char = UtilService.randomFromArray(letters);
                         }
                         hex += (char+char);
-                    };
+                    }
                     return '0x' + hex;
                 };
 
@@ -148,13 +159,12 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                     .on('pointerdown', onButtonDown )
                     .on('pointerover', filterOn )
                     .on('pointerout', filterOff );
-                filterOff.call(starSystem);
+                // filterOff.call(starSystem);
 
                 app.stage.addChild(starSystem);
         };
 
 
-//
         var drawLine = function (p1x, p1y, p2x, p2y, color) {
             var line = new PIXI.Graphics();
             line.lineStyle(1, color, 0.1);
@@ -162,16 +172,14 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
             line.lineTo(-p2x, -p2y);
             app.stage.addChild(line);
         };
-//
         var drawLocation = function () {
 
             var circle = new PIXI.Graphics();
             circle.lineStyle(1, 0x24E616, 0.1);
-            circle.drawCircle(-self.myLocation.x, -self.myLocation.y, 6);
+            circle.drawCircle(-self.myLocation.item.x, -self.myLocation.item.y, 6);
             app.stage.addChild(circle);
 
         };
-//
         entities.forEach(function (star) {
             plotPoint(star);
             star.neighbors.forEach(function (star2) {
@@ -180,13 +188,11 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
             drawLocation();
 
         });
-//         }
-// // var kill;
+
 
     };
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-
 }]);

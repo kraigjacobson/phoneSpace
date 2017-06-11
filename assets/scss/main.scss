@@ -156,12 +156,12 @@ body {
     margin: 0;
     padding: 0;
     li {
+      cursor: pointer;
       -moz-box-flex: 1;
       -webkit-box-flex: 1;
       box-flex: 1;
       border-right:1px solid #595959;
       padding:5px;
-      cursor: pointer;
       text-align:center;
       color: white;
       :first-child {
@@ -178,6 +178,13 @@ body {
       :active{
         background-color: black;
         color: $primary;
+      }
+    }
+  }
+  span.busy {
+    ul {
+      li {
+        cursor: default;
       }
     }
   }

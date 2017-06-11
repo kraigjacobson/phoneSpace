@@ -21,5 +21,4 @@ require('./services/StockService.js');
 require('./services/UniverseService.js');
 require('./services/UtilService.js');
 require('./assets/js/analytics.js');
-require('./assets/js/main.js');
 require('./filters/filters.js');

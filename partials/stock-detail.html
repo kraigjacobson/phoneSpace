@@ -1,40 +1,43 @@
 <div>
     <h4 class="text-center">{{stock.name | titlecase}} - {{stock.ticker}}</h4>
-    <div class="col-sm-6">
-        <p>Industry: {{stock.industry | titlecase}}</p>
-        <p><span ng-if="stockInterval===2">Day: </span><span ng-if="stockInterval===7">Week: </span><span
-                ng-if="stockInterval===30">Month: </span>
-            <span ng-if="stockInterval===2" ng-class="stock.change > 0 ? 'success':'danger'">{{stock.change | number : 2 | currency:"Ᵽ"}}</span>
-            <span ng-if="stockInterval===7" ng-class="wkChange.val > 0 ? 'success':'danger'">{{wkChange.val | number : 2 | currency:"Ᵽ"}}</span>
-            <span ng-if="stockInterval===30" ng-class="moChange.val > 0 ? 'success':'danger'">{{moChange.val | number : 2 | currency:"Ᵽ"}}</span>
+    <div class="row">
+        <div class="small-6 columns">
 
-            <span ng-if="stockInterval===2" ng-class="stock.changePercent > 0 ? 'success':'danger'">{{stock.changePercent | number : 2}}%
+            <p>Industry: {{stock.industry | titlecase}}</p>
+            <p><span ng-if="stockInterval===2">Day: </span><span ng-if="stockInterval===7">Week: </span><span
+                    ng-if="stockInterval===30">Month: </span>
+                <span ng-if="stockInterval===2" ng-class="stock.change > 0 ? 'success':'danger'">{{stock.change | number : 2 | currency:"Ᵽ"}}</span>
+                <span ng-if="stockInterval===7" ng-class="wkChange.val > 0 ? 'success':'danger'">{{wkChange.val | number : 2 | currency:"Ᵽ"}}</span>
+                <span ng-if="stockInterval===30" ng-class="moChange.val > 0 ? 'success':'danger'">{{moChange.val | number : 2 | currency:"Ᵽ"}}</span>
+
+                <span ng-if="stockInterval===2" ng-class="stock.changePercent > 0 ? 'success':'danger'">{{stock.changePercent | number : 2}}%
                     <i class="fa fa-arrow-up" ng-if="stock.change > 0"></i>
                     <i class="fa fa-minus" ng-if="stock.change === 0"></i>
                     <i class="fa fa-arrow-down" ng-if="stock.change < 0"></i>
                 </span>
-            <span ng-if="stockInterval===7" ng-class="wkChange.ratio > 0 ? 'success':'danger'">{{wkChange.ratio | number : 2}}%
+                <span ng-if="stockInterval===7" ng-class="wkChange.ratio > 0 ? 'success':'danger'">{{wkChange.ratio | number : 2}}%
                     <i class="fa fa-arrow-up" ng-if="wkChange.ratio > 0"></i>
                     <i class="fa fa-minus" ng-if="wkChange.ratio === 0"></i>
                     <i class="fa fa-arrow-down" ng-if="wkChange.ratio < 0"></i>
                 </span>
-            <span ng-if="stockInterval===30" ng-class="moChange.ratio > 0 ? 'success':'danger'">{{moChange.ratio | number : 2}}%
+                <span ng-if="stockInterval===30" ng-class="moChange.ratio > 0 ? 'success':'danger'">{{moChange.ratio | number : 2}}%
                     <i class="fa fa-arrow-up" ng-if="moChange.ratio > 0"></i>
                     <i class="fa fa-minus" ng-if="moChange.ratio === 0"></i>
                     <i class="fa fa-arrow-down" ng-if="moChange.ratio < 0"></i>
                 </span>
-        </p>
-        <p>Price: <span class="gold">{{stock.value[stock.value.length - 1] | currency:"Ᵽ"}}</span></p>
-        <p ng-if="stock.myShares!==0">Your Shares: {{stockMarket[index].myShares}}</p>
-        <button class="button button-sm button-success" ng-click="decreaseQty()">-</button>
-        <span style="width:20px" class="text-center">{{stockQty}}</span>
-        <button class="button button-sm button-success" ng-click="increaseQty()">+</button>
-        <button class="button button-sm button-success" ng-click="trade(stockQty, stock)">Trade</button>
-    </div>
-    <div class="col-sm-6">
-        <canvas id="myChart" height="100px;"></canvas>
-        <button class="button button-sm button-success" ng-click="drawChart(2, stock)">Day</button>
-        <button class="button button-sm button-success" ng-click="drawChart(7, stock)">Week</button>
-        <button class="button button-sm button-success" ng-click="drawChart(30, stock)">Month</button>
+            </p>
+            <p>Price: <span class="gold">{{stock.value[stock.value.length - 1] | currency:"Ᵽ"}}</span></p>
+            <p ng-if="stock.myShares!==0">Your Shares: {{stockMarket[index].myShares}}</p>
+            <button class="button button-sm button-success" ng-click="decreaseQty()">-</button>
+            <span style="width:20px" class="text-center">{{stockQty}}</span>
+            <button class="button button-sm button-success" ng-click="increaseQty()">+</button>
+            <button class="button button-sm button-success" ng-click="trade(stockQty, stock)">Trade</button>
+        </div>
+        <div class="small-6 columns">
+            <canvas id="myChart" height="100px;"></canvas>
+            <button class="button button-sm button-success" ng-click="drawChart(2, stock)">Day</button>
+            <button class="button button-sm button-success" ng-click="drawChart(7, stock)">Week</button>
+            <button class="button button-sm button-success" ng-click="drawChart(30, stock)">Month</button>
+        </div>
     </div>
 </div>

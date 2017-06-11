@@ -19,10 +19,16 @@ app.service('UtilService', ['$rootScope', 'DataService', function ($rootScope, D
 
     };
 
-    this.randomFromArray = function (array) {
-
-        return array[Math.floor(Math.random() * array.length)];
-
+    this.randomFromArray = function (array, returnIndex) {
+        var index = Math.floor(Math.random() * array.length);
+        if (returnIndex) {
+            return {
+                item: array[index],
+                index: index
+            };
+        } else {
+            return array[index];
+        }
     };
 
     this.getImagePath = function (imageFileName) {

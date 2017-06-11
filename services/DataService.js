@@ -44,6 +44,7 @@ app.service('DataService', ['$rootScope', function ($rootScope) {
 
     this.stats = {
         name: "Guy",
+        currentLocation: null,
         level: 1,
         experience: 0,
         ship: '',

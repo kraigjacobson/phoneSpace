@@ -71,12 +71,14 @@ app.service('ActionService', ['$rootScope', '$timeout', '$state', 'NewGameServic
         }
     };
 
+
     this.investigate = function () {
 
         $state.go('log').then(function () {
-
-            $rootScope.investigated = true;
+        $rootScope.scanning = true;
             $timeout(function () {
+                $rootScope.scanning = false;
+                $rootScope.investigated = true;
                 var roll = UtilService.random(1, 5);
 
                 if (roll === 5) {
@@ -127,6 +129,7 @@ app.service('ActionService', ['$rootScope', '$timeout', '$state', 'NewGameServic
                     DataService.log.unshift("You hit " + $rootScope.enemy.ship.name + " for <span class='success'>" + damageRoll + "</span> and destroy them!");
                     DataService.log.unshift("You have been awarded a bounty voucher. See a bounty office to claim.");
                     UtilService.getExperience($rootScope.enemy.experience);
+                    $rootScope.combat = false;
                 } else {
                     $rootScope.enemy.currentHull -= damageRoll;
                     DataService.log.unshift("You damage " + $rootScope.enemy.ship.name + "'s hull for <span class='success'>" + damageRoll + "</span>!");
@@ -188,6 +191,7 @@ app.service('ActionService', ['$rootScope', '$timeout', '$state', 'NewGameServic
 
         if (playerRoll > enemyRoll) {
             DataService.log.unshift("You escape with your life!");
+            $rootScope.combat = false;
             self.travel();
         } else {
             DataService.log.unshift("You fail to escape!");
@@ -284,6 +288,14 @@ app.service('ActionService', ['$rootScope', '$timeout', '$state', 'NewGameServic
 
     this.shipInventory = function () {
         $state.go('ship');
+    };
+
+    this.leave = function () {
+        var string = window.location.href;
+        const regex = /\/[^/]*$/g;
+        var back = string.replace(regex,'');
+        console.log(back);
+        window.location.assign(back);
     };
 
 }]);

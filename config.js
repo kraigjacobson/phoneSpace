@@ -6,29 +6,29 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     $stateProvider
 
         .state('log', {
-            url: '/log',
             templateUrl: 'partials/log.html'
         })
 
         .state('stats', {
-            url: '/stats',
             templateUrl: 'partials/stats.html'
         })
 
         .state('inventory-selection', {
-            url: '/inventory-selection',
             templateUrl: 'partials/inventory-selection.html'
         })
 
         .state('inventory', {
-            url: '/inventory',
             templateUrl: 'partials/inventory.html'
         })
 
         .state('ship', {
-            url: '/ship',
             templateUrl: 'partials/ship.html'
         })
+
+        .state('map', {
+            templateUrl: 'partials/map.html'
+        })
+
 
         .state('station', {
             url: '/station',
@@ -136,7 +136,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
 
         .state('stock-detail', {
-            url: "/station/services/stock-brokerage/stock-detail/{ticker}",
+            url: "/station/services/stock-brokerage/stock-detail-{ticker}",
             templateUrl: 'partials/stock-detail.html',
             controller: 'StockDetailController'
         })
@@ -158,19 +158,40 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             }]
         })
 
+        .state('combat', {
+            url: '/combat',
+            templateUrl: 'partials/log.html'
+        })
+
+        .state('planet', {
+            url: '/planet',
+            templateUrl: 'partials/log.html'
+        })
+
+        .state('wreck', {
+            url: '/wreck',
+            templateUrl: 'partials/log.html'
+        })
+
+        .state('ship-issue', {
+            url: '/ship-issue',
+            templateUrl: 'partials/log.html'
+        })
+
+        .state('weird', {
+            url: '/weird',
+            templateUrl: 'partials/log.html'
+        })
+
         .state('buy', {
             url: '/buy',
-            templateUrl: 'partials/buy.html'
+            templateUrl: 'partials/buy.html',
+            controller: 'ConsoleController'
         })
 
         .state('sell', {
             url: '/sell',
             templateUrl: 'partials/sell.html'
-        })
-
-        .state('map', {
-            url: '/map',
-            templateUrl: 'partials/map.html'
         });
 
 }]);

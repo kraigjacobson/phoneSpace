@@ -1,7 +1,10 @@
 var app = angular.module('spaceApp');
-app.service('NewGameService', ['$rootScope', '$state', 'DataService', 'GenerateService', 'InventoryService', 'UniverseService', 'UtilService', 'StockService', function ($rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService) {
+app.service('NewGameService', ['$rootScope', '$state', 'DataService', 'GenerateService', 'InventoryService', 'UniverseService', 'UtilService', 'StockService','PathfinderService', function ($rootScope, $state, DataService, GenerateService, InventoryService, UniverseService, UtilService, StockService, PathfinderService) {
 
     this.init = function () {
+
+        PathfinderService.generateSystems();
+        console.log(PathfinderService.map);
 
         for (coIndex = 0; coIndex < 12; coIndex++) {
             var co = StockService.generateCompany();

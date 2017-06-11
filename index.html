@@ -72,37 +72,52 @@
                         <li ng-click="action.shipInventory()">Ship</li>
                         <li ui-sref="map" ui-sref-active="active">Map</li>
                     </ul>
-                    <!--{{state.current|json}}-->
-                    <ul id="station-sub-menu" class="sub-menu">
-                        <li ng-if="!state.current.url.includes('station/')" ng-click="action.travel()">Travel</li>
-                        <li ng-if="state.current.name==='docking-bay'" ui-sref="station">Undock</li>
-                        <li ui-sref="docking-bay"
-                            ng-if="state.current.name==='services'||state.current.url==='/station'">
-                            {{state.current.name==='station'?'Dock':'Docking Bay'}}
-                        </li>
-                        <!--<li ng-if="investigated === false && status.one==='opportunity' || investigated === false && (status.one==='combat' && status.two==='win')" ng-click="action.investigate()">Scan</li>-->
-                        <li ui-sref="services" ng-if="state.current.name==='docking-bay'">Services</li>
-                        <li onclick="window.history.back()" ng-if="state.current.url.includes('services/')">Leave</li>
-                        <!--<li ng-if="status.two==='scanning'">Scanning...</li>-->
-                        <!--<li ng-if="status.one==='warping'">Warping...</li>-->
-                        <!--<li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.attack()">Attack</li>-->
-                        <!--<li ng-if="status.one==='combat' && status.two!=='win' && (status.two!=='scanned' && status.two!=='scanning')" ng-click="action.escape()">Escape</li>-->
-                        <!--<li ng-if="status.three==='repair'&&stats.hull - stats.currentHull > 0" ng-click="action.repairShip()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>-->
+                    <span ng-if="!starfield && !scanning && !combat" class="notBusy">
+                        <ul class="sub-menu">
+                            <li ng-if="!hash.includes('docking-bay')&&!hash.includes('services')" ng-click="action.travel()">Travel</li>
+                            <li ng-if="state.current.name==='docking-bay'" ui-sref="station">Undock</li>
+                            <li ui-sref="docking-bay"
+                                ng-if="hash.includes('station')&&!hash.includes('docking-bay')&&!hash.includes('services/')">
+                                {{state.current.name==='station'?'Dock':'Docking Bay'}}
+                            </li>
+                            <li ng-if="investigated === false && hash.includes('wreck')" ng-click="action.investigate()">Scan</li>
+                            <li ui-sref="services" ng-if="state.current.name==='docking-bay'">Services</li>
+                            <li ng-click="action.leave()"
+                                ng-if="state.current.url.includes('services/')">Leave</li>
+                            <!--<li ng-if="status.three==='repair'&&stats.hull - stats.currentHull > 0" ng-click="action.repairShip()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>-->
 
-                        <!--stocks-->
-                        <li ui-sref="portfolio" ng-if="state.current.name==='stockBrokerage'">Portfolio</li>
-                        <li ui-sref="stockBrokerage" ng-if="state.current.name==='portfolio'">Stock Brokerage</li>
-                        <!--market-->
-                        <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>-->
-                        <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'sell'?'active':''" ng-click="action.sell()">Sell</li>-->
 
-                        <!--bounties-->
-                        <!--<li ng-if="bounties && status.three==='bounty-office'" ng-click="action.collectBounties()">Collect</li>-->
+                            <!--stocks-->
+                            <li ui-sref="portfolio" ng-if="state.current.name==='stockBrokerage'">Portfolio</li>
+                            <li ui-sref="stockBrokerage" ng-if="state.current.name==='portfolio'">Stock Brokerage</li>
+                            <!--market-->
+                            <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>-->
+                            <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'sell'?'active':''" ng-click="action.sell()">Sell</li>-->
 
-                        <!--inventory-->
-                        <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory">Cargo</li>-->
-                        <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory">Ship</li>-->
-                    </ul>
+                            <!--bounties-->
+                            <!--<li ng-if="bounties && status.three==='bounty-office'" ng-click="action.collectBounties()">Collect</li>-->
+
+                            <!--inventory-->
+                            <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory">Cargo</li>-->
+                            <!--<li ng-if="status.three === 'inventory'" ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory">Ship</li>-->
+                        </ul>
+                    </span>
+                    <span ng-if="combat">
+                        <ul class="sub-menu">
+                            <li ng-click="action.attack()">Attack</li>
+                            <li ng-click="action.escape()">Escape</li>
+                        </ul>
+                    </span>
+                    <span ng-if="starfield" class="busy">
+                        <ul class="sub-menu">
+                            <li>Warping...</li>
+                        </ul>
+                    </span>
+                    <span ng-if="scanning" class="busy">
+                        <ul class="sub-menu">
+                            <li>Scanning...</li>
+                        </ul>
+                    </span>
                     <!--<ul id="inventory-sub-menu" class="sub-menu">-->
                     <!--&lt;!&ndash;inventory&ndash;&gt;-->
                     <!--<li ng-class="status.four === 'cargo'?'active':''" ng-click="action.cargoInventory()">Cargo</li>-->
@@ -118,6 +133,7 @@
 </div>
 
 <script src="dist/bundle.js"></script>
+<script src="./assets/js/main.js"></script>
 
 
 </body>

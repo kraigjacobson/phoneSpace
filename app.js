@@ -1,6 +1,6 @@
 var app = angular.module('spaceApp', ['ui.router', 'ngSanitize']);
 
-app.run(['$state', '$stateParams', '$rootScope', '$transitions', '$location', '$window', 'GenerateService', 'InventoryService', 'DataService', 'NewGameService', function ($state, $stateParams, $rootScope, $transitions, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
+app.run(['$state', '$stateParams', '$rootScope', '$location', '$window', 'GenerateService', 'InventoryService', 'DataService', 'NewGameService', function ($state, $stateParams, $rootScope, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
 
     if (localStorage.gameStorage) {
         alert('saved game loaded');
@@ -12,17 +12,22 @@ app.run(['$state', '$stateParams', '$rootScope', '$transitions', '$location', '$
     $rootScope.state = $state;
     $rootScope.stateParams = $stateParams;
 
-    $transitions.onStart({}, function () {
-        if (!$window.ga) {
-            return;
-        }
-        $window.ga('send', 'pageview', {page: $location.path()});
-    });
-
 }]);
 
-app.controller('MainController', ['$scope', '$rootScope',
-    function ($scope, $rootScope) {
+app.controller('MainController', ['$scope', '$rootScope', '$transitions', '$window', '$location',
+    function ($scope, $rootScope, $transitions, $window, $location) {
+        var stateChanged = function () {
+            if ($window.ga) {
+                $window.ga('send', 'pageview', {page: $location.path()});
+            }
+            var hash = $location.path();
+            $rootScope.$broadcast('stateChange', { hash: hash });
+        };
+        $transitions.onSuccess({
+            to: function (state) {
+                return state.name !== 'log' && state.name !== 'stats' && state.name !== 'inventory' && state.name !== 'ship' && state.name !== 'map';
+            }
+        }, stateChanged);
 
         $rootScope.starfield = false;
         $rootScope.doneLoading = true;
@@ -33,7 +38,6 @@ app.controller('StationController', ['$scope', '$rootScope', 'UtilService', 'Gen
     function ($scope, $rootScope, UtilService, GenerateService, InventoryService, DataService) {
 
         // generate merchant at station
-        console.log();
         if (!$rootScope.stationTemps.name) {
             var roll = UtilService.random(5, 15);
             var tempArray = [];
@@ -42,7 +46,7 @@ app.controller('StationController', ['$scope', '$rootScope', 'UtilService', 'Gen
                 tempArray.unshift(item);
             }
             InventoryService.merchantInventory = tempArray;
-            $rootScope.stationTemps.name = GenerateService.generateStationName();
+            $rootScope.stationTemps.name = DataService.stats.currentLocation.item.name;
             DataService.log.unshift('You arrive at ' + $rootScope.stationTemps.name + '.');
             $rootScope.stationTemps.stationImage = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
         }
@@ -139,8 +143,8 @@ app.controller('ActionController', ['$scope', '$rootScope', '$state', 'Inventory
 
     }]);
 
-app.controller('ConsoleController', ['$scope', '$rootScope', '$state', '$transitions', '$timeout', '$stateParams', '$sce', 'BlackjackService', 'DataService', 'ActionService', 'ItemService', 'InventoryService', 'GenerateService', 'PathfinderService',
-    function ($scope, $rootScope, $state, $transitions, $timeout, $stateParams, $sce, BlackjackService, DataService, ActionService, ItemService, InventoryService, GenerateService, PathfinderService) {
+app.controller('ConsoleController', ['$scope', '$rootScope', '$location', '$state', '$transitions', '$timeout', '$stateParams', '$sce', 'BlackjackService', 'DataService', 'ActionService', 'ItemService', 'InventoryService', 'GenerateService', 'PathfinderService',
+    function ($scope, $rootScope, $location, $state, $transitions, $timeout, $stateParams, $sce, BlackjackService, DataService, ActionService, ItemService, InventoryService, GenerateService, PathfinderService) {
 
         $scope.ships = DataService.ships;
         $scope.log = DataService.log;
@@ -167,6 +171,10 @@ app.controller('ConsoleController', ['$scope', '$rootScope', '$state', '$transit
         $scope.blackjack = BlackjackService;
         $scope.stockMarket = DataService.stockMarket;
         $scope.currentWeek = DataService.currentWeek;
+        $scope.$on('stateChange', function(event, args) {
+            console.log(args.hash);
+            $scope.hash = args.hash;
+        });
 
     }]);
 
