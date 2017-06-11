@@ -46,7 +46,7 @@ app.controller('StationController', ['$scope', '$rootScope', 'UtilService', 'Gen
                 tempArray.unshift(item);
             }
             InventoryService.merchantInventory = tempArray;
-            $rootScope.stationTemps.name = DataService.stats.currentLocation.item.name;
+            $rootScope.stationTemps.name = GenerateService.generateStationName();
             DataService.log.unshift('You arrive at ' + $rootScope.stationTemps.name + '.');
             $rootScope.stationTemps.stationImage = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
         }
@@ -71,7 +71,6 @@ app.controller('StockDetailController', ['$scope', '$rootScope', '$stateParams',
         $scope.stock = (StockService.getStock($stateParams.ticker).stock);
         $scope.index = (StockService.getStock($stateParams.ticker).index);
         $scope.stockMarket = DataService.stockMarket;
-        console.log($scope.stockMarket);
         $scope.dateBefore = UtilService.dateBefore;
         $scope.dateNow = UtilService.dateNow;
         $scope.stockQty = 0;
@@ -172,7 +171,6 @@ app.controller('ConsoleController', ['$scope', '$rootScope', '$location', '$stat
         $scope.stockMarket = DataService.stockMarket;
         $scope.currentWeek = DataService.currentWeek;
         $scope.$on('stateChange', function(event, args) {
-            console.log(args.hash);
             $scope.hash = args.hash;
         });
 

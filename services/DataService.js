@@ -12,7 +12,7 @@ app.service('DataService', ['$rootScope', function ($rootScope) {
 
     var distance = 50000;
 
-    this.log = ['Your journey begins! You have to travel ' + distance + ' to beat the game because my brother Kyle said there needs to be a clear objective.'];
+    this.log = [];
 
     this.classA = function (name, attack, accuracy, piloting, speed, capacity, cost, img) {
 
@@ -41,6 +41,7 @@ app.service('DataService', ['$rootScope', function ($rootScope) {
     ];
 
     this.policy = {};
+
 
     this.stats = {
         name: "Guy",

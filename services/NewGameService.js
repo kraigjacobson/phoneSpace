@@ -4,7 +4,6 @@ app.service('NewGameService', ['$rootScope', '$state', 'DataService', 'GenerateS
     this.init = function () {
 
         PathfinderService.generateSystems();
-        console.log(PathfinderService.map);
 
         for (coIndex = 0; coIndex < 12; coIndex++) {
             var co = StockService.generateCompany();
@@ -50,6 +49,10 @@ app.service('NewGameService', ['$rootScope', '$state', 'DataService', 'GenerateS
         stats.capacity += firstShip.capacity + ship.cargoHold.currentEffectiveness;
 
         DataService.policy = null;
+
+        DataService.log.push('Your journey begins in the ' + DataService.stats.currentLocation.item.name +' system!');
+
+
 
         // $state.go('station');
 

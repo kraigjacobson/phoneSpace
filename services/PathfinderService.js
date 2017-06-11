@@ -8,6 +8,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
     this.myLocation;
     this.map;
 
+
     this.generateSystems = function () {
 
         Math.distanceBetween = function (p1, p2) {
@@ -82,7 +83,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         var app = new PIXI.Application(350, 285);
         document.getElementById('map').appendChild(app.view);
 
-        app.stage.position.set(340, 275, {backgroundColor: 0xFFFFFF});
+        app.stage.position.set(340, 275);
 
         var outlineFilterWhite = new PIXI.filters.GlowFilter(5, 5, 5, 0xFFFFFF, 5);
         var outlineFilterGreen = new PIXI.filters.GlowFilter(5, 5, 5, 0x3ee238, 5);
@@ -101,7 +102,9 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 entities[this.index].name = this.name;
                 localStorage.map = JSON.stringify(entities);
             }
-            console.log("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop*1000) + " \nSecurity: " + this.sec + " \nIndex: " + this.index);
+            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop*1000) + " \nSecurity: " + this.sec
+                // + " \nIndex: " + this.index
+            );
         }
 
         var filterOn = function () {
@@ -140,11 +143,11 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 };
 
                 if (star.pop < 1000) {
-                    var starSystem =  PIXI.Sprite.fromImage('../assets/img/system-sm.png');
+                    var starSystem =  PIXI.Sprite.fromImage(UtilService.getImagePath('system-sm.png'));
                 } else if (star.pop < 1000000) {
-                    var starSystem =  PIXI.Sprite.fromImage('../assets/img/system-md.png');
+                    var starSystem =  PIXI.Sprite.fromImage(UtilService.getImagePath('system-md.png'));
                 } else {
-                    var starSystem =  PIXI.Sprite.fromImage('../assets/img/system-lg.png');
+                    var starSystem =  PIXI.Sprite.fromImage(UtilService.getImagePath('system-lg.png'));
                 }
 
                 starSystem.anchor.set(0.5);
