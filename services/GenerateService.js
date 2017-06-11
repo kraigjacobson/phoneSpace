@@ -12,7 +12,7 @@ app.service('GenerateService', ['$rootScope', 'DataService', 'InventoryService',
     this.generateName = function () {
 
         var buildName = function () {
-            var number = UtilService.random(2, 5);
+            var number = UtilService.random(2, 7);
             var name = "";
             if (UtilService.random(1, 3) === 1) {
                 name += UtilService.randomFromArray(DataService.text.names.vowels);
@@ -23,6 +23,9 @@ app.service('GenerateService', ['$rootScope', 'DataService', 'InventoryService',
                 } else {
                     name += UtilService.randomFromArray(DataService.text.names.vowels);
                 }
+            }
+            if (name=='ass'||name=='fuck'||name=='shit'||name=='fag'||name=='cunt'||name=='bitch') {
+                buildName();
             }
             return name;
         };

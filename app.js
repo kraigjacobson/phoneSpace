@@ -2,7 +2,11 @@ var app = angular.module('spaceApp', ['ui.router', 'ngSanitize']);
 
 app.run(['$state', '$stateParams', '$rootScope', '$transitions', '$location', '$window', 'GenerateService', 'InventoryService', 'DataService', 'NewGameService', function ($state, $stateParams, $rootScope, $transitions, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
 
-    NewGameService.init();
+    if (localStorage.gameStorage) {
+        alert('saved game loaded');
+    } else {
+        NewGameService.init();
+    }
 
     $rootScope.stationTemps = {};
     $rootScope.state = $state;

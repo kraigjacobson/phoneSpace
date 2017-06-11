@@ -65,7 +65,8 @@ app.service('DataService', ['$rootScope', function ($rootScope) {
         stockPurchases: 0,
         stockSales: 0,
         sharesPurchased: 0,
-        sharesSold: 0
+        sharesSold: 0,
+        systemsVisited: 1
     };
 
     this.text = {

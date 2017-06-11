@@ -1,11 +1,13 @@
 var app = angular.module('spaceApp');
-app.service('PathfinderService', [function () {
+app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService', 'GenerateService', 'DataService', function ($timeout, InventoryService, UtilService, GenerateService, DataService) {
 
     var self = this;
 
-    this.generateSystems = function () {
+    // localStorage.clear();
 
-        // localStorage.clear();
+    this.myLocation;
+
+    this.generateSystems = function () {
 
         Math.distanceBetween = function (p1, p2) {
             return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2));
@@ -14,24 +16,34 @@ app.service('PathfinderService', [function () {
         var PF = require('../assets/js/pathfinding.js');
 
         if (!localStorage.map) {
-            console.log('no map? Let\'s build one!');
             var entities = [];
 
             for (i = 0; i < 200; i++) {
+                popRoll = Math.random();
+                if (popRoll < .75) {
+                    var pop = UtilService.random(1, 1000);
+                } else if (popRoll < .95) {
+                    var pop = UtilService.random(1001, 1000000);
+                } else {
+                    var pop = UtilService.random(1000001, 1000000000);
+                }
 
                 entities.push({
                     x: Math.floor(Math.random() * 340),
                     y: Math.floor(Math.random() * 275),
                     neighbors: [],
-                    type: 'star'
+                    sec: Math.ceil(Math.random() * 10) / 10,
+                    pop: pop,
+                    index: i
                 });
             }
 
-            var preppedEntities = JSON.stringify(entities);
-            localStorage.map = preppedEntities;
-
+            self.myLocation = UtilService.randomFromArray(entities);
+            localStorage.map = JSON.stringify(entities);
+            localStorage.myLocation = JSON.stringify(self.myLocation);
         } else {
             'you already have a map!';
+            self.myLocation = JSON.parse(localStorage.myLocation);
             var entities = JSON.parse(localStorage.map);
 
         }
@@ -40,19 +52,16 @@ app.service('PathfinderService', [function () {
 
     this.addNeighbors = function (entities) {
 
-        const SHIP_TRAVEL_DISTANCE = 25;
+        // const JUMP_RANGE = InventoryService.myShip.hyperdrive.currentEffectiveness;
+        const JUMP_RANGE = 20;
 
         for (var i = 0; i < entities.length; i++) {
             var entity1 = entities[i];
-            if (entity1.type === 'star') {
-                for (var j = 0; j < entities.length; j++) {
-                    if (i != j) {
-                        var entity2 = entities[j];
-                        if (entity2.type === 'star') {
-                            if (Math.distanceBetween(entity1, entity2) <= SHIP_TRAVEL_DISTANCE) {
-                                entity1.neighbors.push(entity2);
-                            }
-                        }
+            for (var j = 0; j < entities.length; j++) {
+                if (i !== j) {
+                    var entity2 = entities[j];
+                    if (Math.distanceBetween(entity1, entity2) <= JUMP_RANGE) {
+                        entity1.neighbors.push(entity2);
                     }
                 }
             }
@@ -60,43 +69,124 @@ app.service('PathfinderService', [function () {
 
         return entities;
     };
-
-    this.getPath = function () {
-
-    };
-
     this.drawMap = function () {
+
+        var app = new PIXI.Application(340, 260);
+        document.getElementById('map').appendChild(app.view);
+
+        app.stage.position.set(340, 260);
+
+        var outlineFilterWhite = new PIXI.filters.GlowFilter(5, 5, 5, 0xFFFFFF, 5);
+        var outlineFilterGreen = new PIXI.filters.GlowFilter(5, 5, 5, 0x3ee238, 5);
+        var outlineFilterRed = new PIXI.filters.GlowFilter(5, 5, 5, 0xe23838, 5);
+        // var outlineFilterRed = new PIXI.filters.OutlineFilter(2, 0xff9999);
+
+        function onButtonDown() {
+
+            this.filters = [outlineFilterGreen];
+            if (!this.name) {
+                var entities = JSON.parse(localStorage.map);
+                this.name = GenerateService.generateName();
+                entities[this.index].name = this.name;
+                localStorage.map = JSON.stringify(entities);
+            }
+            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop*1000) + " \nSecurity: " + this.sec + " \nIndex: " + this.index);
+        }
+
+        function filterOn() {
+            this.filters = [outlineFilterGreen]
+        }
+
+        function filterOff() {
+            this.filters = null;
+        }
 
         var entities = self.addNeighbors(self.generateSystems());
 
-        var c = document.getElementById('map');
-        var ctx = c.getContext("2d");
+        var plotPoint = function (star) {
 
-        var plotPoint = function (x, y, color) {
-            var randomColor = function () {
-                return Math.floor(Math.random() * 155 +100);
-            };
-            color = "rgba(" + randomColor() + "," + randomColor() + "," + randomColor() + ",1)";
-            ctx.fillStyle = color;
-            ctx.fillRect(x, y, 2, 2);
+                var randomColor = function () {
+                    var letters = ['A','B','C','D','E','F'];
+                    var numbers = ['0','1','2','3','4','5','6','7','8','9'];
+                    var hex = '';
+                    var order = [];
+                    for (i=0;i<3;i++) {
+                        if (i===2&&order[0]===1&&order[1]===1){
+                            order.push(0);
+                        } else {
+                            order.push(UtilService.random(0,1));
+                        }
+                    };
+                    for (j=0;j<order.length;j++) {
+                        if (order[j]===0) {
+                            var char = UtilService.randomFromArray(numbers);
+                        } else {
+                            var char = UtilService.randomFromArray(letters);
+                        }
+                        hex += (char+char);
+                    };
+                    return '0x' + hex;
+                };
+
+                if (star.pop < 1000) {
+                    var starSystem =  PIXI.Sprite.fromImage('../assets/img/system-sm.png');
+                } else if (star.pop < 1000000) {
+                    var starSystem =  PIXI.Sprite.fromImage('../assets/img/system-md.png');
+                } else {
+                    var starSystem =  PIXI.Sprite.fromImage('../assets/img/system-lg.png');
+                }
+
+                starSystem.anchor.set(0.5);
+                starSystem.interactive = true;
+                starSystem.position.set(-star.x, -star.y);
+                starSystem.tint = randomColor();
+                starSystem.pop = star.pop;
+                starSystem.sec = star.sec;
+                starSystem.name = star.name;
+                starSystem.index = star.index;
+                starSystem
+                    .on('pointerdown', onButtonDown )
+                    .on('pointerover', filterOn )
+                    .on('pointerout', filterOff );
+                filterOff.call(starSystem);
+
+                app.stage.addChild(starSystem);
         };
 
+
+//
         var drawLine = function (p1x, p1y, p2x, p2y, color) {
-            ctx.beginPath();
-            ctx.moveTo(p1x, p1y);
-            ctx.lineTo(p2x, p2y);
-            ctx.strokeStyle = color;
-            ctx.stroke();
+            var line = new PIXI.Graphics();
+            line.lineStyle(1, color, 0.1);
+            line.moveTo(-p1x, -p1y);
+            line.lineTo(-p2x, -p2y);
+            app.stage.addChild(line);
         };
+//
+        var drawLocation = function () {
 
-        entities.forEach(function (star, i) {
+            var circle = new PIXI.Graphics();
+            circle.lineStyle(1, 0x24E616, 0.1);
+            circle.drawCircle(-self.myLocation.x, -self.myLocation.y, 6);
+            app.stage.addChild(circle);
+
+        };
+//
+        entities.forEach(function (star) {
+            plotPoint(star);
             star.neighbors.forEach(function (star2) {
-                drawLine(star.x, star.y, star2.x, star2.y, 'rgba(255, 255, 255, 0.1');
+                drawLine(star.x, star.y, star2.x, star2.y, 0xFFFFFF);
             });
-            plotPoint(star.x, star.y, 'white');
+            drawLocation();
 
         });
+//         }
+// // var kill;
 
     };
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
 }]);

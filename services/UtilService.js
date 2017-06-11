@@ -27,7 +27,11 @@ app.service('UtilService', ['$rootScope', 'DataService', function ($rootScope, D
 
     this.getImagePath = function (imageFileName) {
 
-        return window.location.origin + '/assets/img/' + imageFileName;
+        if (window.location.hostname === 'localhost') {
+            return window.location.origin + '/assets/img/' + imageFileName;
+        } else {
+            return window.location.origin + '/space/www/assets/img/' + imageFileName;
+        }
 
     };
 
