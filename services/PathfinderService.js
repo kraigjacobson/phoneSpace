@@ -7,7 +7,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
     this.myLocation;
     this.map;
-
+    const JUMP_RANGE = 15;
 
     this.generateSystems = function () {
 
@@ -40,13 +40,24 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                     index: i
                 });
             }
+            var getLocation = function () {
+                var location;
+                var neighbors;
+                var desiredNeighbors = 2;
+                do {
+                    location = UtilService.randomFromArray(entities);
+                    neighbors = self.checkNeighbors(entities, location.index);
+                    if (neighbors >= desiredNeighbors) {
+                        return location;
+                    }
+                } while (neighbors < desiredNeighbors);
+            };
 
-            self.myLocation = UtilService.randomFromArray(entities, true);
-            if (!self.myLocation.item.name) {
+            self.myLocation = getLocation();
+            if (!self.myLocation.name) {
                 var name = GenerateService.generateName();
                 entities[self.myLocation.index].name = name;
             }
-            DataService.stats.currentLocation = self.myLocation;
             localStorage.map = JSON.stringify(entities);
             localStorage.myLocation = JSON.stringify(self.myLocation);
         } else {
@@ -55,14 +66,28 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
             var entities = JSON.parse(localStorage.map);
 
         }
+        DataService.stats.currentLocation = self.myLocation;
         this.map = entities;
         return entities;
+    };
+
+    this.checkNeighbors = function (entities, index) {
+        var entity1 = entities[index];
+        var neighborCount = 0;
+        for (var j = 0; j < entities.length; j++) {
+            if (index !== j) {
+                var entity2 = entities[j];
+                if (Math.distanceBetween(entity1, entity2) <= JUMP_RANGE) {
+                    neighborCount++;
+                }
+            }
+        }
+        return neighborCount;
     };
 
     this.addNeighbors = function (entities) {
 
         // const JUMP_RANGE = InventoryService.myShip.hyperdrive.currentEffectiveness;
-        const JUMP_RANGE = 20;
 
         for (var i = 0; i < entities.length; i++) {
             var entity1 = entities[i];
@@ -102,7 +127,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 entities[this.index].name = this.name;
                 localStorage.map = JSON.stringify(entities);
             }
-            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop*1000) + " \nSecurity: " + this.sec
+            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop * 1000) + " \nSecurity: " + this.sec
                 // + " \nIndex: " + this.index
             );
         }
@@ -119,54 +144,53 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
         var plotPoint = function (star) {
 
-                var randomColor = function () {
-                    var letters = ['A','B','C','D','E','F'];
-                    var numbers = ['5','6','7','8','9'];
-                    var hex = '';
-                    var order = [];
-                    for (i=0;i<3;i++) {
-                        if (i===2&&order[0]===1&&order[1]===1){
-                            order.push(0);
-                        } else {
-                            order.push(UtilService.random(0,1));
-                        }
+            var randomColor = function () {
+                var letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+                var numbers = ['5', '6', '7', '8', '9'];
+                var hex = '';
+                var order = [];
+                for (i = 0; i < 3; i++) {
+                    if (i === 2 && order[0] === 1 && order[1] === 1) {
+                        order.push(0);
+                    } else {
+                        order.push(UtilService.random(0, 1));
                     }
-                    for (j=0;j<order.length;j++) {
-                        if (order[j]===0) {
-                            var char = UtilService.randomFromArray(numbers);
-                        } else {
-                            var char = UtilService.randomFromArray(letters);
-                        }
-                        hex += (char+char);
-                    }
-                    return '0x' + hex;
-                };
-
-                if (star.pop < 1000) {
-                    var starSystem =  PIXI.Sprite.fromImage(UtilService.getImagePath('system-sm.png'));
-                } else if (star.pop < 1000000) {
-                    var starSystem =  PIXI.Sprite.fromImage(UtilService.getImagePath('system-md.png'));
-                } else {
-                    var starSystem =  PIXI.Sprite.fromImage(UtilService.getImagePath('system-lg.png'));
                 }
+                for (j = 0; j < order.length; j++) {
+                    if (order[j] === 0) {
+                        var char = UtilService.randomFromArray(numbers);
+                    } else {
+                        var char = UtilService.randomFromArray(letters);
+                    }
+                    hex += (char + char);
+                }
+                return '0x' + hex;
+            };
 
-                starSystem.anchor.set(0.5);
-                starSystem.interactive = true;
-                starSystem.position.set(-star.x, -star.y);
-                starSystem.tint = randomColor();
-                starSystem.pop = star.pop;
-                starSystem.sec = star.sec;
-                starSystem.name = star.name;
-                starSystem.index = star.index;
-                starSystem
-                    .on('pointerdown', onButtonDown )
-                    .on('pointerover', filterOn )
-                    .on('pointerout', filterOff );
-                // filterOff.call(starSystem);
+            if (star.pop < 1000) {
+                var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-sm.png'));
+            } else if (star.pop < 1000000) {
+                var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-md.png'));
+            } else {
+                var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-lg.png'));
+            }
 
-                app.stage.addChild(starSystem);
+            starSystem.anchor.set(0.5);
+            starSystem.interactive = true;
+            starSystem.position.set(-star.x, -star.y);
+            starSystem.tint = randomColor();
+            starSystem.pop = star.pop;
+            starSystem.sec = star.sec;
+            starSystem.name = star.name;
+            starSystem.index = star.index;
+            starSystem
+                .on('pointerdown', onButtonDown)
+                .on('pointerover', filterOn)
+                .on('pointerout', filterOff);
+            // filterOff.call(starSystem);
+
+            app.stage.addChild(starSystem);
         };
-
 
         var drawLine = function (p1x, p1y, p2x, p2y, color) {
             var line = new PIXI.Graphics();
@@ -179,7 +203,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
             var circle = new PIXI.Graphics();
             circle.lineStyle(1, 0x24E616, 0.1);
-            circle.drawCircle(-self.myLocation.item.x, -self.myLocation.item.y, 6);
+            circle.drawCircle(-self.myLocation.x, -self.myLocation.y, 6);
             app.stage.addChild(circle);
 
         };
@@ -191,7 +215,6 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
             drawLocation();
 
         });
-
 
     };
 

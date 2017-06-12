@@ -50,13 +50,7 @@ app.service('NewGameService', ['$rootScope', '$state', 'DataService', 'GenerateS
 
         DataService.policy = null;
 
-        DataService.log.push('Your journey begins in the ' + DataService.stats.currentLocation.item.name +' system!');
-
-
-
-        // $state.go('station');
-
-        // $rootScope.foreground = UtilService.getImagePath(UtilService.randomFromArray(DataService.images.stations));
+        DataService.log.push('Your journey begins in the ' + DataService.stats.currentLocation.name +' system!');
 
     };
 
