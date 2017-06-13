@@ -1,4 +1,4 @@
-<div ng-controller="ConsoleController">
+<div id="console-inner" ng-controller="ConsoleController">
     <div ng-repeat="item in myShip track by $index" class="col-xs-6">
         <button class="button deets fullwidth {{item.quality}}" ng-click="details(item.name, 'ship')">{{ item.name |
             camelCaseToHuman | titlecase}}

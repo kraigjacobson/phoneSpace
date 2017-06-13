@@ -42,7 +42,6 @@ app.service('DataService', ['$rootScope', function ($rootScope) {
 
     this.policy = {};
 
-
     this.stats = {
         name: "Guy",
         currentLocation: null,

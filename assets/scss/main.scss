@@ -9,6 +9,7 @@ $blue: #454dff;
 $primary: #1E90FF;
 $white: #ffffff; 
 $grey: #b4b4b4;
+$size-normal: .8em;
 
 .danger {
   color: $red;
@@ -47,6 +48,7 @@ body {
   background-color: $dark-blue;
   background-repeat: repeat;
   font-family: Consolas;
+  font-size:$size-normal;
 
   h1 {
     text-transform: uppercase;
@@ -58,7 +60,6 @@ body {
     background-color: rgba(0,0,0,.7);
     color: $primary;
     background-repeat: repeat;
-
     .modal-header {
       .modal-title {
         text-align: center;
@@ -88,7 +89,6 @@ body {
   ul {
     margin:0;
     list-style:none;
-    font-size:.8em;
     li {
       .btn {
         background-color: rgba(255, 255, 255, 0.5);
@@ -104,9 +104,6 @@ body {
 
 
 //redo all garbage below
-#stats {
-  font-size:0.9em;
-}
 .top-stats {
   div {
     text-align: center;
@@ -118,7 +115,6 @@ body {
   }
 }
 #inventory {
-  font-size:0.8em;
 }
 .partial {
   margin-top:8px;
@@ -129,12 +125,12 @@ body {
     background-color: rgba(0,0,0,.7);
   }
 }
-#console-inner {
-  border-top:1px solid #595959;
+
+#console-inner, #map {
+  border-left:1px solid #595959;
+  border-right:1px solid #595959;
+  border-bottom:1px solid #595959;
   height:300px;
-  padding:10px;
-  border-radius:0 0 6px 6px;
-  overflow-y: auto;
   p {
     margin-bottom:0;
   }
@@ -144,6 +140,13 @@ body {
   .btn {
     margin-bottom:5px;
   }
+}
+#console-inner {
+  overflow-y: auto;
+  padding:10px;
+}
+#map {
+  overflow: hidden;
 }
 #console-buttons {
   border-width: 2px 2px 0 2px;
@@ -164,21 +167,14 @@ body {
       padding:5px;
       text-align:center;
       color: white;
-      :first-child {
-        :hover {
-          border-radius:6px 0 0 0;
-        }
-      }
-      :last-child {
-        border:none;
-        :hover {
-          border-radius:0 6px 0 0 ;
-        }
-      }
-      :active{
-        background-color: black;
-        color: $primary;
-      }
+
+  }
+    li:first-child {
+      border-left:1px solid #595959;
+    }
+    li:active{
+      background-color: black;
+      color: $primary;
     }
   }
   span.busy {
@@ -190,6 +186,7 @@ body {
   }
   .sub-menu {
     border-top:1px solid #595959;
+    border-bottom:1px solid #595959;
     li {
       padding:2px;
       background-color: rgba(0,0,0,.5);
@@ -200,6 +197,9 @@ body {
   }
 }
 #view {
+  border-left:1px solid #595959;
+  border-right:1px solid #595959;
+  border-top:1px solid #595959;
   img {
     width:100%;
     height:200px;
@@ -222,7 +222,7 @@ body {
 .info {
   padding:5px;
   text-align: center;
-  border:2px solid #595959;
+  border:1px solid #595959;
   background-color: rgba(0,0,0,.7);
   color: $primary;
 }
@@ -255,9 +255,6 @@ body {
 .fullwidth {
   width:100%;
 }
-.log-text {
-  font-size:.9em;
-}
 img {
   image-rendering: pixelated;
 }
@@ -276,11 +273,20 @@ img {
     display: block;
   }
   #quick-stats {
-    font-size:.8em;
   }
 }
 
 .button {
   padding:5px 10px;
   margin-bottom: 10px;
+  font-size:.9em;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }

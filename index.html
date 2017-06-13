@@ -26,16 +26,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
-<body ng-controller="MainController">
+<body ng-controller="MainController" class="noselect">
 
 <div class="loading" ng-if="!doneLoading">
     Loading<br/>
     <img class="ld ld-shadow" src="assets/img/planetload.png" alt="">
 </div>
 <div class="container ng-cloak" ng-cloak style="padding:0;" ng-if="doneLoading">
-    <div class="col-sm-6">
+    <div class="small-12 medium-6 columns">
         <div class="row">
-            <div id="view" class="span-12 row" ng-controller="ViewscreenController">
+            <div id="view" ng-controller="ViewscreenController">
                 <div id="view-inner">
                     <div style="position:relative">
                         <canvas id="starfield" ng-show="starfield"></canvas>
@@ -60,10 +60,10 @@
     </div>
 
 
-    <div class="col-sm-6">
+    <div class="small-12 medium-6 columns">
 
         <div class="row">
-            <div id="console" class="col-sm">
+            <div id="console" class="">
                 <div id="console-buttons" class="console" ng-controller="ConsoleController">
                     <ul>
                         <li ui-sref="log" ui-sref-active="active" ng-click="">Log</li>
@@ -124,9 +124,7 @@
                     <!--<li ng-class="status.four === 'ship'?'active':''" ng-click="action.shipInventory()">Ship</li>-->
                     <!--</ul>-->
                 </div>
-                <div id="console-inner" class="console col-sm-12">
-                    <ui-view></ui-view>
-                </div>
+                <ui-view></ui-view>
             </div>
         </div>
     </div>

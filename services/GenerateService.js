@@ -209,7 +209,7 @@ app.service('GenerateService', ['$rootScope', 'DataService', 'InventoryService',
 
     };
 
-    this.generateInsurancePolicy = function (policyType) {
+    this.generateInsurancePolicy = function (policyType, buy) {
 
         if (DataService.policy) {
             alert('You already have a policy. Would you like to extend it?');
@@ -220,16 +220,20 @@ app.service('GenerateService', ['$rootScope', 'DataService', 'InventoryService',
             o.coverage = rate;
             o.policyType = policyType;
             o.cost = Math.floor(rate * 0.5);
-            if (o.cost > DataService.stats.credits) {
-                alert('You cannot afford this policy.');
+            if (buy) {
+                if (o.cost > DataService.stats.credits) {
+                    alert('You cannot afford this policy.');
+                } else {
+                    o.daysCovered = 100;
+                    o.daysLeft = o.daysCovered;
+                    DataService.stats.credits -= o.cost;
+                    DataService.policy = o;
+                }
             } else {
-                o.daysCovered = 100;
-                o.daysLeft = o.daysCovered;
-                DataService.stats.credits -= o.cost;
-                DataService.policy = o;
+                return o;
             }
         }
 
-    }
+    };
 
 }]);

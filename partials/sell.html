@@ -1,4 +1,4 @@
-<div ng-controller="ConsoleController">
+<div id="console-inner" ng-controller="ConsoleController">
     <div class="modal-inner">
         <p style="text-align: center;">Capacity: {{inventory.length}}/{{stats.capacity}}</p>
         <p ng-repeat="item in inventory track by $index">

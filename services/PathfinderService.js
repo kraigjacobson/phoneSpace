@@ -1,9 +1,12 @@
+var addWheelListener = require('../assets/js/wheel-listener');
 var app = angular.module('spaceApp');
 app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService', 'GenerateService', 'DataService', function ($timeout, InventoryService, UtilService, GenerateService, DataService) {
 
     var self = this;
 
-    localStorage.clear();
+    // localStorage.clear();
+
+    var mapSize = 1000;
 
     this.myLocation;
     this.map;
@@ -21,22 +24,16 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
             var entities = [];
 
-            for (i = 0; i < 200; i++) {
-                popRoll = Math.random();
-                if (popRoll < .75) {
-                    var pop = UtilService.random(1, 1000);
-                } else if (popRoll < .95) {
-                    var pop = UtilService.random(1001, 1000000);
-                } else {
-                    var pop = UtilService.random(1000001, 1000000000);
-                }
+            for (i = 0; i < 500; i++) {
 
                 entities.push({
-                    x: Math.floor(Math.random() * 340),
-                    y: Math.floor(Math.random() * 275),
+                    x: Math.floor(Math.random() * mapSize),
+                    y: Math.floor(Math.random() * mapSize),
                     neighbors: [],
-                    sec: Math.ceil(Math.random() * 10) / 10,
-                    pop: pop,
+                    // sec: Math.ceil(Math.random() * 10) / 10,
+                    sec: 0,
+                    pop: 0,
+                    // pop: pop,
                     index: i
                 });
             }
@@ -55,8 +52,20 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
 
             self.myLocation = getLocation();
             if (!self.myLocation.name) {
+                sys = entities[self.myLocation.index];
                 var name = GenerateService.generateName();
-                entities[self.myLocation.index].name = name;
+                sys.name = name;
+
+                popRoll = Math.random();
+                if (popRoll < .75) {
+                    sys.pop = UtilService.random(1, 1000);
+                } else if (popRoll < .95) {
+                    sys.pop = UtilService.random(1001, 1000000);
+                } else {
+                    sys.pop = UtilService.random(1000001, 1000000000);
+                }
+
+                sys.sec = Math.ceil(Math.random() * 10) / 10
             }
             localStorage.map = JSON.stringify(entities);
             localStorage.myLocation = JSON.stringify(self.myLocation);
@@ -104,11 +113,100 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         return entities;
     };
     this.drawMap = function () {
+        var SCREEN_WIDTH = document.getElementById('map').offsetWidth;
+        var SCREEN_HEIGHT = document.getElementById('map').offsetHeight;
+        var mapElement = document.getElementById('map');
+        var app = new PIXI.Application(SCREEN_WIDTH, SCREEN_HEIGHT);
+        var interactionManager = new PIXI.interaction.InteractionManager(app.renderer);
+        var lastMx = 0;
+        var lastMy = 0;
+        var mx = 0;
+        var my = 0;
+        var deltaMx = 0;
+        var deltaMy = 0;
+        var mouseDown = false;
+        var camera = {
+            x: DataService.stats.currentLocation.x -SCREEN_WIDTH/2,
+            y: DataService.stats.currentLocation.y-SCREEN_HEIGHT/2,
+            zoom: 1
+        };
+        mapElement.appendChild(app.view);
 
-        var app = new PIXI.Application(350, 285);
-        document.getElementById('map').appendChild(app.view);
+        interactionManager.on('pointerdown', function(e) {
+            lastMx = mx;
+            lastMy = my;
+            mx = e.data.global.x;
+            my = e.data.global.y;
+            deltaMx = mx-lastMx;
+            deltaMy = my-lastMy;
+            mouseDown = true;
+        });
+        interactionManager.on('pointermove', function(e) {
+            lastMx = mx;
+            lastMy = my;
+            mx = e.data.global.x;
+            my = e.data.global.y;
+            deltaMx = mx-lastMx;
+            deltaMy = my-lastMy;
 
-        app.stage.position.set(340, 275);
+            if (mouseDown && (Math.abs(deltaMx) >= 1 || Math.abs(deltaMy) >= 1)) {
+                camera.x -= deltaMx;
+                camera.y -= deltaMy;
+            }
+            if (mx < 0 || mx > SCREEN_WIDTH || my < 0 || my > SCREEN_HEIGHT) {
+                mouseDown = false;
+            }
+        });
+        interactionManager.on('pointerup', function(e) {
+            lastMx = mx;
+            lastMy = my;
+            mx = e.data.global.x;
+            my = e.data.global.y;
+            deltaMx = mx-lastMx;
+            deltaMy = my-lastMy;
+            mouseDown = false;
+        });
+
+        function zoom(x, y, delta) {
+            camera.zoom += -delta;
+            if (delta < 0) {
+                camera.x -= (x-camera.x) * delta;
+                camera.y -= (y-camera.y) * delta;
+            } else {
+                camera.x += ((SCREEN_WIDTH-camera.x)/2)*delta;
+                camera.y += ((SCREEN_HEIGHT-camera.y)/2)*delta;
+            }
+        }
+
+        function tick() {
+            if (camera.x < 0) {
+                camera.x = 0;
+            }
+            if (camera.y < 0) {
+                camera.y = 0;
+            }
+            if (camera.x+SCREEN_WIDTH > mapSize*camera.zoom) {
+                camera.x = (mapSize*camera.zoom)-SCREEN_WIDTH;
+            }
+            if (camera.y+SCREEN_HEIGHT > mapSize*camera.zoom) {
+                camera.y = (mapSize*camera.zoom)-SCREEN_HEIGHT;
+            }
+
+
+            app.stage.position.x = -camera.x;
+            app.stage.position.y = -camera.y;
+            app.stage.scale.set(camera.zoom);
+        }
+
+        setInterval(function() {
+            tick();
+        }, 30/1000);
+
+        addWheelListener(mapElement, function (e) {
+            var x = e.clientX-mapElement.offsetLeft;
+            var y = e.clientY-mapElement.offsetTop;
+            zoom((x+camera.x), (y+camera.y), e.deltaY/1000);
+        });
 
         var outlineFilterWhite = new PIXI.filters.GlowFilter(5, 5, 5, 0xFFFFFF, 5);
         var outlineFilterGreen = new PIXI.filters.GlowFilter(5, 5, 5, 0x3ee238, 5);
@@ -123,11 +221,26 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
             this.filters = [outlineFilterGreen];
             if (!this.name) {
                 var entities = JSON.parse(localStorage.map);
-                this.name = GenerateService.generateName();
-                entities[this.index].name = this.name;
+                var name = GenerateService.generateName();
+                sys = entities[this.index];
+
+                popRoll = Math.random();
+                if (popRoll < .75) {
+                    var pop = UtilService.random(1, 1000);
+                } else if (popRoll < .95) {
+                    var pop = UtilService.random(1001, 1000000);
+                } else {
+                    var pop = UtilService.random(1000001, 1000000000);
+                }
+                var sec = Math.ceil(Math.random() * 10) / 10;
+
+                this.name = sys.name = name;
+                this.pop = sys.pop = pop;
+                this.sec = sys.sec = sec;
+
                 localStorage.map = JSON.stringify(entities);
             }
-            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop * 1000) + " \nSecurity: " + this.sec
+            console.log("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop * 1000) + " \nSecurity: " + this.sec
                 // + " \nIndex: " + this.index
             );
         }
@@ -167,18 +280,22 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 return '0x' + hex;
             };
 
-            if (star.pop < 1000) {
-                var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-sm.png'));
-            } else if (star.pop < 1000000) {
-                var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-md.png'));
-            } else {
-                var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-lg.png'));
-            }
+            // var starSystem = PIXI.Sprite.fromImage(UtilService.getImagePath('system-lg.png'));
 
-            starSystem.anchor.set(0.5);
+            var sizeRoll = UtilService.random(1,10);
+            if (sizeRoll < 5) {
+                var diameter = 1;
+            } else if (sizeRoll < 9) {
+                var diameter = 2;
+            } else {
+                var diameter = 3;
+            }
+            var starSystem = new PIXI.Graphics();
+            starSystem.beginFill(randomColor(), 1);
+            starSystem.drawCircle(star.x, star.y, diameter);
+            starSystem.endFill();
             starSystem.interactive = true;
-            starSystem.position.set(-star.x, -star.y);
-            starSystem.tint = randomColor();
+            starSystem.hitArea = new PIXI.Circle(star.x, star.y, diameter);
             starSystem.pop = star.pop;
             starSystem.sec = star.sec;
             starSystem.name = star.name;
@@ -187,7 +304,6 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 .on('pointerdown', onButtonDown)
                 .on('pointerover', filterOn)
                 .on('pointerout', filterOff);
-            // filterOff.call(starSystem);
 
             app.stage.addChild(starSystem);
         };
@@ -195,15 +311,15 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         var drawLine = function (p1x, p1y, p2x, p2y, color) {
             var line = new PIXI.Graphics();
             line.lineStyle(1, color, 0.1);
-            line.moveTo(-p1x, -p1y);
-            line.lineTo(-p2x, -p2y);
+            line.moveTo(p1x, p1y);
+            line.lineTo(p2x, p2y);
             app.stage.addChild(line);
         };
         var drawLocation = function () {
 
             var circle = new PIXI.Graphics();
             circle.lineStyle(1, 0x24E616, 0.1);
-            circle.drawCircle(-self.myLocation.x, -self.myLocation.y, 6);
+            circle.drawCircle(self.myLocation.x, self.myLocation.y, 6);
             app.stage.addChild(circle);
 
         };
