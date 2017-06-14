@@ -33,8 +33,8 @@
     <img class="ld ld-shadow" src="assets/img/planetload.png" alt="">
 </div>
 <div class="container ng-cloak" ng-cloak style="padding:0;" ng-if="doneLoading">
-    <div class="small-12 medium-6">
-        <div class="row">
+    <div class="row small-collapse">
+        <div class="small-12 medium-6 columns">
             <div id="view" ng-controller="ViewscreenController">
                 <div id="view-inner">
                     <div style="position:relative">
@@ -45,24 +45,23 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div id="quick-info" class="span-12 info" ng-controller="QuickStatsController">
-                <span id="label">{{ label }}</span>
-                <span id="quick-stats">
+    </div>
+    <div class="row small-collapse">
+        <div id="quick-info" class="small-12 medium-6 columns info" ng-controller="QuickStatsController">
+            <span id="label">{{ label }}</span>
+            <span id="quick-stats">
                     <i class="fa fa-heartbeat danger"></i> Hull: <span
-                        ng-class="stats.currentHull < stats.hull * .25 ? 'danger': ''">{{ stats.currentHull }}</span> | <i
-                        class="fa fa-shield shield"></i> Shield: <span
-                        ng-class="stats.currentShield < stats.shield * .25 ? 'danger': ''">{{ stats.currentShield }}</span> | <span
-                        class="gold">&#11363;</span> {{ stats.credits | currency:" " }}
+                    ng-class="stats.currentHull < stats.hull * .25 ? 'danger': ''">{{ stats.currentHull }}</span> | <i
+                    class="fa fa-shield shield"></i> Shield: <span
+                    ng-class="stats.currentShield < stats.shield * .25 ? 'danger': ''">{{ stats.currentShield }}</span> | <span
+                    class="gold">&#11363;</span> {{ stats.credits | currency:" " }}
                 </span>
-            </div>
         </div>
     </div>
 
 
-    <div class="small-12 medium-6">
-
-        <div class="row">
+    <div class="row small-collapse">
+        <div class="small-12 medium-6 columns">
             <div id="console" class="">
                 <div id="console-buttons" class="console" ng-controller="ConsoleController">
                     <ul>
@@ -74,13 +73,15 @@
                     </ul>
                     <span ng-if="!starfield && !scanning && !combat" class="notBusy">
                         <ul class="sub-menu">
-                            <li ng-if="!hash.includes('docking-bay')&&!hash.includes('services')" ng-click="action.travel()">Travel</li>
+                            <li ng-if="!hash.includes('docking-bay')&&!hash.includes('services')"
+                                ng-click="action.travel()">Travel</li>
                             <li ng-if="hash==='/station/docking-bay'" ui-sref="station">Undock</li>
                             <li ui-sref="docking-bay"
                                 ng-if="hash.includes('station')&&!hash.includes('docking-bay')&&!hash.includes('services/')">
-                                {{state.current.name==='station'?'Dock':'Docking Bay'}}
+                                {{hash==='/station'?'Dock':'Docking Bay'}}
                             </li>
-                            <li ng-if="investigated === false && hash.includes('wreck')" ng-click="action.investigate()">Scan</li>
+                            <li ng-if="investigated === false && hash.includes('wreck')"
+                                ng-click="action.investigate()">Scan</li>
                             <li ui-sref="services" ng-if="hash==='/station/docking-bay'||hash.includes('services')">Services</li>
                             <li ng-click="action.leave()"
                                 ng-if="hash.includes('services/')||hash.includes('docking-bay/')">Leave</li>
