@@ -294,7 +294,6 @@ app.service('ActionService', ['$rootScope', '$timeout', '$state', 'NewGameServic
         var string = window.location.href;
         const regex = /\/[^/]*$/g;
         var back = string.replace(regex,'');
-        console.log(back);
         window.location.assign(back);
     };
 

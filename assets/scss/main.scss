@@ -109,9 +109,9 @@ body {
     text-align: center;
     border-right:1px solid $primary;
     margin-bottom:2px;
-    :last-child {
-      border-right:none;
-    }
+  }
+  div:last-child {
+    border-right:none;
   }
 }
 #inventory {
@@ -126,7 +126,8 @@ body {
   }
 }
 
-#console-inner, #map {
+#console-inner, #map-container {
+  background-color: black;
   border-left:1px solid #595959;
   border-right:1px solid #595959;
   border-bottom:1px solid #595959;
@@ -145,12 +146,11 @@ body {
   overflow-y: auto;
   padding:10px;
 }
-#map {
+#map-container {
   overflow: hidden;
 }
 #console-buttons {
-  border-width: 2px 2px 0 2px;
-  border-radius:6px 6px 0 0;
+  border-width: 1px 1px 0 1px;
   ul {
     display: -moz-box;
     display: -webkit-box;
@@ -290,3 +290,9 @@ img {
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+.map-loading {
+   position: relative;
+   top: 25%;
+   text-align: center;
+   color: #fff;
+ }

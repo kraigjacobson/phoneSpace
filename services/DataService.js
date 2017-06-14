@@ -37,7 +37,11 @@ app.service('DataService', ['$rootScope', function ($rootScope) {
     };
 
     this.services = [
-        'bountyOffice', 'casino', 'insurance', 'market', 'nightClub', 'partInstallation', 'repair', 'reprocessing', 'stockBrokerage'
+        'bountyOffice', 'casino', 'insurance', 'market', 'nightClub','stockBrokerage'
+    ];
+
+    this.dockingServices = [
+        'partInstallation', 'repair', 'reprocessing'
     ];
 
     this.policy = {};

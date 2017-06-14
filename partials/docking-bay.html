@@ -1,3 +1,7 @@
 <div id="console-inner" ng-controller="ConsoleController">
     <h3>Docking Bay</h3>
+    <span ng-repeat="service in dockingServices track by $index">
+        <button class="button" ui-sref="{{service}}">{{service | camelCaseToHuman}}</button>
+    </span>
+
 </div>

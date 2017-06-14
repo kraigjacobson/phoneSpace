@@ -1,6 +1,6 @@
 var addWheelListener = require('../assets/js/wheel-listener');
 var app = angular.module('spaceApp');
-app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService', 'GenerateService', 'DataService', function ($timeout, InventoryService, UtilService, GenerateService, DataService) {
+app.service('PathfinderService', ['$timeout', '$rootScope', 'InventoryService', 'UtilService', 'GenerateService', 'DataService', function ($timeout, $rootScope, InventoryService, UtilService, GenerateService, DataService) {
 
     var self = this;
 
@@ -114,7 +114,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
     };
     this.drawMap = function () {
         var SCREEN_WIDTH = document.getElementById('map').offsetWidth;
-        var SCREEN_HEIGHT = document.getElementById('map').offsetHeight;
+        var SCREEN_HEIGHT = document.getElementById('map-container').offsetHeight;
         var mapElement = document.getElementById('map');
         var app = new PIXI.Application(SCREEN_WIDTH, SCREEN_HEIGHT);
         var interactionManager = new PIXI.interaction.InteractionManager(app.renderer);
@@ -128,8 +128,11 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         var camera = {
             x: DataService.stats.currentLocation.x -SCREEN_WIDTH/2,
             y: DataService.stats.currentLocation.y-SCREEN_HEIGHT/2,
+            // x: 0,
+            // y: 0,
             zoom: 1
         };
+
         mapElement.appendChild(app.view);
 
         interactionManager.on('pointerdown', function(e) {
@@ -170,11 +173,15 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         function zoom(x, y, delta) {
             camera.zoom += -delta;
             if (delta < 0) {
-                camera.x -= (x-camera.x) * delta;
-                camera.y -= (y-camera.y) * delta;
+                // camera.x -= (x-camera.x) * delta;
+                // camera.y -= (y-camera.y) * delta;
+                camera.x -= x * delta;
+                camera.y -= y * delta;
             } else {
-                camera.x += ((SCREEN_WIDTH-camera.x)/2)*delta;
-                camera.y += ((SCREEN_HEIGHT-camera.y)/2)*delta;
+                camera.x += ((SCREEN_WIDTH-camera.x))*delta;
+                camera.y += ((SCREEN_HEIGHT-camera.y))*delta;
+
+
             }
         }
 
@@ -205,7 +212,7 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         addWheelListener(mapElement, function (e) {
             var x = e.clientX-mapElement.offsetLeft;
             var y = e.clientY-mapElement.offsetTop;
-            zoom((x+camera.x), (y+camera.y), e.deltaY/1000);
+            zoom(x, y, e.deltaY/1000);
         });
 
         var outlineFilterWhite = new PIXI.filters.GlowFilter(5, 5, 5, 0xFFFFFF, 5);
@@ -214,10 +221,6 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
         // var outlineFilterRed = new PIXI.filters.OutlineFilter(2, 0xff9999);
 
         function onButtonDown() {
-
-            // for (i=0;i<app.stage.children.length;i++) {
-            //     app.stage.children[i]._filters = null;
-            // }
             this.filters = [outlineFilterGreen];
             if (!this.name) {
                 var entities = JSON.parse(localStorage.map);
@@ -329,7 +332,6 @@ app.service('PathfinderService', ['$timeout', 'InventoryService', 'UtilService',
                 drawLine(star.x, star.y, star2.x, star2.y, 0xFFFFFF);
             });
             drawLocation();
-
         });
 
     };

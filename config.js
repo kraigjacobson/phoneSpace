@@ -86,7 +86,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 
         .state('market', {
             url: '/station/services/market',
-            templateUrl: 'partials/buy.html'
+            templateUrl: 'partials/buy.html',
+            controller: 'ConsoleController'
         })
 
         .state('nightClub', {
@@ -104,12 +105,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
 
         .state('partInstallation', {
-            url: '/station/services/installation',
+            url: '/station/docking-bay/installation',
             templateUrl: 'partials/inventory.html'
         })
 
         .state('repair', {
-            url: '/station/services/repair',
+            url: '/station/docking-bay/repair',
             templateUrl: 'partials/repair.html',
             controller: ['$rootScope', 'UtilService', 'DataService', function ($rootScope, UtilService, DataService) {
                 $rootScope.label = $rootScope.stationTemps.name + " | " + "Ship Repair";
@@ -118,7 +119,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         })
 
         .state('reprocessing', {
-            url: '/station/services/reprocessing',
+            url: '/station/docking-bay/reprocessing',
             templateUrl: 'partials/inventory.html',
             controller: ['$rootScope', 'UtilService', 'DataService', function ($rootScope, UtilService, DataService) {
                 $rootScope.label = $rootScope.stationTemps.name + " | " + "Reprocessing";

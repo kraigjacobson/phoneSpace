@@ -30,7 +30,10 @@ app.controller('MainController', ['$scope', '$rootScope', '$transitions', '$wind
         }, stateChanged);
 
         $rootScope.starfield = false;
+        $rootScope.scanning = false;
+        $rootScope.combat = false;
         $rootScope.doneLoading = true;
+
 
     }]);
 
@@ -120,12 +123,16 @@ app.controller('QuickStatsController', ['$scope', '$rootScope', 'UtilService', '
 
     }]);
 
-app.controller('MapController', ['PathfinderService',
-    function (PathfinderService) {
+app.controller('MapController', ['PathfinderService', '$timeout', '$scope', function (PathfinderService, $timeout, $scope) {
 
-        PathfinderService.drawMap();
+    $scope.mapLoading = true;
+    PathfinderService.drawMap();
 
-    }]);
+    $timeout(function () {
+        $scope.mapLoading = false;
+    }, 400);
+
+}]);
 
 app.controller('ActionController', ['$scope', '$rootScope', '$state', 'InventoryService', 'ActionService', 'UniverseService', 'DataService',
     function ($scope, $rootScope, $state, InventoryService, ActionService, UniverseService, DataService) {
@@ -173,8 +180,11 @@ app.controller('ConsoleController', ['$scope', '$rootScope', '$location', '$stat
         $scope.$on('stateChange', function(event, args) {
             $scope.hash = args.hash;
         });
+        $scope.dockingServices = DataService.dockingServices;
 
     }]);
+
+
 
 // app.controller('ModalController', ['$scope', 'close', 'DataService', 'ItemService', 'InventoryService',
 //     function( $scope, close, DataService, ItemService, InventoryService ) {

@@ -1,1 +1,8 @@
-<div ng-controller="MapController" id="map"></div>
+<div ng-controller="MapController" id="map-container">
+    <div ng-if="mapLoading" class="map-loading">
+        Generating Map<br/><br/>
+        <span style="font-size: 40px;" class="ld ld-spinner ld-spin"></span>
+        <!--<img class="ld ld-hourglass ld-spin-fast" src="assets/img/planetload.png" alt="">-->
+    </div>
+    <div ng-show="!mapLoading" id="map"></div>
+</div>

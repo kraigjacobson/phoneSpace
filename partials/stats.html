@@ -7,6 +7,8 @@
         </div>
         <div class="row top-stats">
             <div class="col-xs-12">{{ currentWeek[0].format("dddd, MMMM Do, YYYY") }}</div>
+        </div>
+        <div class="row top-stats">
             <div class="col-xs-12">Current System: {{stats.currentLocation.name}}</div>
         </div>
         <div class="row">
@@ -23,7 +25,7 @@
 
                 <p>Stock Purchases: {{ stats.stockPurchases | currency:"Ᵽ" }}</p>
                 <p>Stock Sales: {{ stats.stockSales*-1 | currency:"Ᵽ" }}</p>
-                <p>Stock Profits: <span ng-class="stats.stockPurchases + stats.stockSales > 0 ? 'success' : 'danger'">{{ stats.stockPurchases + stats.stockSales | currency:"Ᵽ" }}</span>
+                <p>Stock Profits: <span ng-class="stats.stockPurchases + stats.stockSales > 0 ? 'success' : ''">{{ stats.stockPurchases + stats.stockSales | currency:"Ᵽ" }}</span>
                 </p>
                 <p>Shares Purchased: {{ stats.sharesPurchased }}</p>
                 <p>Shares Sold: {{ stats.sharesSold*-1 }}</p>

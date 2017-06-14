@@ -33,7 +33,7 @@
     <img class="ld ld-shadow" src="assets/img/planetload.png" alt="">
 </div>
 <div class="container ng-cloak" ng-cloak style="padding:0;" ng-if="doneLoading">
-    <div class="small-12 medium-6 columns">
+    <div class="small-12 medium-6">
         <div class="row">
             <div id="view" ng-controller="ViewscreenController">
                 <div id="view-inner">
@@ -60,7 +60,7 @@
     </div>
 
 
-    <div class="small-12 medium-6 columns">
+    <div class="small-12 medium-6">
 
         <div class="row">
             <div id="console" class="">
@@ -75,21 +75,20 @@
                     <span ng-if="!starfield && !scanning && !combat" class="notBusy">
                         <ul class="sub-menu">
                             <li ng-if="!hash.includes('docking-bay')&&!hash.includes('services')" ng-click="action.travel()">Travel</li>
-                            <li ng-if="state.current.name==='docking-bay'" ui-sref="station">Undock</li>
+                            <li ng-if="hash==='/station/docking-bay'" ui-sref="station">Undock</li>
                             <li ui-sref="docking-bay"
                                 ng-if="hash.includes('station')&&!hash.includes('docking-bay')&&!hash.includes('services/')">
                                 {{state.current.name==='station'?'Dock':'Docking Bay'}}
                             </li>
                             <li ng-if="investigated === false && hash.includes('wreck')" ng-click="action.investigate()">Scan</li>
-                            <li ui-sref="services" ng-if="state.current.name==='docking-bay'">Services</li>
+                            <li ui-sref="services" ng-if="hash==='/station/docking-bay'||hash.includes('services')">Services</li>
                             <li ng-click="action.leave()"
-                                ng-if="state.current.url.includes('services/')">Leave</li>
+                                ng-if="hash.includes('services/')||hash.includes('docking-bay/')">Leave</li>
                             <!--<li ng-if="status.three==='repair'&&stats.hull - stats.currentHull > 0" ng-click="action.repairShip()">Repair {{ (stats.hull - stats.currentHull) * 5 }}&#11363;</li>-->
 
-
                             <!--stocks-->
-                            <li ui-sref="portfolio" ng-if="state.current.name==='stockBrokerage'">Portfolio</li>
-                            <li ui-sref="stockBrokerage" ng-if="state.current.name==='portfolio'">Stock Brokerage</li>
+                            <li ui-sref="portfolio" ng-if="hash==='/station/services/stock-brokerage'">Portfolio</li>
+                            <li ui-sref="stockBrokerage" ng-if="hash.includes('portfolio')">Stock Brokerage</li>
                             <!--market-->
                             <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'buy'?'active':''" ng-click="action.buy()">Buy</li>-->
                             <!--<li ng-if="status.three === 'market'" ng-class="status.four === 'sell'?'active':''" ng-click="action.sell()">Sell</li>-->
