@@ -1,6 +1,7 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './index.js',
@@ -25,6 +26,9 @@ module.exports = {
         new ExtractTextPlugin("main.css"),
         new webpack.ProvidePlugin({
             "moment": "moment"
-        })
+        }),
+        new CopyWebpackPlugin([
+            {from:'assets/img',to:'assets/img'}
+        ])
     ]
 };
