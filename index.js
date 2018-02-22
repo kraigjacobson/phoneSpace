@@ -1,6 +1,7 @@
 require('./assets/scss/main.scss');
 require('./assets/fonts/fontawesome-webfont.ttf');
 require('angular');
+require('angular-modal-service');
 require('angular-sanitize');
 require('@uirouter/angularjs');
 require('chart.js');

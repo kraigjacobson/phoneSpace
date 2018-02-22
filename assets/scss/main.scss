@@ -43,7 +43,7 @@ $size-normal: .8em;
 }
 
 body {
-
+  margin-top: 50px;
   color: $primary;
   background-color: $dark-blue;
   background-repeat: repeat;
@@ -202,7 +202,6 @@ body {
   border-top:1px solid #595959;
   img {
     width:100%;
-    height:200px;
   }
 }
 #view-inner {

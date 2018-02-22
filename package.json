@@ -6,7 +6,9 @@
   "dependencies": {
     "@uirouter/angularjs": "^1.0.15",
     "angular": "^1.6.9",
+    "angular-modal-service": "^0.13.0",
     "angular-sanitize": "^1.6.9",
+    "bootstrap": "^4.0.0",
     "chart.js": "^2.7.1",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",

@@ -1,5 +1,5 @@
 var app = angular.module('spaceApp');
-app.service('ItemService', ['$rootScope', 'DataService', 'InventoryService', 'UtilService', function ($rootScope, DataService, InventoryService, UtilService) {
+app.service('ItemService', ['$rootScope', 'DataService', 'InventoryService', 'UtilService', 'ModalService', function ($rootScope, DataService, InventoryService, UtilService, ModalService) {
 
     var self = this;
 
@@ -20,6 +20,7 @@ app.service('ItemService', ['$rootScope', 'DataService', 'InventoryService', 'Ut
             templateUrl: template,
             controller: "ModalController"
         }).then(function (modal) {
+            console.log(modal);
             modal.element.modal();
             modal.close.then(function (result) {
             });

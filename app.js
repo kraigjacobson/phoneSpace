@@ -1,4 +1,4 @@
-var app = angular.module('spaceApp', ['ui.router', 'ngSanitize']);
+var app = angular.module('spaceApp', ['ui.router', 'ngSanitize', 'angularModalService']);
 
 app.run(['$state', '$stateParams', '$rootScope', '$location', '$window', 'GenerateService', 'InventoryService', 'DataService', 'NewGameService', function ($state, $stateParams, $rootScope, $location, $window, GenerateService, InventoryService, DataService, NewGameService) {
 
@@ -186,22 +186,22 @@ app.controller('ConsoleController', ['$scope', '$rootScope', '$location', '$stat
 
 
 
-// app.controller('ModalController', ['$scope', 'close', 'DataService', 'ItemService', 'InventoryService',
-//     function( $scope, close, DataService, ItemService, InventoryService ) {
-//
-//     $scope.close = function(result) {
-//         close(result, 500); // close, but give 500ms for bootstrap to animate
-//     };
-//     $scope.componentInventory = InventoryService.componentInventory;
-//     $scope.inventory = InventoryService.inventory;
-//     $scope.merchantInventory = InventoryService.merchantInventory;
-//     $scope.myShip = InventoryService.myShip;
-//     $scope.repairItem = ItemService.repairItem;
-//     $scope.deleteItem = ItemService.deleteItem;
-//     $scope.itemIndex = ItemService.currentItemIndex;
-//     $scope.stats = DataService.stats;
-//
-// }]);
+app.controller('ModalController', ['$scope', 'close', 'DataService', 'ItemService', 'InventoryService',
+    function( $scope, close, DataService, ItemService, InventoryService ) {
+
+    $scope.close = function(result) {
+        close(result, 500); // close, but give 500ms for bootstrap to animate
+    };
+    $scope.componentInventory = InventoryService.componentInventory;
+    $scope.inventory = InventoryService.inventory;
+    $scope.merchantInventory = InventoryService.merchantInventory;
+    $scope.myShip = InventoryService.myShip;
+    $scope.repairItem = ItemService.repairItem;
+    $scope.deleteItem = ItemService.deleteItem;
+    $scope.itemIndex = ItemService.currentItemIndex;
+    $scope.stats = DataService.stats;
+
+}]);
 
 app.directive('backgroundImg', [function () {
     return function (scope, element, attrs) {
