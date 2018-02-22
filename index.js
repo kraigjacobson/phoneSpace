@@ -1,7 +1,7 @@
 require('./assets/scss/main.scss');
 require('angular');
 require('angular-sanitize');
-require('angular-ui-router');
+require('@uirouter/angularjs');
 require('chart.js');
 require('pixi.js');
 require('./assets/js/pixi-extra-filters.js');
