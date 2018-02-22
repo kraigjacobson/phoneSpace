@@ -1,4 +1,5 @@
 require('./assets/scss/main.scss');
+require('./assets/fonts/fontawesome-webfont.ttf');
 require('angular');
 require('angular-sanitize');
 require('@uirouter/angularjs');
