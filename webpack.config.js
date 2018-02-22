@@ -4,28 +4,29 @@ var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './index.js',
+    entry: ['./index.js'],
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
-        publicPath: '/dist'
+        filename: 'dist/bundle.js'
     },
     module: {
-        rules: [{
-            test: /\.scss$/,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader" // translates CSS into CommonJS
-            }, {
-                loader: "sass-loader" // compiles Sass to CSS
-            }]
-        }]
+
+        rules: [
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    use: 'css-loader?importLoaders=1'
+                })
+            },
+            {
+                test: /\.(sass|scss)$/,
+                use: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+            }
+        ]
     },
     plugins: [
-        new ExtractTextPlugin("main.css"),
-        new webpack.ProvidePlugin({
-            "moment": "moment"
+        new ExtractTextPlugin({
+            filename: 'dist/[name].bundle.css',
+            allChunks: true
         }),
         new CopyWebpackPlugin([
             {from:'assets/img',to:'assets/img'}
