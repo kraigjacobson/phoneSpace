@@ -36,7 +36,7 @@ app.service('UtilService', ['$rootScope', 'DataService', function ($rootScope, D
         if (window.location.hostname === 'localhost') {
             return window.location.origin + '/space/assets/img/' + imageFileName;
         } else {
-            return window.location.origin + '/phoneSpace/assets/img/' + imageFileName;
+            return window.location.origin + '/space-rpg-2/assets/img/' + imageFileName;
         }
 
     };
