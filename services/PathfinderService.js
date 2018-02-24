@@ -243,8 +243,7 @@ app.service('PathfinderService', ['$timeout', '$rootScope', 'InventoryService', 
 
                 localStorage.map = JSON.stringify(entities);
             }
-            console.log("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop * 1000) + " \nSecurity: " + this.sec
-                // + " \nIndex: " + this.index
+            alert("System: " + this.name + " \nPopulation: " + numberWithCommas(this.pop * 1000) + " \nSecurity: " + this.sec
             );
         }
 
